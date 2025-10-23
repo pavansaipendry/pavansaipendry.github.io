@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavan Sai Reddy Pendry | Portfolio</title>
+  <!-- Google Fonts for clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Base styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="nav-brand">Pavan</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-toggle" aria-label="Toggle navigation">☰</div>
+    </nav>
+  </header>
+
+  <!-- Hero section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1>Hello, I'm <span>Pavan Sai Reddy Pendry</span></h1>
+      <p>I'm a computer science graduate student specializing in data science, machine learning and full‑stack development.</p>
+      <a href="#projects" class="btn">View Projects</a>
+    </div>
+  </section>
+
+  <!-- About section -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About Me</h2>
+      <p>Driven by curiosity and a passion for solving real‑world problems, I have built products ranging from predictive meal planning platforms to real‑time market data services. I thrive at the intersection of data science and software engineering, turning research into robust systems that deliver impact.</p>
+      <h3>Education</h3>
+      <ul class="education-list">
+        <li><strong>University of Kansas – M.S. Computer Science</strong> (Aug 2024 – Present)</li>
+        <li><strong>Amrita Vishwa Vidyapeetham – B.Tech Computer Science &amp; Engineering</strong> (Oct 2020 – May 2024)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Skills section -->
+  <section id="skills" class="skills">
+    <div class="container">
+      <h2>Skills &amp; Tools</h2>
+      <div class="skill-category">
+        <h3>Languages &amp; Concepts</h3>
+        <p>Python, C++, C, Java, .NET, HTML, CSS, JavaScript</p>
+      </div>
+      <div class="skill-category">
+        <h3>Frameworks &amp; Libraries</h3>
+        <p>Pandas, PySpark, NumPy, Matplotlib, Scikit‑learn, NLTK, TensorFlow, PyTorch, Keras, Flask, FastAPI, Apache Kafka</p>
+      </div>
+      <div class="skill-category">
+        <h3>Open‑source Technologies</h3>
+        <p>Linux, Spring, React</p>
+      </div>
+      <div class="skill-category">
+        <h3>Data</h3>
+        <p>PostgreSQL, SQL, MongoDB, Airflow, Spark, Redis, Hadoop, DataBricks, PowerBI, Tableau</p>
+      </div>
+      <div class="skill-category">
+        <h3>DevOps &amp; Tools</h3>
+        <p>Git, Elastic Search, Docker, AWS (S3, Lambda), Google Cloud Platform, Uvicorn, Apache ZooKeeper</p>
+      </div>
+      <div class="skill-category">
+        <h3>Data Concepts</h3>
+        <p>Data Science, Machine Learning, Deep Learning, Data Engineering, Data Scraping, Web Crawling, OCR, NER, NLP</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience section -->
+  <section id="experience" class="experience">
+    <div class="container">
+      <h2>Experience</h2>
+      <div class="experience-item">
+        <h3>Graduate Teaching Assistant – University of Kansas</h3>
+        <span class="date">Jan 2025 – Present</span>
+        <ul>
+          <li>Delivered interactive lectures and hands‑on workshops to 20 students on data analytics covering collection, preprocessing and visualization using Python libraries such as NumPy, Pandas, Matplotlib and Seaborn.</li>
+          <li>Taught supply chain analytics topics including customer segmentation, warehouse optimization and demand forecasting.</li>
+          <li>Mentored students 1:1, contributing to a 20% increase in average assessment scores.</li>
+          <li>Leading recitations, grading and office hours for ~50 students in MATH 101 (Aug 2025 – Present).</li>
+        </ul>
+      </div>
+      <div class="experience-item">
+        <h3>Software Development – Research Assistant – Amrita Vishwa Vidyapeetham</h3>
+        <span class="date">Jan 2023 – May 2024</span>
+        <ul>
+          <li>Engineered <em>DishKit</em>, a full‑stack web application integrating LSTM‑based next‑word prediction and nutrient analysis, aiding nutritionists in creating 50+ personalized meal plans weekly.</li>
+          <li>Developed a real‑time predictive UI using a bidirectional LSTM (~491K parameters), boosting dish selection efficiency and improving user engagement by 3×.</li>
+          <li>Designed and deployed <em>Sweep Spot</em>, a mobile‑enabled waste management platform used by over 500 users across 10 municipalities, leveraging geolocation, image uploads and APIs to streamline reporting.</li>
+          <li>Built scalable backend systems with Python, APIs and PostgreSQL to handle 1,000 geo‑tagged reports, enable feedback and optimize routing using Haversine‑based distance calculations with 90% accuracy.</li>
+          <li>Tech stack: Python, React, Flask, MongoDB, PostgreSQL, TensorFlow, REST APIs, GridSearchCV.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects section -->
+  <section id="projects" class="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="project-card">
+        <h3>Market Data Service</h3>
+        <span class="date">May 2025 – Jun 2025</span>
+        <p>Implemented a real‑time stock quote pipeline using the Finnhub API and PostgreSQL via SQLAlchemy, caching hot prices with Redis; achieved 99.99% data availability and reduced database query response times by 60%.</p>
+        <p>Designed and deployed a Kafka streaming pipeline to publish price events and compute five‑point moving averages in real time.</p>
+        <p>Engineered a FastAPI microservice with REST endpoints, containerized the system with Docker Compose and automated CI/CD workflows; resulted in the most stable microservice in the research team.</p>
+      </div>
+      <div class="project-card">
+        <h3>AI‑Generated Text Detection System</h3>
+        <span class="date">Feb 2025 – Apr 2025</span>
+        <p>Collected and annotated a 100,000‑sample dataset (50K human, 50K AI) for text classification, achieving a 78% baseline accuracy; fine‑tuned a LLaMA model on AWS EC2, improving detection accuracy to 88%.</p>
+        <p>Deployed a serverless detection API on AWS Lambda with S3 storage and EC2 inference, supporting 2,000 concurrent requests at &lt;200 ms latency.</p>
+        <p>Integrated the model into a React/Node.js web app with five input sources, reducing manual review time by 40%.</p>
+      </div>
+      <div class="project-card">
+        <h3>Emotion Aware Chatbot</h3>
+        <span class="date">Nov 2024 – Dec 2024</span>
+        <p>Tailored a hybrid BERT‑GPT framework for real‑time emotion recognition, surpassing 89% accuracy across six emotion classes.</p>
+        <p>Optimized the inference microservice to handle 500 concurrent requests at &lt;150 ms latency.</p>
+        <p>Created a reactive Streamlit UI hosted on Heroku for 100 daily beta users, reducing average response latency by 25% and cutting load times to 300 ms.</p>
+      </div>
+      <div class="project-card">
+        <h3>DishKit &amp; Sweep Spot</h3>
+        <span class="date">Jan 2023 – May 2024</span>
+        <p>Full‑stack web applications combining machine learning and geolocation to support nutritionists and waste management. See details in the experience section.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications section -->
+  <section id="publications" class="publications">
+    <div class="container">
+      <h2>Research &amp; Publications</h2>
+      <ul>
+        <li><a href="https://link.springer.com/chapter/10.1007/978-981-97-8537-7_25" target="_blank">DishKit – Personalized diet planning through next‑word prediction and nutrient analysis</a></li>
+        <li><a href="https://ieeexplore.ieee.org/abstract/document/10434372" target="_blank">Sweep Spot – Mobile‑enabled waste management platform</a></li>
+        <li>Presented research on sustainable food delivery and waste management at international conferences, highlighting real‑world impact and leading problem formulation, system design and experimental validation.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>I'd love to hear from you! Feel free to get in touch via email or follow me on social platforms.</p>
+      <ul>
+        <li>Email: <a href="mailto:pavansaipendry2002@gmail.com">pavansaipendry2002@gmail.com</a></li>
+        <li>Phone: <a href="tel:+17858137825">+1 785 813 7825</a></li>
+        <li><a href="https://www.linkedin.com/in/pavansaipendry" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com/pavansaipendry" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Pavan Sai Reddy Pendry. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript for mobile navigation toggle -->
+  <script src="script.js"></script>
+</body>
+</html>
