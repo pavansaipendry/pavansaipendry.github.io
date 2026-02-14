@@ -1,5 +1,7 @@
 # Hey, I'm Pavan 👋
 
+![Alt text](path/to/image.png)
+
 MS Computer Science @ University of Kansas. I build things that work.
 
 ### What I'm up to
