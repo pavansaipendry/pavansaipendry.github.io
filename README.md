@@ -1,4 +1,3 @@
-[PAVAN_README.md](https://github.com/user-attachments/files/25310701/PAVAN_README.md)
 # Hey, I'm Pavan 👋
 
 MS Computer Science @ University of Kansas. I build things that work.
