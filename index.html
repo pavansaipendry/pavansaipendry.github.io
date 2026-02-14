@@ -71,7 +71,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-number" data-count="5">0</span><span class="stat-plus">+</span>
+          <span class="stat-number" data-count="6">0</span><span class="stat-plus">+</span>
           <span class="stat-label">Shipped Products</span>
         </div>
       </div>
@@ -134,7 +134,7 @@
             <h3>Languages</h3>
           </div>
           <div class="skill-pills">
-            <span>Python</span><span>C++</span><span>JavaScript</span><span>SQL</span><span>Java</span><span>C</span>
+            <span>Python</span><span>Java</span><span>C++</span><span>JavaScript</span><span>SQL</span><span>Scala</span><span>Kotlin</span><span>Haskell</span>
           </div>
         </div>
         <div class="skill-block animate-on-scroll" data-delay="1">
@@ -143,7 +143,7 @@
             <h3>Frameworks & Libraries</h3>
           </div>
           <div class="skill-pills">
-            <span>React.js</span><span>FastAPI</span><span>Flask</span><span>Pandas</span><span>TensorFlow</span><span>PyTorch</span><span>Kafka</span><span>LangChain</span><span>Hugging Face</span><span>BeautifulSoup</span>
+            <span>React.js</span><span>FastAPI</span><span>Flask</span><span>Django</span><span>Pandas</span><span>TensorFlow</span><span>PyTorch</span><span>Keras</span><span>Kafka</span><span>LangChain</span><span>Hugging Face</span><span>BeautifulSoup</span><span>Spring</span>
           </div>
         </div>
         <div class="skill-block animate-on-scroll" data-delay="2">
@@ -152,7 +152,7 @@
             <h3>Databases</h3>
           </div>
           <div class="skill-pills">
-            <span>PostgreSQL</span><span>MongoDB</span><span>Redis</span><span>Supabase</span><span>ChromaDB</span><span>pgvector</span>
+            <span>PostgreSQL</span><span>MongoDB</span><span>Redis</span><span>Supabase</span><span>DynamoDB</span><span>ChromaDB</span><span>SQLite</span>
           </div>
         </div>
         <div class="skill-block animate-on-scroll" data-delay="3">
@@ -161,7 +161,7 @@
             <h3>Cloud & DevOps</h3>
           </div>
           <div class="skill-pills">
-            <span>AWS</span><span>S3</span><span>Lambda</span><span>ECS</span><span>Docker</span><span>GitHub Actions</span><span>Vercel</span><span>Render</span>
+            <span>AWS</span><span>S3</span><span>Lambda</span><span>EC2</span><span>Snowflake</span><span>Databricks</span><span>Docker</span><span>Kubernetes</span><span>GitHub Actions</span><span>Jenkins</span><span>Vercel</span><span>Render</span>
           </div>
         </div>
         <div class="skill-block animate-on-scroll" data-delay="4">
@@ -170,7 +170,7 @@
             <h3>AI/ML Concepts</h3>
           </div>
           <div class="skill-pills">
-            <span>RAG</span><span>RLHF</span><span>LLMs</span><span>NLP</span><span>Vector Embeddings</span><span>Semantic Search</span><span>Prompt Engineering</span><span>ETL Pipelines</span>
+            <span>RAG</span><span>RLHF</span><span>LLMs</span><span>NLP</span><span>Vector Embeddings</span><span>Semantic Search</span><span>Prompt Engineering</span><span>ETL Pipelines</span><span>Query Routing</span>
           </div>
         </div>
         <div class="skill-block animate-on-scroll" data-delay="5">
@@ -179,7 +179,7 @@
             <h3>Tools</h3>
           </div>
           <div class="skill-pills">
-            <span>Power BI</span><span>Postman</span><span>Jupyter Notebook</span><span>Git</span>
+            <span>Power BI</span><span>Tableau</span><span>Postman</span><span>Jupyter Notebook</span><span>Grafana</span><span>Streamlit</span><span>Git</span>
           </div>
         </div>
       </div>
@@ -308,9 +308,26 @@
       </div>
       <div class="projects-grid">
 
+        <!-- JobTracker — NEW PROJECT -->
         <div class="project-card animate-on-scroll" data-delay="0">
           <div class="project-card-inner">
             <div class="project-number">01</div>
+            <h3>JobTracker</h3>
+            <span class="project-date">Feb 2026</span>
+            <p>Automated job scraper targeting new grad SWE roles with H-1B sponsorship focus. Scrapes 120K+ companies across 4 sources, scores each job 0–100 against my resume, auto-rotates 6 API keys on rate limits, and sends top-5 digest emails. React dashboard with real-time filters, sort, and application tracking.</p>
+            <div class="tech-tags">
+              <span>Python</span><span>Flask</span><span>React</span><span>SQLite</span><span>RapidAPI</span><span>SMTP</span>
+            </div>
+            <a href="https://github.com/pavansaipendry/Job-Book" target="_blank" class="project-link">
+              View on GitHub
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card animate-on-scroll" data-delay="1">
+          <div class="project-card-inner">
+            <div class="project-number">02</div>
             <h3>QuickDrop</h3>
             <span class="project-date">Feb 2025</span>
             <p>File transfer tool for Mac↔Android. No cloud, no accounts, no ads. Flask server with QR connectivity, chunked uploads for 3GB+ files, ADB integration hitting 30+ MB/s.</p>
@@ -324,9 +341,9 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="1">
+        <div class="project-card animate-on-scroll" data-delay="2">
           <div class="project-card-inner">
-            <div class="project-number">02</div>
+            <div class="project-number">03</div>
             <h3>Market Data Service</h3>
             <span class="project-date">May – Jun 2025</span>
             <p>Real-time stock quote pipeline using Finnhub API + PostgreSQL + Redis caching. Kafka streaming for price events and moving averages. 99.99% data availability, 60% faster queries.</p>
@@ -340,9 +357,9 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="2">
+        <div class="project-card animate-on-scroll" data-delay="3">
           <div class="project-card-inner">
-            <div class="project-number">03</div>
+            <div class="project-number">04</div>
             <h3>AI Text Detection</h3>
             <span class="project-date">Feb – Apr 2025</span>
             <p>100K-sample dataset for AI text classification. Fine-tuned LLaMA on AWS EC2 reaching 88% accuracy. Serverless API on Lambda supporting 2,000 concurrent requests at &lt;200ms.</p>
@@ -352,9 +369,9 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="3">
+        <div class="project-card animate-on-scroll" data-delay="4">
           <div class="project-card-inner">
-            <div class="project-number">04</div>
+            <div class="project-number">05</div>
             <h3>Emotion Chatbot</h3>
             <span class="project-date">Nov – Dec 2024</span>
             <p>Hybrid BERT-GPT framework for real-time emotion recognition with 89%+ accuracy across 6 emotion classes. Streamlit UI serving 100 daily beta users at &lt;150ms latency.</p>
