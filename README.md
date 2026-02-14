@@ -1,6 +1,6 @@
 # Hey, I'm Pavan 👋
 
-![Alt text](path/to/image.png)
+<img width="1440" height="424" alt="Screenshot 2026-02-14 at 2 03 12 PM" src="https://github.com/user-attachments/assets/7eeb3d85-50d2-4019-a1bc-a2c6f33a9c0d" />
 
 MS Computer Science @ University of Kansas. I build things that work.
 
