@@ -4,278 +4,465 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pavan Sai Reddy Pendry | Portfolio</title>
-  <!-- Google Fonts for clean typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Base styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <!-- Grain overlay -->
+  <div class="grain-overlay"></div>
+
+  <!-- Navigation -->
   <header>
-    <nav class="navbar">
-      <div class="nav-brand">Pavan</div>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#publications">Publications</a></li>
-        <li><a href="#contact">Contact</a></li>
+    <nav class="navbar" id="navbar">
+      <a href="#home" class="nav-brand">
+        <span class="brand-bracket">[</span>PSR<span class="brand-bracket">]</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" data-text="Home">Home</a></li>
+        <li><a href="#about" data-text="About">About</a></li>
+        <li><a href="#skills" data-text="Skills">Skills</a></li>
+        <li><a href="#experience" data-text="Experience">Experience</a></li>
+        <li><a href="#projects" data-text="Projects">Projects</a></li>
+        <li><a href="#publications" data-text="Research">Research</a></li>
+        <li><a href="#contact" data-text="Contact">Contact</a></li>
       </ul>
-      <div class="nav-toggle" aria-label="Toggle navigation">☰</div>
+      <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </div>
     </nav>
   </header>
 
-  <!-- Hero section -->
+  <!-- Hero Section -->
   <section id="home" class="hero">
-    <div class="container">
-      <h1>Hello, I'm <span>Pavan Sai Reddy Pendry</span></h1>
-      <p>Computer science graduate student specializing in AI, machine learning and full-stack development.</p>
-      <div class="hero-links">
-        <a href="#projects" class="btn">View Projects</a>
-        <a href="https://github.com/pavansaipendry" target="_blank" class="btn btn-outline">GitHub</a>
-        <a href="https://linkedin.com/in/pavansaireddypendry" target="_blank" class="btn btn-outline">LinkedIn</a>
+    <div class="hero-bg-text" aria-hidden="true">ENGINEER</div>
+    <div class="hero-content">
+      <div class="hero-label animate-on-scroll">
+        <span class="label-line"></span>
+        <span>Computer Science · AI/ML · Full-Stack</span>
       </div>
+      <h1 class="hero-title animate-on-scroll">
+        <span class="title-line"><span class="title-word">Pavan</span> <span class="title-word">Sai</span></span>
+        <span class="title-line"><span class="title-word">Reddy</span> <span class="title-word accent-word">Pendry</span></span>
+      </h1>
+      <p class="hero-description animate-on-scroll">Building intelligent systems at the intersection of AI research and software engineering — from RAG-powered campus assistants to real-time data pipelines.</p>
+      <div class="hero-ctas animate-on-scroll">
+        <a href="#projects" class="cta-primary">
+          <span>View Projects</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+        <a href="https://github.com/pavansaipendry" target="_blank" class="cta-secondary">GitHub</a>
+        <a href="https://linkedin.com/in/pavansaireddypendry" target="_blank" class="cta-secondary">LinkedIn</a>
+      </div>
+      <div class="hero-stats animate-on-scroll">
+        <div class="stat">
+          <span class="stat-number" data-count="9500">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Docs Served</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-count="82">0</span><span class="stat-plus">%</span>
+          <span class="stat-label">Approval Rate</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-count="5">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Shipped Products</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- About section -->
+  <!-- About Section -->
   <section id="about" class="about">
     <div class="container">
-      <h2>About Me</h2>
-      <p>Driven by curiosity and a passion for solving real-world problems, I have built products ranging from AI-powered campus assistants to real-time market data services. I thrive at the intersection of data science and software engineering, turning research into robust systems that deliver impact.</p>
-      <h3>Education</h3>
-      <ul class="education-list">
-        <li><strong>University of Kansas – M.S. Computer Science</strong> (Aug 2024 – Present)</li>
-        <li><strong>Amrita Vishwa Vidyapeetham – B.Tech Computer Science &amp; Engineering</strong> (Oct 2020 – May 2024)</li>
-      </ul>
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">01</span>
+        <h2>About Me</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text animate-on-scroll">
+          <p class="about-lead">Driven by curiosity and a passion for solving real-world problems, I build products that turn research into robust systems delivering measurable impact.</p>
+          <p>From AI-powered campus assistants serving thousands of users to real-time market data services, I thrive at the intersection of data science and software engineering. Currently pursuing my M.S. in Computer Science at the University of Kansas.</p>
+        </div>
+        <div class="education-cards animate-on-scroll">
+          <div class="edu-card">
+            <div class="edu-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14v7"/></svg>
+            </div>
+            <div class="edu-info">
+              <h4>University of Kansas</h4>
+              <p>M.S. Computer Science</p>
+              <span class="edu-date">Aug 2024 – Present</span>
+            </div>
+          </div>
+          <div class="edu-card">
+            <div class="edu-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14v7"/></svg>
+            </div>
+            <div class="edu-info">
+              <h4>Amrita Vishwa Vidyapeetham</h4>
+              <p>B.Tech Computer Science & Engineering</p>
+              <span class="edu-date">Oct 2020 – May 2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Skills section -->
+  <!-- Skills Section -->
   <section id="skills" class="skills">
     <div class="container">
-      <h2>Skills &amp; Tools</h2>
-      <div class="skill-category">
-        <h3>Languages</h3>
-        <p>Python, C++, JavaScript, SQL, Java, C</p>
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">02</span>
+        <h2>Skills & Tools</h2>
       </div>
-      <div class="skill-category">
-        <h3>Frameworks &amp; Libraries</h3>
-        <p>React.js, FastAPI, Flask, Pandas, TensorFlow, PyTorch, Apache Kafka, OpenAI SDK, LangChain, Hugging Face Transformers, BeautifulSoup, RapidFuzz</p>
-      </div>
-      <div class="skill-category">
-        <h3>Databases</h3>
-        <p>PostgreSQL, MongoDB, Redis, Supabase, Vector Databases (ChromaDB, pgvector)</p>
-      </div>
-      <div class="skill-category">
-        <h3>Cloud &amp; DevOps</h3>
-        <p>AWS (S3, Lambda, ECS, Step Functions, API Gateway), Docker, Git, GitHub Actions, Vercel, Render</p>
-      </div>
-      <div class="skill-category">
-        <h3>AI/ML Concepts</h3>
-        <p>RAG, RLHF, LLMs, NLP, Vector Embeddings, Semantic Search, Query Routing, ETL Pipelines, Prompt Engineering</p>
-      </div>
-      <div class="skill-category">
-        <h3>Tools</h3>
-        <p>Power BI, Postman, Jupyter Notebook</p>
+      <div class="skills-grid">
+        <div class="skill-block animate-on-scroll" data-delay="0">
+          <div class="skill-block-header">
+            <span class="skill-icon">&#60;/&#62;</span>
+            <h3>Languages</h3>
+          </div>
+          <div class="skill-pills">
+            <span>Python</span><span>C++</span><span>JavaScript</span><span>SQL</span><span>Java</span><span>C</span>
+          </div>
+        </div>
+        <div class="skill-block animate-on-scroll" data-delay="1">
+          <div class="skill-block-header">
+            <span class="skill-icon">⚡</span>
+            <h3>Frameworks & Libraries</h3>
+          </div>
+          <div class="skill-pills">
+            <span>React.js</span><span>FastAPI</span><span>Flask</span><span>Pandas</span><span>TensorFlow</span><span>PyTorch</span><span>Kafka</span><span>LangChain</span><span>Hugging Face</span><span>BeautifulSoup</span>
+          </div>
+        </div>
+        <div class="skill-block animate-on-scroll" data-delay="2">
+          <div class="skill-block-header">
+            <span class="skill-icon">🗄</span>
+            <h3>Databases</h3>
+          </div>
+          <div class="skill-pills">
+            <span>PostgreSQL</span><span>MongoDB</span><span>Redis</span><span>Supabase</span><span>ChromaDB</span><span>pgvector</span>
+          </div>
+        </div>
+        <div class="skill-block animate-on-scroll" data-delay="3">
+          <div class="skill-block-header">
+            <span class="skill-icon">☁</span>
+            <h3>Cloud & DevOps</h3>
+          </div>
+          <div class="skill-pills">
+            <span>AWS</span><span>S3</span><span>Lambda</span><span>ECS</span><span>Docker</span><span>GitHub Actions</span><span>Vercel</span><span>Render</span>
+          </div>
+        </div>
+        <div class="skill-block animate-on-scroll" data-delay="4">
+          <div class="skill-block-header">
+            <span class="skill-icon">🧠</span>
+            <h3>AI/ML Concepts</h3>
+          </div>
+          <div class="skill-pills">
+            <span>RAG</span><span>RLHF</span><span>LLMs</span><span>NLP</span><span>Vector Embeddings</span><span>Semantic Search</span><span>Prompt Engineering</span><span>ETL Pipelines</span>
+          </div>
+        </div>
+        <div class="skill-block animate-on-scroll" data-delay="5">
+          <div class="skill-block-header">
+            <span class="skill-icon">🛠</span>
+            <h3>Tools</h3>
+          </div>
+          <div class="skill-pills">
+            <span>Power BI</span><span>Postman</span><span>Jupyter Notebook</span><span>Git</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Experience section -->
+  <!-- Experience Section -->
   <section id="experience" class="experience">
     <div class="container">
-      <h2>Experience</h2>
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">03</span>
+        <h2>Experience</h2>
+      </div>
 
-      <!-- BabyJay - Featured Experience -->
-      <div class="experience-item featured-experience">
-        <div class="experience-header">
+      <!-- Featured: BabyJay -->
+      <div class="featured-card animate-on-scroll">
+        <div class="featured-glow"></div>
+        <div class="featured-badge">★ Featured Project</div>
+        <div class="featured-header">
           <div>
-            <h3>Software Engineer (GenAI) – University of Kansas</h3>
-            <span class="date">Oct 2024 – Present</span>
+            <h3>Software Engineer (GenAI)</h3>
+            <p class="featured-org">University of Kansas</p>
+            <span class="exp-date">Oct 2024 – Present</span>
           </div>
-          <div class="experience-links">
-            <a href="https://babyjay.bot" target="_blank" class="btn-small">Live Demo</a>
-            <a href="https://github.com/pavansaipendry/BabyJay" target="_blank" class="btn-small btn-outline-small">GitHub</a>
+          <div class="featured-links">
+            <a href="https://babyjay.bot" target="_blank" class="link-live">
+              <span>Live Demo</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="https://github.com/pavansaipendry/BabyJay" target="_blank" class="link-github">
+              <span>GitHub</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            </a>
           </div>
         </div>
-        <p class="project-intro">Building <strong>BabyJay</strong>, an AI-powered campus assistant serving 9,500+ knowledge documents with 82.4% user approval rate.</p>
-        <ul>
-          <li>Developed fullstack application using React.js frontend with dark mode UI, Google OAuth, and mobile-responsive design, paired with FastAPI backend handling JWT authentication and streaming responses.</li>
-          <li>Engineered RAG-based retrieval system with 4 specialized retrievers (faculty, course, campus, vector) achieving 35x speedup (700ms to 20ms) through hybrid search combining vector embeddings with database indexing.</li>
-          <li>Built intelligent query routing pipeline with intent classifier, query preprocessor for synonym expansion and typo correction using RapidFuzz, and embedding-based intent detection with regex fallback.</li>
-          <li>Implemented real-time enrollment data integration by building web scrapers for classes.ku.edu, enabling live seat availability queries across 7,355 courses with 2-layer semantic caching.</li>
-          <li>Created ETL pipelines using Python and shell scripts to process 26,453 raw records into PostgreSQL across 72 department categories with automated data ingestion workflows.</li>
-          <li>Designed feedback analytics system with thumbs up/down collection and built RLHF optimization pipeline that learns from user feedback to dynamically enhance system prompts.</li>
-          <li>Deployed containerized backend using Docker with CI/CD automation using GitHub Actions. Frontend hosted on Vercel, backend on Render with custom domain configuration.</li>
-        </ul>
+        <p class="featured-intro">Building <strong>BabyJay</strong>, an AI-powered campus assistant serving <strong>9,500+</strong> knowledge documents with <strong>82.4%</strong> user approval rate.</p>
+        <div class="featured-highlights">
+          <div class="highlight-item">
+            <span class="highlight-metric">35×</span>
+            <span class="highlight-desc">Query speedup via hybrid RAG with 4 specialized retrievers</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-metric">7,355</span>
+            <span class="highlight-desc">Courses with live seat availability through web scraping</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-metric">26,453</span>
+            <span class="highlight-desc">Records processed via ETL into 72 department categories</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-metric">RLHF</span>
+            <span class="highlight-desc">Feedback-driven optimization pipeline enhancing prompts dynamically</span>
+          </div>
+        </div>
+        <details class="exp-details">
+          <summary>Full details</summary>
+          <ul>
+            <li>Developed fullstack application using React.js frontend with dark mode UI, Google OAuth, and mobile-responsive design, paired with FastAPI backend handling JWT authentication and streaming responses.</li>
+            <li>Engineered RAG-based retrieval system with 4 specialized retrievers (faculty, course, campus, vector) achieving 35x speedup (700ms to 20ms) through hybrid search combining vector embeddings with database indexing.</li>
+            <li>Built intelligent query routing pipeline with intent classifier, query preprocessor for synonym expansion and typo correction using RapidFuzz, and embedding-based intent detection with regex fallback.</li>
+            <li>Implemented real-time enrollment data integration by building web scrapers for classes.ku.edu, enabling live seat availability queries across 7,355 courses with 2-layer semantic caching.</li>
+            <li>Created ETL pipelines using Python and shell scripts to process 26,453 raw records into PostgreSQL across 72 department categories with automated data ingestion workflows.</li>
+            <li>Designed feedback analytics system with thumbs up/down collection and built RLHF optimization pipeline that learns from user feedback to dynamically enhance system prompts.</li>
+            <li>Deployed containerized backend using Docker with CI/CD automation using GitHub Actions. Frontend hosted on Vercel, backend on Render with custom domain configuration.</li>
+          </ul>
+        </details>
         <div class="tech-tags">
-          <span>React.js</span>
-          <span>FastAPI</span>
-          <span>PostgreSQL</span>
-          <span>Docker</span>
-          <span>RAG</span>
-          <span>RLHF</span>
-          <span>OpenAI</span>
-          <span>Supabase</span>
-          <span>Python</span>
-          <span>GitHub Actions</span>
+          <span>React.js</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>RAG</span><span>RLHF</span><span>OpenAI</span><span>Supabase</span><span>Python</span><span>GitHub Actions</span>
         </div>
       </div>
 
-      <!-- Graduate Teaching Assistant -->
-      <div class="experience-item">
-        <h3>Graduate Teaching Assistant – University of Kansas</h3>
-        <span class="date">Jan 2025 – Dec 2025</span>
-        <ul>
-          <li>Delivered interactive lectures and hands-on workshops to 20 students on data analytics covering collection, preprocessing and visualization using Python libraries such as NumPy, Pandas, Matplotlib and Seaborn.</li>
-          <li>Taught supply chain analytics topics including customer segmentation, warehouse optimization and demand forecasting.</li>
-          <li>Mentored students 1:1, contributing to a 20% increase in average assessment scores.</li>
-          <li>Leading recitations, grading and office hours for ~50 students in MATH 101 (Aug 2025 – Present).</li>
-        </ul>
-        <div class="tech-tags">
-          <span>Python</span>
-          <span>Pandas</span>
-          <span>Power BI</span>
-          <span>Data Analytics</span>
+      <!-- GTA -->
+      <div class="exp-card animate-on-scroll">
+        <div class="exp-card-accent"></div>
+        <div class="exp-card-content">
+          <div class="exp-card-header">
+            <div>
+              <h3>Graduate Teaching Assistant</h3>
+              <p class="exp-org">University of Kansas</p>
+            </div>
+            <span class="exp-date">Jan 2025 – Dec 2025</span>
+          </div>
+          <ul>
+            <li>Delivered interactive lectures to 20 students on data analytics using NumPy, Pandas, Matplotlib and Seaborn.</li>
+            <li>Taught supply chain analytics: customer segmentation, warehouse optimization, demand forecasting.</li>
+            <li>Mentored students 1:1, contributing to a 20% increase in average assessment scores.</li>
+            <li>Leading recitations, grading and office hours for ~50 students in MATH 101.</li>
+          </ul>
+          <div class="tech-tags">
+            <span>Python</span><span>Pandas</span><span>Power BI</span><span>Data Analytics</span>
+          </div>
         </div>
       </div>
 
-      <!-- Software Development - Research Assistant -->
-      <div class="experience-item">
-        <h3>Software Engineer – Amrita Vishwa Vidyapeetham</h3>
-        <span class="date">Jan 2023 – May 2024</span>
-        <ul>
-          <li>Engineered <strong>DishKit</strong>, a fullstack web application using React.js frontend and Flask backend, integrating LSTM-based next-word prediction and nutrient analysis models. Built interactive dashboards with PowerBI helping nutritionists create 50+ personalized meal plans weekly.</li>
-          <li>Developed real-time predictive UI using Bidirectional LSTM (491K parameters) with Python and TensorFlow, boosting dish selection efficiency and improving user engagement by 3x.</li>
-          <li>Designed and deployed <strong>SweepSpot</strong>, a fullstack waste management platform using React.js frontend and FastAPI backend, serving 500+ users across 10 municipalities with geolocation tracking, image uploads, and reporting dashboards built with PowerBI.</li>
-          <li>Built scalable data pipelines using Python and PostgreSQL handling 1,000+ geo-tagged reports. Implemented Haversine-based distance calculations for route optimization achieving 90% accuracy.</li>
-        </ul>
-        <div class="tech-tags">
-          <span>React.js</span>
-          <span>Flask</span>
-          <span>FastAPI</span>
-          <span>PostgreSQL</span>
-          <span>TensorFlow</span>
-          <span>Power BI</span>
-          <span>MongoDB</span>
+      <!-- Software Engineer -->
+      <div class="exp-card animate-on-scroll">
+        <div class="exp-card-accent"></div>
+        <div class="exp-card-content">
+          <div class="exp-card-header">
+            <div>
+              <h3>Software Engineer</h3>
+              <p class="exp-org">Amrita Vishwa Vidyapeetham</p>
+            </div>
+            <span class="exp-date">Jan 2023 – May 2024</span>
+          </div>
+          <ul>
+            <li>Engineered <strong>DishKit</strong>, a fullstack web app using React.js + Flask, integrating LSTM-based next-word prediction and nutrient analysis. Built dashboards helping nutritionists create 50+ personalized meal plans weekly.</li>
+            <li>Developed real-time predictive UI using Bidirectional LSTM (491K params) with TensorFlow, improving user engagement by 3x.</li>
+            <li>Designed <strong>SweepSpot</strong>, a waste management platform using React.js + FastAPI, serving 500+ users across 10 municipalities with geolocation tracking and reporting dashboards.</li>
+            <li>Built scalable data pipelines handling 1,000+ geo-tagged reports with Haversine-based route optimization achieving 90% accuracy.</li>
+          </ul>
+          <div class="tech-tags">
+            <span>React.js</span><span>Flask</span><span>FastAPI</span><span>PostgreSQL</span><span>TensorFlow</span><span>Power BI</span><span>MongoDB</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Projects section -->
+  <!-- Projects Section -->
   <section id="projects" class="projects">
     <div class="container">
-      <h2>Projects</h2>
-      <div class="project-card">
-        <h3>QuickDrop</h3>
-        <span class="date">Feb 2025</span>
-        <p>Built a file transfer tool for Mac and Android after getting frustrated with existing solutions. No cloud uploads, no accounts, no ads.</p>
-        <p>Developed a Flask-based web server with QR code connectivity, chunked uploads for large files (3GB+), and a drag-and-drop browser UI. Added ADB integration for USB transfers hitting 30+ MB/s.</p>
-        <p>Open source project that gained traction on LinkedIn. Documented the entire build process including bugs and fixes.</p>
-        <div class="tech-tags">
-          <span>Python</span>
-          <span>Flask</span>
-          <span>JavaScript</span>
-          <span>ADB</span>
-          <span>HTML/CSS</span>
-        </div>
-        <div style="margin-top: 1rem;">
-          <a href="https://github.com/pavansaipendry/QuickDrop" target="_blank" class="btn-small btn-outline-small" style="color: var(--primary); border-color: var(--primary);">GitHub</a>
-        </div>
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">04</span>
+        <h2>Projects</h2>
       </div>
+      <div class="projects-grid">
 
-      <div class="project-card">
-        <h3>Market Data Service</h3>
-        <span class="date">May 2025 – Jun 2025</span>
-        <p>Implemented a real-time stock quote pipeline using the Finnhub API and PostgreSQL via SQLAlchemy, caching hot prices with Redis. Achieved 99.99% data availability and reduced database query response times by 60%.</p>
-        <p>Designed and deployed a Kafka streaming pipeline to publish price events and compute five-point moving averages in real time.</p>
-        <p>Engineered a FastAPI microservice with REST endpoints, containerized the system with Docker Compose and automated CI/CD workflows.</p>
-        <div class="tech-tags">
-          <span>FastAPI</span>
-          <span>Kafka</span>
-          <span>PostgreSQL</span>
-          <span>Redis</span>
-          <span>Docker</span>
-          <span>SQLAlchemy</span>
+        <div class="project-card animate-on-scroll" data-delay="0">
+          <div class="project-card-inner">
+            <div class="project-number">01</div>
+            <h3>QuickDrop</h3>
+            <span class="project-date">Feb 2025</span>
+            <p>File transfer tool for Mac↔Android. No cloud, no accounts, no ads. Flask server with QR connectivity, chunked uploads for 3GB+ files, ADB integration hitting 30+ MB/s.</p>
+            <div class="tech-tags">
+              <span>Python</span><span>Flask</span><span>JavaScript</span><span>ADB</span>
+            </div>
+            <a href="https://github.com/pavansaipendry/QuickDrop" target="_blank" class="project-link">
+              View on GitHub
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+          </div>
         </div>
-         <div style="margin-top: 1rem;">
-          <a href="https://github.com/pavansaipendry/Market-Data-Service" target="_blank" class="btn-small btn-outline-small" style="color: var(--primary); border-color: var(--primary);">GitHub</a>
+
+        <div class="project-card animate-on-scroll" data-delay="1">
+          <div class="project-card-inner">
+            <div class="project-number">02</div>
+            <h3>Market Data Service</h3>
+            <span class="project-date">May – Jun 2025</span>
+            <p>Real-time stock quote pipeline using Finnhub API + PostgreSQL + Redis caching. Kafka streaming for price events and moving averages. 99.99% data availability, 60% faster queries.</p>
+            <div class="tech-tags">
+              <span>FastAPI</span><span>Kafka</span><span>PostgreSQL</span><span>Redis</span><span>Docker</span>
+            </div>
+            <a href="https://github.com/pavansaipendry/Market-Data-Service" target="_blank" class="project-link">
+              View on GitHub
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+          </div>
         </div>
+
+        <div class="project-card animate-on-scroll" data-delay="2">
+          <div class="project-card-inner">
+            <div class="project-number">03</div>
+            <h3>AI Text Detection</h3>
+            <span class="project-date">Feb – Apr 2025</span>
+            <p>100K-sample dataset for AI text classification. Fine-tuned LLaMA on AWS EC2 reaching 88% accuracy. Serverless API on Lambda supporting 2,000 concurrent requests at &lt;200ms.</p>
+            <div class="tech-tags">
+              <span>LLaMA</span><span>AWS</span><span>React</span><span>Node.js</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card animate-on-scroll" data-delay="3">
+          <div class="project-card-inner">
+            <div class="project-number">04</div>
+            <h3>Emotion Chatbot</h3>
+            <span class="project-date">Nov – Dec 2024</span>
+            <p>Hybrid BERT-GPT framework for real-time emotion recognition with 89%+ accuracy across 6 emotion classes. Streamlit UI serving 100 daily beta users at &lt;150ms latency.</p>
+            <div class="tech-tags">
+              <span>BERT</span><span>GPT</span><span>Streamlit</span><span>Python</span>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <div class="project-card">
-        <h3>AI-Generated Text Detection System</h3>
-        <span class="date">Feb 2025 – Apr 2025</span>
-        <p>Collected and annotated a 100,000-sample dataset (50K human, 50K AI) for text classification, achieving a 78% baseline accuracy. Fine-tuned a LLaMA model on AWS EC2, improving detection accuracy to 88%.</p>
-        <p>Deployed a serverless detection API on AWS Lambda with S3 storage and EC2 inference, supporting 2,000 concurrent requests at under 200ms latency.</p>
-        <p>Integrated the model into a React/Node.js web app with five input sources, reducing manual review time by 40%.</p>
-        <div class="tech-tags">
-          <span>LLaMA</span>
-          <span>AWS Lambda</span>
-          <span>AWS EC2</span>
-          <span>React</span>
-          <span>Node.js</span>
-          <span>S3</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h3>Emotion Aware Chatbot</h3>
-        <span class="date">Nov 2024 – Dec 2024</span>
-        <p>Tailored a hybrid BERT-GPT framework for real-time emotion recognition, surpassing 89% accuracy across six emotion classes.</p>
-        <p>Optimized the inference microservice to handle 500 concurrent requests at under 150ms latency.</p>
-        <p>Created a reactive Streamlit UI hosted on Heroku for 100 daily beta users, reducing average response latency by 25% and cutting load times to 300ms.</p>
-        <div class="tech-tags">
-          <span>BERT</span>
-          <span>GPT</span>
-          <span>Streamlit</span>
-          <span>Heroku</span>
-          <span>Python</span>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- Publications section -->
+  <!-- Publications Section -->
   <section id="publications" class="publications">
     <div class="container">
-      <h2>Research &amp; Publications</h2>
-      <ul>
-        <li><a href="https://link.springer.com/chapter/10.1007/978-981-97-8537-7_25" target="_blank">DishKit – Personalized diet planning through next-word prediction and nutrient analysis</a></li>
-        <li><a href="https://ieeexplore.ieee.org/abstract/document/10434372" target="_blank">Sweep Spot – Mobile-enabled waste management platform</a></li>
-        <li>Presented research on sustainable food delivery and waste management at international conferences, highlighting real-world impact and leading problem formulation, system design and experimental validation.</li>
-      </ul>
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">05</span>
+        <h2>Research & Publications</h2>
+      </div>
+      <div class="pub-list">
+        <a href="https://link.springer.com/chapter/10.1007/978-981-97-8537-7_25" target="_blank" class="pub-item animate-on-scroll">
+          <div class="pub-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <div class="pub-content">
+            <h4>DishKit</h4>
+            <p>Personalized diet planning through next-word prediction and nutrient analysis</p>
+            <span class="pub-venue">Springer</span>
+          </div>
+          <svg class="pub-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+        <a href="https://ieeexplore.ieee.org/abstract/document/10434372" target="_blank" class="pub-item animate-on-scroll">
+          <div class="pub-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <div class="pub-content">
+            <h4>SweepSpot</h4>
+            <p>Mobile-enabled waste management platform</p>
+            <span class="pub-venue">IEEE</span>
+          </div>
+          <svg class="pub-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+        <div class="pub-item pub-item-plain animate-on-scroll">
+          <div class="pub-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2"/></svg>
+          </div>
+          <div class="pub-content">
+            <h4>Conference Presentations</h4>
+            <p>Presented research on sustainable food delivery and waste management at international conferences</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Contact section -->
+  <!-- Contact Section -->
   <section id="contact" class="contact">
     <div class="container">
-      <h2>Contact</h2>
-      <p>I'd love to hear from you! Feel free to get in touch via email or follow me on social platforms.</p>
-      <ul>
-        <li>Email: <a href="mailto:pavansaipendry2002@gmail.com">pavansaipendry2002@gmail.com</a></li>
-        <li>Phone: <a href="tel:+17858137825">+1 785 813 7825</a></li>
-        <li><a href="https://www.linkedin.com/in/pavansaireddypendry" target="_blank">LinkedIn</a></li>
-        <li><a href="https://github.com/pavansaipendry" target="_blank">GitHub</a></li>
-        <li><a href="https://babyjay.bot" target="_blank">BabyJay - AI Campus Assistant</a></li>
-      </ul>
+      <div class="contact-inner animate-on-scroll">
+        <div class="section-header">
+          <span class="section-number">06</span>
+          <h2>Let's Connect</h2>
+        </div>
+        <p class="contact-desc">Currently open to software engineering and AI/ML opportunities. Let's build something impactful together.</p>
+        <div class="contact-links">
+          <a href="mailto:pavansaipendry2002@gmail.com" class="contact-card">
+            <span class="contact-card-icon">✉</span>
+            <span class="contact-card-label">Email</span>
+            <span class="contact-card-value">pavansaipendry2002@gmail.com</span>
+          </a>
+          <a href="tel:+17858137825" class="contact-card">
+            <span class="contact-card-icon">☎</span>
+            <span class="contact-card-label">Phone</span>
+            <span class="contact-card-value">+1 785 813 7825</span>
+          </a>
+          <a href="https://www.linkedin.com/in/pavansaireddypendry" target="_blank" class="contact-card">
+            <span class="contact-card-icon">in</span>
+            <span class="contact-card-label">LinkedIn</span>
+            <span class="contact-card-value">pavansaireddypendry</span>
+          </a>
+          <a href="https://github.com/pavansaipendry" target="_blank" class="contact-card">
+            <span class="contact-card-icon">&lt;/&gt;</span>
+            <span class="contact-card-label">GitHub</span>
+            <span class="contact-card-value">pavansaipendry</span>
+          </a>
+          <a href="https://babyjay.bot" target="_blank" class="contact-card">
+            <span class="contact-card-icon">🤖</span>
+            <span class="contact-card-label">BabyJay</span>
+            <span class="contact-card-value">AI Campus Assistant</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container">
-      <p>© 2025 Pavan Sai Reddy Pendry. All rights reserved.</p>
+      <div class="footer-inner">
+        <p>© 2025 Pavan Sai Reddy Pendry</p>
+        <div class="footer-links">
+          <a href="https://github.com/pavansaipendry" target="_blank">GitHub</a>
+          <a href="https://linkedin.com/in/pavansaireddypendry" target="_blank">LinkedIn</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <!-- JavaScript for mobile navigation toggle -->
   <script src="script.js"></script>
 </body>
 </html>
