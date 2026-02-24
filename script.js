@@ -112,31 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-  /* ─── Counter Animation ─── */
-  const statNumbers = document.querySelectorAll('.stat-number');
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.count, 10);
-        const duration = 1500;
-        const start = performance.now();
-
-        function tick(now) {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          // Ease out cubic
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(eased * target).toLocaleString();
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-        counterObserver.unobserve(el);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  statNumbers.forEach(el => counterObserver.observe(el));
 
   /* ─── Active Nav Link Highlighting ─── */
   const sections = document.querySelectorAll('section[id]');
