@@ -19,9 +19,9 @@
   --c-accent2: #7c5cfc;
   --c-accent2-soft: rgba(124,92,252,0.12);
   --c-white: #ffffff;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Outfit', sans-serif;
   --font-mono: 'Space Mono', monospace;
-  --font-body: 'DM Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -461,13 +461,14 @@ section {
   margin-bottom: 1rem;
 }
 .skill-icon {
-  font-size: 1.2rem;
   width: 38px; height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--c-surface);
+  background: var(--c-accent-soft);
   border-radius: 8px;
+  color: var(--c-accent);
+  flex-shrink: 0;
 }
 .skill-block h3 {
   font-family: var(--font-display);
