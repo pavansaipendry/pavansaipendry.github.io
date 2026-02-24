@@ -6,7 +6,8 @@
   <title>Pavan Sai Reddy Pendry | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,8 +21,15 @@
   <!-- Navigation -->
   <header>
     <nav class="navbar" id="navbar">
-      <a href="#home" class="nav-brand">
-        <span class="brand-bracket">[</span>PSR<span class="brand-bracket">]</span>
+      <a href="#home" class="nav-brand" aria-label="PSR — home">
+        <svg class="brand-globe" viewBox="0 0 44 44" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="20" fill="#0a0a0f" stroke="#c8ff00" stroke-width="1.5"/>
+          <ellipse cx="22" cy="22" rx="11" ry="20" fill="none" stroke="#c8ff00" stroke-width="0.8" opacity="0.3"/>
+          <line x1="2" y1="22" x2="42" y2="22" stroke="#c8ff00" stroke-width="0.8" opacity="0.3"/>
+          <path d="M5 15 Q22 17 39 15" fill="none" stroke="#c8ff00" stroke-width="0.8" opacity="0.3"/>
+          <path d="M5 29 Q22 27 39 29" fill="none" stroke="#c8ff00" stroke-width="0.8" opacity="0.3"/>
+          <text x="22" y="26.5" text-anchor="middle" fill="#c8ff00" font-family="'Space Mono', monospace" font-size="9" font-weight="700" letter-spacing="1.5">PSR</text>
+        </svg>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home" data-text="Home">Home</a></li>
@@ -61,18 +69,18 @@
       </div>
       <div class="hero-stats animate-on-scroll">
         <div class="stat">
-          <span class="stat-number" data-count="9500">0</span><span class="stat-plus">+</span>
-          <span class="stat-label">Docs Served</span>
+          <span class="stat-number" data-count="35">0</span><span class="stat-plus">×</span>
+          <span class="stat-label">Query Speedup</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-number" data-count="82">0</span><span class="stat-plus">%</span>
-          <span class="stat-label">Approval Rate</span>
+          <span class="stat-number" data-count="2">0</span><span class="stat-plus"></span>
+          <span class="stat-label">Research Papers</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
           <span class="stat-number" data-count="6">0</span><span class="stat-plus">+</span>
-          <span class="stat-label">Shipped Products</span>
+          <span class="stat-label">Products Shipped</span>
         </div>
       </div>
     </div>
@@ -200,7 +208,7 @@
         <div class="featured-badge">★ Featured Project</div>
         <div class="featured-header">
           <div>
-            <h3>Software Engineer (GenAI)</h3>
+            <h3>Software Engineer Intern</h3>
             <p class="featured-org">University of Kansas</p>
             <span class="exp-date">Oct 2024 – Present</span>
           </div>
@@ -308,10 +316,25 @@
       </div>
       <div class="projects-grid">
 
-        <!-- JobTracker — NEW PROJECT -->
-        <div class="project-card animate-on-scroll" data-delay="0">
+        <div class="project-card project-card--ongoing animate-on-scroll" data-delay="0">
           <div class="project-card-inner">
             <div class="project-number">01</div>
+            <h3>AI City</h3>
+            <span class="project-date">2025 – Present</span>
+            <p>Autonomous simulation where LLM-powered agents inhabit a living digital city — earning tokens, forming alliances, committing crimes, and standing trial. Emergent behaviors like police corruption and blackmail networks arise purely from agent interactions. Runs 24/7 with per-agent episodic memory and real-time browser visualization.</p>
+            <div class="tech-tags">
+              <span>Claude API</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span><span>Qdrant</span><span>Phaser 3</span><span>Python</span>
+            </div>
+            <a href="https://github.com/pavansaipendry/aicity" target="_blank" rel="noopener noreferrer" class="project-link">
+              View on GitHub
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card animate-on-scroll" data-delay="1">
+          <div class="project-card-inner">
+            <div class="project-number">02</div>
             <h3>JobTracker</h3>
             <span class="project-date">Feb 2026</span>
             <p>Automated job scraper targeting new grad SWE roles with H-1B sponsorship focus. Scrapes 120K+ companies across 4 sources, scores each job 0–100 against my resume, auto-rotates 6 API keys on rate limits, and sends top-5 digest emails. React dashboard with real-time filters, sort, and application tracking.</p>
@@ -325,9 +348,9 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="1">
+        <div class="project-card animate-on-scroll" data-delay="2">
           <div class="project-card-inner">
-            <div class="project-number">02</div>
+            <div class="project-number">03</div>
             <h3>QuickDrop</h3>
             <span class="project-date">Feb 2025</span>
             <p>File transfer tool for Mac↔Android. No cloud, no accounts, no ads. Flask server with QR connectivity, chunked uploads for 3GB+ files, ADB integration hitting 30+ MB/s.</p>
@@ -341,9 +364,9 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="2">
+        <div class="project-card animate-on-scroll" data-delay="3">
           <div class="project-card-inner">
-            <div class="project-number">03</div>
+            <div class="project-number">04</div>
             <h3>Market Data Service</h3>
             <span class="project-date">May – Jun 2025</span>
             <p>Real-time stock quote pipeline using Finnhub API + PostgreSQL + Redis caching. Kafka streaming for price events and moving averages. 99.99% data availability, 60% faster queries.</p>
@@ -357,9 +380,9 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="3">
+        <div class="project-card animate-on-scroll" data-delay="4">
           <div class="project-card-inner">
-            <div class="project-number">04</div>
+            <div class="project-number">05</div>
             <h3>AI Text Detection</h3>
             <span class="project-date">Feb – Apr 2025</span>
             <p>100K-sample dataset for AI text classification. Fine-tuned LLaMA on AWS EC2 reaching 88% accuracy. Serverless API on Lambda supporting 2,000 concurrent requests at &lt;200ms.</p>
@@ -369,31 +392,15 @@
           </div>
         </div>
 
-        <div class="project-card animate-on-scroll" data-delay="4">
+        <div class="project-card animate-on-scroll" data-delay="5">
           <div class="project-card-inner">
-            <div class="project-number">05</div>
+            <div class="project-number">06</div>
             <h3>Emotion Chatbot</h3>
             <span class="project-date">Nov – Dec 2024</span>
             <p>Hybrid BERT-GPT framework for real-time emotion recognition with 89%+ accuracy across 6 emotion classes. Streamlit UI serving 100 daily beta users at &lt;150ms latency.</p>
             <div class="tech-tags">
               <span>BERT</span><span>GPT</span><span>Streamlit</span><span>Python</span>
             </div>
-          </div>
-        </div>
-
-        <div class="project-card animate-on-scroll" data-delay="5">
-          <div class="project-card-inner">
-            <div class="project-number">06</div>
-            <h3>AI City</h3>
-            <span class="project-date">2025 – Present</span>
-            <p>Autonomous simulation where LLM-powered agents inhabit a living digital city — earning tokens, forming alliances, committing crimes, and standing trial. Emergent behaviors like police corruption and blackmail networks arise purely from agent interactions. Runs 24/7 with per-agent episodic memory and real-time browser visualization.</p>
-            <div class="tech-tags">
-              <span>Claude API</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span><span>Qdrant</span><span>Phaser 3</span><span>Python</span>
-            </div>
-            <a href="https://github.com/pavansaipendry/aicity" target="_blank" rel="noopener noreferrer" class="project-link">
-              View on GitHub
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-            </a>
           </div>
         </div>
 
@@ -475,7 +482,18 @@
             <span class="contact-card-value">pavansaipendry</span>
           </a>
           <a href="https://babyjay.bot" target="_blank" rel="noopener noreferrer" class="contact-card">
-            <span class="contact-card-icon">🤖</span>
+            <span class="contact-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="4" y="8" width="16" height="13" rx="2"/>
+                <line x1="12" y1="8" x2="12" y2="4"/>
+                <circle cx="12" cy="3" r="1.5"/>
+                <rect x="7.5" y="12" width="3" height="2.5" rx="0.5"/>
+                <rect x="13.5" y="12" width="3" height="2.5" rx="0.5"/>
+                <path d="M8.5 17.5h7"/>
+                <path d="M4 14.5H2" stroke-linecap="round"/>
+                <path d="M20 14.5h2" stroke-linecap="round"/>
+              </svg>
+            </span>
             <span class="contact-card-label">BabyJay</span>
             <span class="contact-card-value">AI Campus Assistant</span>
           </a>
