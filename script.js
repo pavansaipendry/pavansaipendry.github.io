@@ -4,10 +4,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
 
+  function closeNav() {
+    navToggle.classList.remove('active');
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
   navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
     navToggle.classList.toggle('active');
-    navLinks.classList.toggle('open');
-    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      closeNav();
+    }
+  });
+
+  // Close when tapping outside the nav on mobile
+  document.addEventListener('click', e => {
+    if (
+      navLinks.classList.contains('open') &&
+      !navLinks.contains(e.target) &&
+      !navToggle.contains(e.target)
+    ) {
+      closeNav();
+    }
   });
 
   // Smooth scroll & close mobile nav
@@ -18,9 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (target) {
         target.scrollIntoView({ behavior: 'smooth' });
       }
-      navToggle.classList.remove('active');
-      navLinks.classList.remove('open');
-      document.body.style.overflow = '';
+      closeNav();
     });
   });
 

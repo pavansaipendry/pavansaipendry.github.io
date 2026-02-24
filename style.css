@@ -201,6 +201,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
   margin-bottom: 2rem;
   font-family: var(--font-mono);
   font-size: 0.8rem;
@@ -990,6 +991,7 @@ section {
   .featured-card { padding: 1.5rem; }
   .featured-highlights { grid-template-columns: 1fr 1fr; }
   .featured-header { flex-direction: column; }
+  .exp-card-content { padding: 1.25rem; }
   .contact-links { grid-template-columns: 1fr 1fr; }
   .footer-inner { flex-direction: column; gap: 0.75rem; text-align: center; }
   .scroll-indicator { display: none; }
