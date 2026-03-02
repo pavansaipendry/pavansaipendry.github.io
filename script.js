@@ -210,22 +210,30 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', initCanvas);
   }
 
-  /* ─── Instant Tech-Stack Filtering ─── */
+  /* ─── Animated Instant Tech-Stack Filtering ─── */
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.projects-grid .project-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Update active button state
+      // 1. Update button styling
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       
       const filterValue = btn.getAttribute('data-filter');
       
+      // 2. Animate the cards
       projectCards.forEach(card => {
+        // Strip the animation class first so we can re-trigger it
+        card.classList.remove('show-filter');
+        
         const categories = card.getAttribute('data-category') || "";
+        
         if (filterValue === 'all' || categories.includes(filterValue)) {
           card.classList.remove('hide');
+          // Force a browser reflow to restart the animation
+          void card.offsetWidth; 
+          card.classList.add('show-filter');
         } else {
           card.classList.add('hide');
         }
