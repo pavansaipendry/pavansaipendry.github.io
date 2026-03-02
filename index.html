@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500,400&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230a0a0f'/><text x='32' y='43' text-anchor='middle' font-family='monospace' font-weight='700' font-size='22' fill='%23c8ff00' letter-spacing='1'>PSR</text></svg>">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -309,6 +311,18 @@
       </div>
     </div>
   </section>
+
+  <div class="exp-card animate-on-scroll">
+    <div class="exp-card-accent"></div>
+    <div class="exp-card-content" style="padding: 0; display: flex; flex-direction: column;">
+      <div style="padding: 2rem 2rem 1.5rem;">
+        <div class="featured-badge" style="margin-bottom: 0.5rem;">Live Data View</div>
+        <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--c-white);">Routing & Rate Analytics</h3>
+        <p class="exp-org" style="margin-top: 0.25rem;">Real-time origin/destination tracking with initial and final rate comparisons.</p>
+      </div>
+      <div id="routingMap" style="height: 400px; width: 100%; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 1;"></div>
+    </div>
+  </div>
 
   <!-- Projects Section -->
   <section id="projects" class="projects">

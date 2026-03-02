@@ -1014,3 +1014,54 @@ section {
   background: var(--c-accent);
   color: #0a0a0f;
 }
+
+/* ─── Leaflet Map Overrides ─── */
+.leaflet-container {
+  background: var(--c-bg-card) !important;
+  font-family: var(--font-body);
+}
+
+/* Custom dark popups */
+.leaflet-popup-content-wrapper {
+  background: var(--c-surface);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+  padding: 4px;
+}
+.leaflet-popup-tip {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-bottom: none;
+  border-right: none;
+}
+.rate-popup-title {
+  color: var(--c-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--c-border);
+  padding-bottom: 4px;
+}
+.rate-popup-data {
+  font-size: 0.85rem;
+  margin: 4px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.rate-popup-data span { color: var(--c-text-muted); }
+.rate-popup-data strong { color: var(--c-white); font-weight: 500; }
+
+/* Animated Data Flow Lines */
+.flow-line {
+  stroke-dasharray: 8, 12;
+  animation: flowAnimation 1.5s linear infinite;
+}
+@keyframes flowAnimation {
+  0% { stroke-dashoffset: 20; }
+  100% { stroke-dashoffset: 0; }
+}

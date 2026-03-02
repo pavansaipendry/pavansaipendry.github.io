@@ -152,4 +152,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => sectionObserver.observe(section));
 
+  /* ─── Origin/Destination Data Map ─── */
+  const mapElement = document.getElementById('routingMap');
+  
+  if (mapElement && typeof L !== 'undefined') {
+    // 1. Initialize map centered over the US
+    const map = L.map('routingMap', {
+      zoomControl: false,
+      scrollWheelZoom: false,
+      dragging: window.matchMedia('(pointer: fine)').matches // Disable drag on mobile to prevent page scroll issues
+    }).setView([39.5, -96.0], 4);
+
+    // 2. Add sleek dark tiles (CartoDB Dark Matter)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // 3. Define your mock data: Origin & Destinations with rates
+    const origin = { name: "Kansas City Hub", coords: [39.0997, -94.5786] };
+    const destinations = [
+      { name: "New York", coords: [40.7128, -74.0060], initial: "$4.50/mi", final: "$4.20/mi" },
+      { name: "San Francisco", coords: [37.7749, -122.4194], initial: "$5.10/mi", final: "$4.85/mi" },
+      { name: "Austin", coords: [30.2672, -97.7431], initial: "$3.80/mi", final: "$3.95/mi" },
+      { name: "Chicago", coords: [41.8781, -87.6298], initial: "$3.20/mi", final: "$3.10/mi" }
+    ];
+
+    // 4. Custom glowing dot markers
+    const createMarker = (color) => L.divIcon({
+      className: 'custom-map-marker',
+      html: `<div style="width: 12px; height: 12px; background: ${color}; border-radius: 50%; box-shadow: 0 0 12px ${color}; border: 2px solid #0a0a0f;"></div>`,
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+
+    // 5. Plot the Origin
+    L.marker(origin.coords, { icon: createMarker('var(--c-accent2)') })
+      .bindPopup(`<div class="rate-popup-title">Origin Hub</div><div style="color: white; font-size: 0.9rem;">${origin.name}</div>`)
+      .addTo(map);
+
+    // 6. Plot Destinations, Rates, and Flow Lines
+    destinations.forEach(dest => {
+      // Draw the animated connecting line
+      L.polyline([origin.coords, dest.coords], {
+        color: 'var(--c-accent)',
+        weight: 2,
+        opacity: 0.6,
+        className: 'flow-line'
+      }).addTo(map);
+
+      // Add the destination node with popup data
+      L.marker(dest.coords, { icon: createMarker('var(--c-accent)') })
+        .bindPopup(`
+          <div class="rate-popup-title">${dest.name}</div>
+          <div class="rate-popup-data"><span>Initial Rate:</span> <strong>${dest.initial}</strong></div>
+          <div class="rate-popup-data"><span>Final Rate:</span> <strong style="color:var(--c-accent)">${dest.final}</strong></div>
+        `)
+        .addTo(map);
+    });
+  }
+
 });
