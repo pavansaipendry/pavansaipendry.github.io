@@ -270,49 +270,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ─── Avatar Scroll Velocity Tracker ─── */
-  const avatar = document.getElementById('scrollAvatar');
-  
-  if (avatar) {
-    let lastScrollY = window.scrollY;
-    let lastTime = Date.now();
-    let pantingTimeout;
+  /* ─── Hover-Hacker Physics Engine ─── */
+  const avatarContainer = document.getElementById('scrollAvatar');
+  const svgAvatar = document.getElementById('hackerSvg');
+  const visor = document.getElementById('avatar-visor');
+  const flames = document.getElementById('avatar-flames');
 
+  if (avatarContainer && svgAvatar) {
+    let currentScrollY = window.scrollY;
+    let targetScrollY = window.scrollY;
+    
+    let targetTilt = 0;
+    let currentTilt = 0;
+    
+    let targetFlameScale = 1;
+    let currentFlameScale = 1;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentVisorX = 0;
+    let currentVisorY = 0;
+
+    // Track scrolling
     window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      const currentTime = Date.now();
-      
-      // Calculate time and distance differences
-      const timeDelta = currentTime - lastTime;
-      const scrollDelta = Math.abs(currentScrollY - lastScrollY);
-      
-      if (timeDelta > 0) {
-        // Calculate speed in pixels per millisecond
-        const speed = scrollDelta / timeDelta;
-        
-        // Add a slight tilt based on scroll direction
-        const direction = currentScrollY > lastScrollY ? 1 : -1;
-        avatar.style.transform = `rotate(${direction * Math.min(speed * 5, 15)}deg)`;
-
-        // IF SPEED IS HIGH: Trigger the panting animation
-        if (speed > 2.0) { // <-- Adjust this number to change sensitivity
-          avatar.classList.add('panting');
-          
-          // Clear any existing cooldown
-          clearTimeout(pantingTimeout);
-          
-          // Set a cooldown: he keeps panting for a second after you stop scrolling fast
-          pantingTimeout = setTimeout(() => {
-            avatar.classList.remove('panting');
-            avatar.style.transform = `rotate(0deg)`; // Reset tilt
-          }, 800);
-        }
-      }
-      
-      // Update previous values for the next frame
-      lastScrollY = currentScrollY;
-      lastTime = currentTime;
+      targetScrollY = window.scrollY;
     });
+
+    // Track mouse for the visor
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Smoothing function (Lerp)
+    const lerp = (start, end, factor) => start + (end - start) * factor;
+
+    function renderPhysics() {
+      // 1. Calculate Scroll Velocity
+      const velocity = targetScrollY - currentScrollY;
+      currentScrollY = lerp(currentScrollY, targetScrollY, 0.1);
+
+      // 2. Calculate Tilt (Leans into the scroll)
+      targetTilt = Math.min(Math.max(velocity * 0.3, -25), 25);
+      currentTilt = lerp(currentTilt, targetTilt, 0.1);
+
+      // 3. Calculate Thruster Flames (Blasts when scrolling fast)
+      targetFlameScale = Math.min(Math.max(Math.abs(velocity) * 0.05 + 1, 1), 3);
+      currentFlameScale = lerp(currentFlameScale, targetFlameScale, 0.1);
+
+      // 4. Calculate Visor Mouse Tracking
+      const rect = svgAvatar.getBoundingClientRect();
+      const avatarCenterX = rect.left + rect.width / 2;
+      const avatarCenterY = rect.top + rect.height / 2;
+      
+      const targetVisorX = Math.max(Math.min((mouseX - avatarCenterX) * 0.03, 8), -8);
+      const targetVisorY = Math.max(Math.min((mouseY - avatarCenterY) * 0.03, 5), -5);
+      
+      currentVisorX = lerp(currentVisorX, targetVisorX, 0.1);
+      currentVisorY = lerp(currentVisorY, targetVisorY, 0.1);
+
+      // Apply the physics to the SVG elements
+      svgAvatar.style.transform = `rotate(${currentTilt}deg)`;
+      flames.style.transform = `scaleY(${currentFlameScale})`;
+      visor.style.transform = `translate(${currentVisorX}px, ${currentVisorY}px)`;
+
+      requestAnimationFrame(renderPhysics);
+    }
+
+    renderPhysics();
   }
 
 });

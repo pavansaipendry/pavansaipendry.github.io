@@ -568,8 +568,31 @@
     </div>
   </div>
   <div id="scrollAvatar" class="scroll-avatar">
-    <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=transparent" alt="Avatar">
-    <div class="sweat-drop" id="sweatDrop">💧</div>
+    <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg" id="hackerSvg">
+      <g id="avatar-flames" style="transform-origin: 100px 215px;">
+        <path d="M 70 215 Q 100 280 130 215 Z" fill="var(--c-accent2)" opacity="0.8" />
+        <path d="M 85 215 Q 100 250 115 215 Z" fill="var(--c-accent)" />
+      </g>
+      
+      <rect x="40" y="200" width="120" height="15" rx="7.5" fill="#1e1e2a" stroke="var(--c-accent2)" stroke-width="3"/>
+      <circle cx="60" cy="207.5" r="3" fill="var(--c-accent2)"/>
+      <circle cx="140" cy="207.5" r="3" fill="var(--c-accent2)"/>
+
+      <path d="M 80 160 L 70 200 M 120 160 L 130 200" stroke="#2a2a35" stroke-width="16" stroke-linecap="round"/>
+      
+      <path d="M 60 100 L 140 100 C 150 150 135 170 100 170 C 65 170 50 150 60 100 Z" fill="var(--c-accent)"/>
+      
+      <path d="M 65 110 Q 40 140 70 160" stroke="#b3e600" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M 135 110 Q 160 140 130 160" stroke="#b3e600" stroke-width="14" stroke-linecap="round" fill="none"/>
+
+      <circle cx="100" cy="65" r="38" fill="var(--c-accent)"/>
+      <rect x="75" y="45" width="50" height="42" rx="21" fill="#fcdbb6"/>
+      
+      <g id="avatar-visor">
+        <rect x="78" y="55" width="44" height="16" rx="6" fill="#0a0a0f"/>
+        <line x1="82" y1="63" x2="118" y2="63" stroke="var(--c-accent2)" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </svg>
   </div>
   <script src="script.js"></script>
 </body>
