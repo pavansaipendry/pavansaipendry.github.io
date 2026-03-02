@@ -18,6 +18,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
   });
 
+  const heroBgText = document.querySelector('.hero-bg-text');
+  window.addEventListener('scroll', () => {
+    if (heroBgText) {
+      // Moves the text down slightly as the user scrolls down
+      const scrollY = window.scrollY;
+      heroBgText.style.transform = `translate(-50%, calc(-50% + ${scrollY * 0.35}px))`;
+    }
+  });
+
+  const cta = document.querySelector('.cta-primary');
+  if (cta && window.matchMedia('(pointer: fine)').matches) {
+    cta.addEventListener('mousemove', (e) => {
+      const rect = cta.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      cta.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    });
+    cta.addEventListener('mouseleave', () => {
+      cta.style.transform = `translate(0px, 0px)`;
+    });
+  }
+
   // Close on Escape key
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && navLinks.classList.contains('open')) {

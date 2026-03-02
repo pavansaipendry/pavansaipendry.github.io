@@ -169,6 +169,7 @@ img { max-width: 100%; display: block; }
   background: radial-gradient(circle, rgba(200,255,0,0.08) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
+  animation: ambientDrift 12s ease-in-out infinite;
 }
 .hero::after {
   content: '';
@@ -180,6 +181,7 @@ img { max-width: 100%; display: block; }
   background: radial-gradient(circle, rgba(124,92,252,0.06) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
+  animation: ambientDrift 15s ease-in-out infinite reverse;
 }
 .hero-bg-text {
   position: absolute;
@@ -318,6 +320,12 @@ img { max-width: 100%; display: block; }
 @keyframes scrollPulse {
   0%, 100% { opacity: 1; transform: scaleY(1); }
   50% { opacity: 0.3; transform: scaleY(0.6); }
+}
+
+@keyframes ambientDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
 /* ─── Section Headers ─── */
@@ -949,6 +957,13 @@ section {
   opacity: 1;
   transform: translateY(0);
 }
+
+.animate-on-scroll[data-delay="0"] { transition-delay: 0s; }
+.animate-on-scroll[data-delay="1"] { transition-delay: 0.1s; }
+.animate-on-scroll[data-delay="2"] { transition-delay: 0.2s; }
+.animate-on-scroll[data-delay="3"] { transition-delay: 0.3s; }
+.animate-on-scroll[data-delay="4"] { transition-delay: 0.4s; }
+.animate-on-scroll[data-delay="5"] { transition-delay: 0.5s; }
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
