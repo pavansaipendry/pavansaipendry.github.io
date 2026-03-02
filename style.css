@@ -1173,3 +1173,42 @@ section {
   70% { transform: scale(2.5); opacity: 0; }
   100% { transform: scale(1); opacity: 0; }
 }
+
+/* ─── Accent Color Toggle ─── */
+.accent-toggle {
+  background: transparent;
+  border: none;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto; /* Pushes it to the right */
+  margin-right: 1.5rem;
+  transition: color 0.3s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.accent-toggle:hover {
+  color: var(--c-accent);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.accent-toggle svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* The 100% Better Theme: Electric Cyan */
+body.theme-cyan {
+  --c-accent: #00f0ff;
+  --c-accent-soft: rgba(0, 240, 255, 0.12);
+  /* Optional: Pivot the secondary purple to a deep neon pink for contrast */
+  --c-accent2: #ff0055; 
+  --c-accent2-soft: rgba(255, 0, 85, 0.12);
+}
+
+/* Adjust mobile layout to fit the button */
+@media (max-width: 768px) {
+  .accent-toggle { margin-right: 0.5rem; }
+}
