@@ -958,12 +958,7 @@ section {
   transform: translateY(0);
 }
 
-.animate-on-scroll[data-delay="0"] { transition-delay: 0s; }
-.animate-on-scroll[data-delay="1"] { transition-delay: 0.1s; }
-.animate-on-scroll[data-delay="2"] { transition-delay: 0.2s; }
-.animate-on-scroll[data-delay="3"] { transition-delay: 0.3s; }
-.animate-on-scroll[data-delay="4"] { transition-delay: 0.4s; }
-.animate-on-scroll[data-delay="5"] { transition-delay: 0.5s; }
+
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
@@ -1015,53 +1010,77 @@ section {
   color: #0a0a0f;
 }
 
-/* ─── Leaflet Map Overrides ─── */
-.leaflet-container {
-  background: var(--c-bg-card) !important;
-  font-family: var(--font-body);
+/* ─── Live API Status Terminal ─── */
+.api-terminal {
+  padding: 2rem 0 6rem;
 }
-
-/* Custom dark popups */
-.leaflet-popup-content-wrapper {
-  background: var(--c-surface);
-  color: var(--c-text);
+.terminal-window {
+  background: #050508;
   border: 1px solid var(--c-border);
-  border-radius: 8px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-  padding: 4px;
-}
-.leaflet-popup-tip {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-bottom: none;
-  border-right: none;
-}
-.rate-popup-title {
-  color: var(--c-accent);
+  border-radius: 12px;
+  overflow: hidden;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-  border-bottom: 1px solid var(--c-border);
-  padding-bottom: 4px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  max-width: 750px;
+  margin: 0 auto;
 }
-.rate-popup-data {
-  font-size: 0.85rem;
-  margin: 4px 0;
+.terminal-header {
+  background: var(--c-bg-card);
+  padding: 0.75rem 1rem;
   display: flex;
-  justify-content: space-between;
-  gap: 1.5rem;
+  align-items: center;
+  border-bottom: 1px solid var(--c-border);
+  position: relative;
 }
-.rate-popup-data span { color: var(--c-text-muted); }
-.rate-popup-data strong { color: var(--c-white); font-weight: 500; }
-
-/* Animated Data Flow Lines */
-.flow-line {
-  stroke-dasharray: 8, 12;
-  animation: flowAnimation 1.5s linear infinite;
+.terminal-buttons {
+  display: flex;
+  gap: 6px;
+  position: absolute;
 }
-@keyframes flowAnimation {
-  0% { stroke-dashoffset: 20; }
-  100% { stroke-dashoffset: 0; }
+.term-btn {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+}
+.term-btn.close { background: #ff5f56; }
+.term-btn.minimize { background: #ffbd2e; }
+.term-btn.maximize { background: #27c93f; }
+.terminal-title {
+  margin: 0 auto;
+  color: var(--c-text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+.terminal-body {
+  padding: 1.5rem;
+  color: var(--c-text-muted);
+  min-height: 180px;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+}
+.term-prompt {
+  color: var(--c-accent2);
+  margin-right: 0.5rem;
+}
+.term-success {
+  color: var(--c-accent);
+  font-weight: 700;
+}
+.term-ping {
+  color: var(--c-text-dim);
+  font-size: 0.75rem;
+  margin-left: auto;
+}
+.term-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: var(--c-text-muted);
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 
+  0%, 100% { opacity: 1; } 
+  50% { opacity: 0; } 
 }
