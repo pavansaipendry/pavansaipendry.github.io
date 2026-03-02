@@ -1131,3 +1131,59 @@ section {
   transition: color 0.3s;
 }
 .drawer-close:hover { color: var(--c-accent); }
+
+/* ─── Scrolling Avatar ─── */
+.scroll-avatar {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 90px;
+  z-index: 9999;
+  pointer-events: none; /* So it doesn't block clicks */
+  transform-origin: bottom center;
+  transition: transform 0.2s ease-out;
+}
+
+/* Normal state: calm breathing/floating */
+.scroll-avatar img {
+  width: 100%;
+  transform-origin: bottom center;
+  animation: calmBreath 3s ease-in-out infinite;
+}
+
+/* Fast scrolling state: panting */
+.scroll-avatar.panting img {
+  animation: heavyPant 0.3s ease-in-out infinite alternate;
+}
+
+/* The sweat drop that only appears when panting */
+.sweat-drop {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s;
+}
+.scroll-avatar.panting .sweat-drop {
+  opacity: 1;
+  animation: sweatFlick 0.6s infinite;
+}
+
+/* --- Keyframes --- */
+@keyframes calmBreath {
+  0%, 100% { transform: scaleY(1) translateY(0); }
+  50% { transform: scaleY(1.02) translateY(-8px); }
+}
+
+@keyframes heavyPant {
+  0% { transform: scaleY(0.9) scaleX(1.05) translateY(5px); }
+  100% { transform: scaleY(1.1) scaleX(0.95) translateY(-5px); }
+}
+
+@keyframes sweatFlick {
+  0% { transform: translateY(-5px) scale(0.8); opacity: 0; }
+  50% { transform: translateY(5px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(15px) scale(0.8); opacity: 0; }
+}

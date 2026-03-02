@@ -270,4 +270,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* ─── Avatar Scroll Velocity Tracker ─── */
+  const avatar = document.getElementById('scrollAvatar');
+  
+  if (avatar) {
+    let lastScrollY = window.scrollY;
+    let lastTime = Date.now();
+    let pantingTimeout;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      const currentTime = Date.now();
+      
+      // Calculate time and distance differences
+      const timeDelta = currentTime - lastTime;
+      const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+      
+      if (timeDelta > 0) {
+        // Calculate speed in pixels per millisecond
+        const speed = scrollDelta / timeDelta;
+        
+        // Add a slight tilt based on scroll direction
+        const direction = currentScrollY > lastScrollY ? 1 : -1;
+        avatar.style.transform = `rotate(${direction * Math.min(speed * 5, 15)}deg)`;
+
+        // IF SPEED IS HIGH: Trigger the panting animation
+        if (speed > 2.0) { // <-- Adjust this number to change sensitivity
+          avatar.classList.add('panting');
+          
+          // Clear any existing cooldown
+          clearTimeout(pantingTimeout);
+          
+          // Set a cooldown: he keeps panting for a second after you stop scrolling fast
+          pantingTimeout = setTimeout(() => {
+            avatar.classList.remove('panting');
+            avatar.style.transform = `rotate(0deg)`; // Reset tilt
+          }, 800);
+        }
+      }
+      
+      // Update previous values for the next frame
+      lastScrollY = currentScrollY;
+      lastTime = currentTime;
+    });
+  }
+
 });
