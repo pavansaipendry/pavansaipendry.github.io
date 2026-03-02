@@ -1038,7 +1038,18 @@ section {
   border-color: var(--c-accent);
   font-weight: 700;
 }
-.project-card.hide { display: none; }
+
+/* ─── Filter Animation ─── */
+.project-card.hide { 
+  display: none; 
+}
+.project-card.show-filter {
+  animation: filterPop 0.4s var(--ease-out) forwards;
+}
+@keyframes filterPop {
+  0% { opacity: 0; transform: translateY(15px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 
 /* ─── Sandbox Section ─── */
 .sandbox-desc { color: var(--c-text-muted); margin-bottom: 2rem; font-size: 1.1rem; }
