@@ -42,6 +42,7 @@
 
   <!-- Hero Section -->
   <section id="home" class="hero">
+    <canvas id="neuralCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
     <div class="hero-bg-text" aria-hidden="true">ENGINEER</div>
     <div class="hero-content">
       <div class="hero-label animate-on-scroll">
@@ -245,7 +246,11 @@
             <span class="highlight-desc">Feedback-driven optimization pipeline enhancing prompts dynamically</span>
           </div>
         </div>
-        <details class="exp-details">
+        <button class="drawer-trigger" data-target="babyjay-drawer">
+          <span>Read Case Study</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <!-- <details class="exp-details">
           <summary>Full details</summary>
           <ul>
             <li>Developed fullstack application using React.js frontend with dark mode UI, Google OAuth, and mobile-responsive design, paired with FastAPI backend handling JWT authentication and streaming responses.</li>
@@ -256,7 +261,7 @@
             <li>Designed feedback analytics system with thumbs up/down collection and built RLHF optimization pipeline that learns from user feedback to dynamically enhance system prompts.</li>
             <li>Deployed containerized backend using Docker with CI/CD automation using GitHub Actions. Frontend hosted on Vercel, backend on Render with custom domain configuration.</li>
           </ul>
-        </details>
+        </details> -->
         <div class="tech-tags">
           <span>React.js</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>RAG</span><span>RLHF</span><span>OpenAI</span><span>Supabase</span><span>Python</span><span>GitHub Actions</span>
         </div>
@@ -316,6 +321,12 @@
       <div class="section-header animate-on-scroll">
         <span class="section-number">04</span>
         <h2>Projects</h2>
+      </div>
+      <div class="project-filters animate-on-scroll">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="ai">AI/ML</button>
+        <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+        <button class="filter-btn" data-filter="data">Data Pipelines</button>
       </div>
       <div class="projects-grid">
 
@@ -411,6 +422,28 @@
     </div>
   </section>
 
+  <section id="sandbox" class="sandbox">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">05</span>
+        <h2>The Sandbox</h2>
+      </div>
+      <p class="sandbox-desc animate-on-scroll">Experimental architectures, works-in-progress, and concepts currently in the incubator.</p>
+      <div class="sandbox-grid">
+        <div class="sandbox-card animate-on-scroll">
+          <div class="sandbox-status">WIP</div>
+          <h4>Real-Time Ride-Share Routing</h4>
+          <p>Exploring Android native development and WebSockets for high-frequency location tracking.</p>
+        </div>
+        <div class="sandbox-card animate-on-scroll" data-delay="1">
+          <div class="sandbox-status">Learning</div>
+          <h4>Rust WebAssembly Module</h4>
+          <p>Porting Python data transformation scripts to Rust to test performance gains in browser environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Publications Section -->
   <section id="publications" class="publications">
     <div class="container">
@@ -454,24 +487,6 @@
     </div>
   </section>
 
-  <section class="api-terminal animate-on-scroll">
-    <div class="container">
-      <div class="terminal-window">
-        <div class="terminal-header">
-          <div class="terminal-buttons">
-            <span class="term-btn close"></span>
-            <span class="term-btn minimize"></span>
-            <span class="term-btn maximize"></span>
-          </div>
-          <span class="terminal-title">~/portfolio/services/status.sh</span>
-        </div>
-        <div class="terminal-body" id="terminalBody">
-          <div class="term-line"><span class="term-prompt">pavan@server:~$</span> ./check_health.sh</div>
-          <div class="term-line" id="termCursorLine"><span class="term-prompt">pavan@server:~$</span> <span class="term-cursor"></span></div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Contact Section -->
   <section id="contact" class="contact">
@@ -535,6 +550,23 @@
       </div>
     </div>
   </footer>
+
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="case-drawer" id="caseDrawer">
+    <button class="drawer-close" id="drawerClose">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="drawer-content">
+      <div class="featured-badge">Case Study</div>
+      <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; color: var(--c-white);">BabyJay Architecture</h2>
+      <p style="color: var(--c-text-muted); margin-bottom: 2rem; line-height: 1.7;">Deep dive into the RAG pipeline and real-time enrollment data integrations that power the campus assistant.</p>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 1rem; color: var(--c-text-muted);"><strong style="color: var(--c-accent);">Hybrid RAG:</strong> Engineered retrieval system with 4 specialized retrievers achieving 35x speedup.</li>
+        <li style="margin-bottom: 1rem; color: var(--c-text-muted);"><strong style="color: var(--c-accent);">Live Data:</strong> Built web scrapers for classes.ku.edu, enabling live seat availability queries with 2-layer semantic caching.</li>
+        <li style="margin-bottom: 1rem; color: var(--c-text-muted);"><strong style="color: var(--c-accent);">RLHF Pipeline:</strong> Designed feedback analytics system that learns from user input to dynamically enhance system prompts.</li>
+      </ul>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

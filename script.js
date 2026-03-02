@@ -151,58 +151,115 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
 
   sections.forEach(section => sectionObserver.observe(section));
-  
-  /* ─── Live API Status Terminal ─── */
-  const terminalBody = document.getElementById('terminalBody');
-  const cursorLine = document.getElementById('termCursorLine');
-  
-  if (terminalBody && cursorLine) {
-    const services = [
-      { name: 'BabyJay API (FastAPI/Render)' },
-      { name: 'Market Data Stream (Kafka)' },
-      { name: 'AI City PostgreSQL DB' },
-      { name: 'JobTracker Scraper Agent' }
-    ];
-
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-    async function runTerminalPing() {
-      // Wait a moment before starting
-      await sleep(1000);
-
-      for (let i = 0; i < services.length; i++) {
-        // Randomize the delay to simulate real network requests
-        await sleep(600 + Math.random() * 800); 
-        
-        // Generate a random realistic ping (15ms to 65ms)
-        const pingTime = Math.floor(Math.random() * 50) + 15; 
-        
-        // Create the new log line
-        const line = document.createElement('div');
-        line.className = 'term-line';
-        line.innerHTML = `
-          <span style="color: #8888a0;">> pinging ${services[i].name}...</span> 
-          <span class="term-success">[200 OK]</span> 
-          <span class="term-ping">${pingTime}ms</span>
-        `;
-        
-        // Insert it right above the blinking cursor line
-        terminalBody.insertBefore(line, cursorLine);
+    
+  /* ─── Neural Node Canvas ─── */
+  const canvas = document.getElementById('neuralCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    
+    function initCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = document.querySelector('.hero').offsetHeight;
+      particles = [];
+      for(let i = 0; i < (window.innerWidth < 768 ? 30 : 70); i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          radius: Math.random() * 2 + 1
+        });
       }
     }
-
-    // Trigger the animation when the terminal scrolls into view
-    const termObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          runTerminalPing();
-          termObserver.unobserve(entry.target);
+    
+    function drawParticles() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(200, 255, 0, 0.5)';
+      ctx.strokeStyle = 'rgba(200, 255, 0, 0.1)';
+      
+      particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Connect nearby particles
+        for(let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
         }
       });
-    }, { threshold: 0.5 });
-
-    termObserver.observe(document.querySelector('.terminal-window'));
+      requestAnimationFrame(drawParticles);
+    }
+    
+    initCanvas();
+    drawParticles();
+    window.addEventListener('resize', initCanvas);
   }
 
+  /* ─── Instant Tech-Stack Filtering ─── */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.projects-grid .project-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active button state
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const filterValue = btn.getAttribute('data-filter');
+      
+      projectCards.forEach(card => {
+        const categories = card.getAttribute('data-category') || "";
+        if (filterValue === 'all' || categories.includes(filterValue)) {
+          card.classList.remove('hide');
+        } else {
+          card.classList.add('hide');
+        }
+      });
+    });
+  });
+
+  /* ─── Slide-Out Drawer ─── */
+  const drawerTriggers = document.querySelectorAll('.drawer-trigger');
+  const caseDrawer = document.getElementById('caseDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  const drawerClose = document.getElementById('drawerClose');
+
+  function openDrawer() {
+    caseDrawer.classList.add('open');
+    drawerOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  function closeDrawer() {
+    caseDrawer.classList.remove('open');
+    drawerOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  drawerTriggers.forEach(btn => btn.addEventListener('click', openDrawer));
+  if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+  if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+  
+  // Close drawer on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && caseDrawer.classList.contains('open')) {
+      closeDrawer();
+    }
+  });
 
 });
