@@ -85,7 +85,9 @@ export function CommandPalette() {
     { id: "skills", label: "Skills & Tools", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#skills"), keywords: "skills tools tech stack" },
     { id: "experience", label: "Experience", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#experience"), keywords: "experience work job" },
     { id: "projects", label: "Projects", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#projects"), keywords: "projects portfolio" },
+    { id: "architecture", label: "Architecture", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#architecture"), keywords: "architecture system design infra" },
     { id: "research", label: "Research & Publications", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#publications"), keywords: "research publications papers" },
+    { id: "tailor", label: "Resume Tailor", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#tailor"), keywords: "resume tailor job match fit recruiter jd" },
     { id: "contact", label: "Contact", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#contact"), keywords: "contact email reach" },
     // External
     { id: "github", label: "GitHub", section: "Links", icon: <LinkIcon />, action: () => { setOpen(false); window.open(siteConfig.github, "_blank"); }, keywords: "github code" },
@@ -206,7 +208,7 @@ export function CommandPalette() {
             </div>
 
             {/* Results */}
-            <div ref={listRef} className="max-h-72 overflow-y-auto p-2">
+            <div ref={listRef} data-lenis-prevent className="max-h-72 overflow-y-auto p-2">
               {filtered.length === 0 ? (
                 <div className="px-3 py-8 text-center text-sm text-dimmed">
                   No results found.

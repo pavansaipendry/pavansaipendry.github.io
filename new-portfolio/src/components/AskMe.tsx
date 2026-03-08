@@ -245,7 +245,37 @@ export function AskMe() {
                           : "border border-card-border bg-card-bg text-foreground rounded-bl-md"
                       }`}
                     >
-                      {msg.content}
+                      {msg.role === "user" ? msg.content : (
+                        <span>
+                          {msg.content.split("\n").map((line, li) => {
+                            if (line.startsWith("- ") || line.startsWith("• ")) {
+                              const parts = line.slice(2).split(/(\*\*.*?\*\*)/g);
+                              return (
+                                <span key={li} className="flex gap-1.5 mt-1">
+                                  <span className="text-accent shrink-0">&#x2022;</span>
+                                  <span>{parts.map((p, pi) =>
+                                    p.startsWith("**") && p.endsWith("**")
+                                      ? <strong key={pi} className="font-semibold text-accent">{p.slice(2, -2)}</strong>
+                                      : <span key={pi}>{p}</span>
+                                  )}</span>
+                                </span>
+                              );
+                            }
+                            const parts = line.split(/(\*\*.*?\*\*)/g);
+                            return (
+                              <span key={li}>
+                                {li > 0 && line === "" ? <br /> : null}
+                                {parts.map((p, pi) =>
+                                  p.startsWith("**") && p.endsWith("**")
+                                    ? <strong key={pi} className="font-semibold text-accent">{p.slice(2, -2)}</strong>
+                                    : <span key={pi}>{p}</span>
+                                )}
+                                {li < msg.content.split("\n").length - 1 && line !== "" ? " " : null}
+                              </span>
+                            );
+                          })}
+                        </span>
+                      )}
                       {isStreaming && (
                         <motion.span
                           animate={{ opacity: [1, 0] }}

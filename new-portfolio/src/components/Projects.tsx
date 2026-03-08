@@ -84,22 +84,42 @@ export function Projects() {
                     ))}
                   </div>
 
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-heading"
-                    >
-                      View on GitHub
-                      <svg
-                        width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                        className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  <div className="flex items-center gap-4">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-heading"
                       >
-                        <path d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-                    </a>
-                  )}
+                        GitHub
+                        <svg
+                          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                          className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        >
+                          <path d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                      </a>
+                    )}
+                    {"live" in project && project.live && (
+                      <a
+                        href={project.live as string}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1.5 text-sm text-accent transition-colors hover:text-heading"
+                      >
+                        Live
+                        <svg
+                          width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                          className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        >
+                          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
                 </SpotlightCard>
               </motion.div>
             ))}

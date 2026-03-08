@@ -104,7 +104,7 @@ export function Contact() {
     <section id="contact" className="relative py-32 px-6">
       <div className="mx-auto max-w-2xl">
         <FadeIn>
-          <SectionHeader number="08" title="Let's Connect" />
+          <SectionHeader number="09" title="Let's Connect" />
         </FadeIn>
 
         <FadeIn>

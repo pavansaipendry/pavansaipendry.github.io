@@ -16,6 +16,7 @@ export const navLinks = [
   { label: "Projects", href: "#projects" },
   { label: "Architecture", href: "#architecture" },
   { label: "Research", href: "#publications" },
+  { label: "Resume Tailor", href: "#tailor" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -153,6 +154,18 @@ export const experiences = [
 ];
 
 export const projects = [
+  {
+    number: "00",
+    title: "pavansaipendry.dev",
+    date: "Mar 2026",
+    description:
+      "The site you're on right now. A full-stack portfolio built with Next.js 16, React 19, and Tailwind CSS 4 — featuring an interactive terminal emulator with 13 commands, a Claude-powered AI chat assistant with SSE streaming, an AI resume tailor that analyzes job descriptions against my experience, SVG circuit board animations with Web Animations API beams, a CMD+K command palette, View Transitions API theme toggle with circular clip-path reveal, Lenis smooth scrolling, and 25 custom React components. Two AI-powered API routes, a custom markdown renderer, and zero external UI libraries.",
+    tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Claude API", "Framer Motion", "Lenis", "SSE Streaming", "Vercel"],
+    github: "https://github.com/pavansaipendry/portfolio-site",
+    live: "https://pavansaipendry.dev",
+    category: ["ai", "fullstack"],
+    ongoing: true,
+  },
   {
     number: "01",
     title: "AI City",

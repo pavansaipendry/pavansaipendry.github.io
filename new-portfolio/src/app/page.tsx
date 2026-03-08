@@ -8,6 +8,7 @@ import { Projects } from "@/components/Projects";
 import { Architecture } from "@/components/Architecture";
 import { Sandbox } from "@/components/Sandbox";
 import { Publications } from "@/components/Publications";
+import { ResumeTailor } from "@/components/ResumeTailor";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -33,6 +34,7 @@ export default function Home() {
         <Architecture />
         <Sandbox />
         <Publications />
+        <ResumeTailor />
         <Contact />
       </main>
       <Footer />

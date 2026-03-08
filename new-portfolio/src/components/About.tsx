@@ -1,12 +1,56 @@
 "use client";
 
+import { useRef, useEffect } from "react";
+import { motion, useSpring, useInView, useMotionValue, useTransform } from "framer-motion";
 import { FadeIn, StaggerContainer, FadeInChild } from "./AnimatedSection";
 import { SpotlightCard } from "./SpotlightCard";
 import { SectionHeader } from "./SectionHeader";
 import { TextReveal } from "./TextReveal";
 import { education } from "@/lib/data";
 
+// ─── Stats data ─────────────────────────────────────────────────────────────
+const stats = [
+  { value: 9500, suffix: "+", label: "Knowledge Docs" },
+  { value: 82, suffix: "%", label: "User Approval" },
+  { value: 35, suffix: "x", label: "Query Speedup" },
+  { value: 26453, suffix: "", label: "Records Processed" },
+];
+
+function StatCounter({ value, suffix, label, started }: {
+  value: number;
+  suffix: string;
+  label: string;
+  started: boolean;
+}) {
+  const motionVal = useSpring(0, { duration: 2000, bounce: 0 });
+  const rounded = useTransform(motionVal, (v) => `${Math.floor(v).toLocaleString()}${suffix}`);
+  const displayRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (started) motionVal.set(value);
+  }, [started, value, motionVal]);
+
+  // Update DOM directly — no React re-renders
+  useEffect(() => {
+    return rounded.on("change", (v) => {
+      if (displayRef.current) displayRef.current.textContent = v;
+    });
+  }, [rounded]);
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span ref={displayRef} className="text-2xl font-bold text-heading tabular-nums tracking-tight">
+        0{suffix}
+      </span>
+      <span className="text-xs text-dimmed">{label}</span>
+    </div>
+  );
+}
+
 export function About() {
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
+
   return (
     <section id="about" className="relative py-32 px-6">
       <div className="mx-auto max-w-5xl">
@@ -17,14 +61,14 @@ export function About() {
         <div className="grid gap-12 lg:grid-cols-5">
           <FadeIn className="lg:col-span-3">
             <TextReveal
-              text="I am a full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale."
+              text="I build things that think. From an AI campus assistant handling 9,500+ knowledge docs to autonomous city simulations where agents develop corruption on their own — I'm drawn to the intersection of systems engineering and intelligence."
               className="mb-6"
             />
             <p className="text-base leading-relaxed text-muted">
-              Currently pursuing my M.S. in Computer Science at the University of Kansas,
-              I have a proven track record of creating impactful applications, from an
-              AI-powered campus assistant to real-time market data services. My focus is
-              on backend engineering and AI integration within high-growth teams.
+              Currently doing my M.S. in Computer Science at the University of Kansas,
+              I&apos;ve shipped production code across startups, research labs, and open-source.
+              My work spans backend systems, AI pipelines, and full-stack applications —
+              always with a bias toward building things that actually get used.
             </p>
           </FadeIn>
 
@@ -51,6 +95,20 @@ export function About() {
             ))}
           </StaggerContainer>
         </div>
+
+        {/* ─── Counting stats bar ─── */}
+        <motion.div
+          ref={statsRef}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-16 grid grid-cols-2 gap-6 rounded-2xl border border-card-border bg-card-bg p-6 sm:grid-cols-4 sm:gap-0 sm:divide-x sm:divide-card-border"
+        >
+          {stats.map((stat) => (
+            <StatCounter key={stat.label} {...stat} started={statsInView} />
+          ))}
+        </motion.div>
       </div>
     </section>
   );
