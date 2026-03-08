@@ -494,9 +494,9 @@ export function Hero() {
         >
           <span className="text-xs tracking-widest text-dimmed uppercase">Scroll</span>
           <motion.div
-            animate={{ height: [16, 32, 16] }}
+            animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px bg-gradient-to-b from-dimmed to-transparent"
+            className="w-px h-8 bg-gradient-to-b from-dimmed to-transparent"
           />
         </motion.div>
       </div>
