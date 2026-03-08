@@ -10,6 +10,7 @@ interface SectionHeaderProps {
 export function SectionHeader({ number, title }: SectionHeaderProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [stuck, setStuck] = useState(false);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -17,7 +18,6 @@ export function SectionHeader({ number, title }: SectionHeaderProps) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When the sentinel is not intersecting, the header is stuck
         setStuck(!entry.isIntersecting);
       },
       { threshold: 1, rootMargin: "-65px 0px 0px 0px" }
@@ -27,9 +27,27 @@ export function SectionHeader({ number, title }: SectionHeaderProps) {
     return () => observer.disconnect();
   }, []);
 
+  // One-shot reveal for the line
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || revealed) return;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealed(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [revealed]);
+
   return (
     <>
-      {/* Sentinel element to detect when header becomes sticky */}
       <div ref={ref} className="h-0 w-full" />
       <div
         className={`sticky top-16 z-30 mb-16 flex items-center gap-4 py-4 transition-all duration-300 ${
@@ -42,7 +60,15 @@ export function SectionHeader({ number, title }: SectionHeaderProps) {
         <h2 className="text-3xl font-bold tracking-tight text-heading sm:text-4xl">
           {title}
         </h2>
-        <div className="h-px flex-1 bg-gradient-to-r from-card-border to-transparent" />
+        <div className="flex-1 overflow-hidden">
+          <div
+            className="h-px origin-left bg-gradient-to-r from-accent/40 via-card-border to-transparent transition-transform duration-700 ease-out"
+            style={{
+              transform: revealed ? "scaleX(1)" : "scaleX(0)",
+              transitionDelay: revealed ? "0.3s" : "0s",
+            }}
+          />
+        </div>
       </div>
     </>
   );

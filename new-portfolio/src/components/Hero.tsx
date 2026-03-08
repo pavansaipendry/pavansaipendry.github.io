@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useInView, animate } from "framer-motion";
+import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { siteConfig } from "@/lib/data";
 import { HeroGrid } from "./HeroGrid";
 import { skills, experiences, projects, publications } from "@/lib/data";
@@ -13,34 +13,30 @@ const stats = [
   { value: 82, suffix: "%", label: "BabyJay Approval" },
 ];
 
-function formatNumber(n: number): string {
-  if (n >= 1000) {
-    return n.toLocaleString();
-  }
-  return n.toString();
-}
-
 function StatCounter({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true });
-  const [display, setDisplay] = useState("0");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const displayRef = useRef<HTMLSpanElement>(null);
+  const inView = useInView(containerRef, { once: true });
+  const motionVal = useSpring(0, { duration: 2000, bounce: 0 });
+  const formatted = useTransform(motionVal, (v) => {
+    const n = Math.floor(v);
+    return `${n >= 1000 ? n.toLocaleString() : n}${suffix}`;
+  });
 
   useEffect(() => {
-    if (!isInView) return;
-    const controls = animate(0, value, {
-      duration: 2,
-      ease: [0.16, 1, 0.3, 1] as const,
-      onUpdate(v) {
-        setDisplay(formatNumber(Math.round(v)));
-      },
+    if (inView) motionVal.set(value);
+  }, [inView, value, motionVal]);
+
+  useEffect(() => {
+    return formatted.on("change", (v) => {
+      if (displayRef.current) displayRef.current.textContent = v;
     });
-    return () => controls.stop();
-  }, [isInView, value]);
+  }, [formatted]);
 
   return (
-    <div className="flex flex-col items-center gap-1 rounded-lg border border-card-border bg-card-bg px-5 py-4">
-      <span ref={ref} className="text-2xl font-bold text-heading sm:text-3xl">
-        {display}{suffix}
+    <div ref={containerRef} className="flex flex-col items-center gap-1 rounded-lg border border-card-border bg-card-bg px-5 py-4">
+      <span ref={displayRef} className="text-2xl font-bold text-heading sm:text-3xl">
+        0{suffix}
       </span>
       <span className="text-xs text-dimmed">{label}</span>
     </div>
