@@ -1,23 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Check on load
-    if (localStorage.getItem('psr-theme') === 'cyan') {
-      document.body.classList.add('theme-cyan');
-    }
+  // Check LocalStorage for theme on load
+  const currentTheme = localStorage.getItem('psr-theme');
+  if (currentTheme === 'light') {
+    document.body.classList.add('theme-light');
+  }
 
-  /* ─── Accent Theme Toggle ─── */
-  const accentToggle = document.getElementById('accentToggle');
+  /* ─── Light/Dark Theme Toggle ─── */
+  const themeToggle = document.getElementById('themeToggle');
   
-  accentToggle.addEventListener('click', () => {
-    document.body.classList.toggle('theme-cyan');
-    
-    // Optional: Save preference to localStorage so it persists on reload
-    if(document.body.classList.contains('theme-cyan')) {
-      localStorage.setItem('psr-theme', 'cyan');
-    } else {
-      localStorage.setItem('psr-theme', 'yellow');
-    }
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('theme-light');
+      
+      if(document.body.classList.contains('theme-light')) {
+        localStorage.setItem('psr-theme', 'light');
+      } else {
+        localStorage.setItem('psr-theme', 'dark');
+      }
+      
+      // Re-initialize canvas to match theme colors if it exists
+      if(typeof initCanvas === 'function') {
+        initCanvas();
+      }
+    });
+  }
+
+  // ... keep the rest of your Mobile Navigation and Scroll Animations exactly as they were ...
 
   /* ─── Mobile Navigation ─── */
   const navToggle = document.getElementById('navToggle');
