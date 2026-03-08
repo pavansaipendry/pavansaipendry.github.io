@@ -1,15 +1,21 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, useEffect, useCallback, FormEvent } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn } from "./AnimatedSection";
 import { SectionHeader } from "./SectionHeader";
 import { siteConfig } from "@/lib/data";
 
 interface Message {
-  from: "user" | "bot";
-  name: string;
-  text: string;
+  role: "user" | "assistant";
+  content: string;
 }
+
+const STARTERS = [
+  "Hey! Tell me about yourself",
+  "Are you open to opportunities?",
+  "What's the best way to reach you?",
+];
 
 const contactLinks = [
   {
@@ -43,62 +49,157 @@ const contactLinks = [
     ),
     external: true,
   },
-  {
-    label: "Resume",
-    href: "#contact",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
-      </svg>
-    ),
-  },
 ];
 
+function RenderMarkdown({ text }: { text: string }) {
+  return (
+    <span>
+      {text.split("\n").map((line, li) => {
+        if (line.startsWith("- ") || line.startsWith("• ")) {
+          const parts = line.slice(2).split(/(\*\*.*?\*\*)/g);
+          return (
+            <span key={li} className="flex gap-1.5 mt-1">
+              <span className="text-accent shrink-0">&#x2022;</span>
+              <span>
+                {parts.map((p, pi) =>
+                  p.startsWith("**") && p.endsWith("**")
+                    ? <strong key={pi} className="font-semibold text-accent">{p.slice(2, -2)}</strong>
+                    : <span key={pi}>{p}</span>
+                )}
+              </span>
+            </span>
+          );
+        }
+        const parts = line.split(/(\*\*.*?\*\*)/g);
+        return (
+          <span key={li}>
+            {li > 0 && line === "" ? <br /> : null}
+            {parts.map((p, pi) =>
+              p.startsWith("**") && p.endsWith("**")
+                ? <strong key={pi} className="font-semibold text-accent">{p.slice(2, -2)}</strong>
+                : <span key={pi}>{p}</span>
+            )}
+            {li < text.split("\n").length - 1 && line !== "" ? " " : null}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 export function Contact() {
-  const [messages, setMessages] = useState<Message[]>([
-    { from: "bot", name: "Pavan", text: "Hey! Thanks for visiting my portfolio." },
-    { from: "bot", name: "Pavan", text: "I'm currently open to software engineering and AI/ML opportunities. Feel free to reach out!" },
-  ]);
-  const [sending, setSending] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [formSent, setFormSent] = useState(false);
+  const [formSending, setFormSending] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const name = formData.get("name") as string;
-    const message = formData.get("message") as string;
-    if (!name || !message) return;
-
-    setMessages((prev) => [...prev, { from: "user", name, text: message }]);
-    setSending(true);
-
-    try {
-      const res = await fetch(form.action, {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
-      });
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: "bot",
-          name: "Pavan",
-          text: res.ok
-            ? "Thanks for reaching out! I'll get back to you soon."
-            : "Something went wrong. Please try emailing me directly.",
-        },
-      ]);
-      if (res.ok) form.reset();
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { from: "bot", name: "Pavan", text: "Something went wrong. Please try emailing me directly." },
-      ]);
+  // Auto-scroll to bottom
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-    setSending(false);
-  }
+  }, [messages, loading]);
+
+  const send = useCallback(
+    async (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed || loading) return;
+
+      const userMsg: Message = { role: "user", content: trimmed };
+      const currentHistory = [...messages];
+      setMessages((prev) => [...prev, userMsg]);
+      setInput("");
+      setLoading(true);
+
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: trimmed,
+            history: currentHistory,
+          }),
+        });
+
+        if (!res.ok || !res.body) {
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1] = {
+              role: "assistant",
+              content: "Something went wrong on my end. Try again in a bit!",
+            };
+            return updated;
+          });
+          setLoading(false);
+          return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n\n");
+          buffer = lines.pop() || "";
+
+          for (const line of lines) {
+            const cleaned = line.replace(/^data: /, "");
+            if (cleaned === "[DONE]") break;
+            try {
+              const parsed = JSON.parse(cleaned);
+              if (parsed.error) {
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = {
+                    role: "assistant",
+                    content: "Something went wrong.",
+                  };
+                  return updated;
+                });
+                setLoading(false);
+                return;
+              }
+              if (parsed.text) {
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  const last = updated[updated.length - 1];
+                  updated[updated.length - 1] = {
+                    ...last,
+                    content: last.content + parsed.text,
+                  };
+                  return updated;
+                });
+              }
+            } catch {
+              // skip malformed chunks
+            }
+          }
+        }
+      } catch {
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: "assistant",
+            content: "Couldn't connect. Try again!",
+          };
+          return updated;
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [loading, messages]
+  );
 
   return (
     <section id="contact" className="relative py-32 px-6">
@@ -111,42 +212,104 @@ export function Contact() {
           <div className="overflow-hidden rounded-xl border border-card-border bg-code-bg">
             {/* Chat header */}
             <div className="flex items-center justify-between border-b border-card-border px-5 py-3">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
-                </span>
-                <span className="text-sm font-medium text-heading">Pavan Sai Reddy</span>
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent/10 text-accent text-sm font-semibold">
+                    P
+                  </div>
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-green-400 border-2 border-code-bg" />
+                  </span>
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-heading">Pavan Sai Reddy</span>
+                  <p className="text-[10px] text-dimmed">AI-powered — usually replies instantly</p>
+                </div>
               </div>
               <span className="text-xs text-green-500">online</span>
             </div>
 
             {/* Messages */}
-            <div className="max-h-80 overflow-y-auto p-5 space-y-4">
-              {messages.map((msg, i) => (
-                <div key={i} className={`flex gap-3 ${msg.from === "user" ? "flex-row-reverse" : ""}`}>
-                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
-                    msg.from === "bot"
-                      ? "bg-accent-soft text-accent"
-                      : "bg-card-bg text-muted border border-card-border"
-                  }`}>
-                    {msg.from === "bot" ? "P" : msg.name[0]?.toUpperCase()}
+            <div ref={scrollRef} data-lenis-prevent className="h-96 overflow-y-auto p-5 space-y-4">
+              {/* Empty state with starters */}
+              {messages.length === 0 && !loading && (
+                <div className="flex h-full flex-col items-center justify-center gap-4 text-center px-2">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent text-2xl font-bold">
+                    P
                   </div>
-                  <div className={`max-w-[75%] ${msg.from === "user" ? "text-right" : ""}`}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-medium text-foreground">{msg.from === "bot" ? "Pavan" : msg.name}</span>
-                      <span className="text-[10px] text-dimmed">now</span>
-                    </div>
-                    <p className={`rounded-lg px-3 py-2 text-sm leading-relaxed inline-block ${
-                      msg.from === "user"
-                        ? "bg-accent-soft text-accent"
-                        : "bg-card-bg text-foreground border border-card-border"
-                    }`}>
-                      {msg.text}
+                  <div>
+                    <p className="text-sm font-medium text-heading">Hey, I&apos;m Pavan!</p>
+                    <p className="text-xs text-muted mt-1 leading-relaxed">
+                      Chat with me — ask about my work, projects, or just say hi.
                     </p>
                   </div>
+                  <div className="flex flex-col gap-2 w-full max-w-xs">
+                    {STARTERS.map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => send(s)}
+                        className="group flex items-center gap-2 rounded-xl border border-card-border bg-card-bg px-4 py-2.5 text-xs text-muted text-left transition-all hover:border-accent/30 hover:text-heading hover:bg-accent/5"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-dimmed group-hover:text-accent shrink-0 transition-colors">
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {messages.map((msg, i) => {
+                if (msg.role === "assistant" && msg.content === "" && loading) return null;
+                const isStreaming = loading && i === messages.length - 1 && msg.role === "assistant";
+                return (
+                  <div key={i} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
+                    {msg.role === "assistant" && (
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent text-xs font-semibold mt-0.5">
+                        P
+                      </div>
+                    )}
+                    <div className={`max-w-[75%] ${msg.role === "user" ? "text-right" : ""}`}>
+                      {msg.role === "assistant" && (
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-medium text-foreground">Pavan</span>
+                          <span className="text-[10px] text-dimmed">now</span>
+                        </div>
+                      )}
+                      <p className={`rounded-lg px-3 py-2 text-sm leading-relaxed inline-block ${
+                        msg.role === "user"
+                          ? "bg-accent text-white rounded-br-sm"
+                          : "bg-card-bg text-foreground border border-card-border rounded-bl-sm"
+                      }`}>
+                        {msg.role === "user" ? msg.content : <RenderMarkdown text={msg.content} />}
+                        {isStreaming && (
+                          <motion.span
+                            animate={{ opacity: [1, 0] }}
+                            transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+                            className="inline-block w-0.5 h-3.5 bg-accent ml-0.5 align-text-bottom"
+                          />
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Loading dots */}
+              {loading && messages.length > 0 && messages[messages.length - 1].content === "" && (
+                <div className="flex gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent text-xs font-semibold">
+                    P
+                  </div>
+                  <div className="flex items-center gap-1.5 rounded-lg rounded-bl-sm border border-card-border bg-card-bg px-4 py-3">
+                    <span className="h-1.5 w-1.5 rounded-full bg-dimmed animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-dimmed animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-dimmed animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Quick links */}
@@ -165,57 +328,119 @@ export function Contact() {
               ))}
             </div>
 
-            {/* Compose */}
-            <form
-              action={`https://formsubmit.co/${siteConfig.email}`}
-              method="POST"
-              onSubmit={handleSubmit}
-              className="border-t border-card-border p-4"
-            >
-              <input type="hidden" name="_subject" value="New message from portfolio" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="text" name="_honey" style={{ display: "none" }} />
+            {/* Leave a message form */}
+            <AnimatePresence>
+              {showForm && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden border-t border-card-border"
+                >
+                  {formSent ? (
+                    <div className="px-5 py-4 text-center">
+                      <p className="text-sm text-heading font-medium">Message sent!</p>
+                      <p className="text-xs text-muted mt-1">I&apos;ll get back to you soon.</p>
+                    </div>
+                  ) : (
+                    <form
+                      action={`https://formsubmit.co/${siteConfig.email}`}
+                      method="POST"
+                      onSubmit={async (e: FormEvent<HTMLFormElement>) => {
+                        e.preventDefault();
+                        setFormSending(true);
+                        const form = e.currentTarget;
+                        try {
+                          const res = await fetch(form.action, {
+                            method: "POST",
+                            body: new FormData(form),
+                            headers: { Accept: "application/json" },
+                          });
+                          if (res.ok) {
+                            setFormSent(true);
+                            setMessages((prev) => [
+                              ...prev,
+                              { role: "assistant", content: "Got your message! I'll get back to you via email soon." },
+                            ]);
+                          }
+                        } catch { /* silent */ }
+                        setFormSending(false);
+                      }}
+                      className="px-5 py-3 space-y-2"
+                    >
+                      <input type="hidden" name="_subject" value="New message from portfolio" />
+                      <input type="hidden" name="_captcha" value="false" />
+                      <input type="hidden" name="_template" value="table" />
+                      <input type="text" name="_honey" style={{ display: "none" }} />
+                      <div className="flex gap-2">
+                        <input
+                          type="text" name="name" placeholder="Your name" required autoComplete="name"
+                          className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
+                        />
+                        <input
+                          type="email" name="email" placeholder="Your email" required autoComplete="email"
+                          className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
+                        />
+                      </div>
+                      <textarea
+                        name="message" placeholder="Your message..." required rows={3}
+                        className="w-full rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20 resize-none"
+                      />
+                      <button
+                        type="submit" disabled={formSending}
+                        className="w-full rounded-lg bg-accent py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+                      >
+                        {formSending ? "Sending..." : "Send message"}
+                      </button>
+                    </form>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-              <div className="mb-3 flex gap-2">
+            {/* Input bar */}
+            <div className="flex items-center gap-2 border-t border-card-border px-4 py-3">
+              <button
+                type="button"
+                onClick={() => { setShowForm(!showForm); setFormSent(false); }}
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                  showForm ? "bg-accent/20 text-accent" : "text-dimmed hover:text-muted hover:bg-card-bg"
+                }`}
+                title="Leave a message via email"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </button>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  send(input);
+                }}
+                className="flex flex-1 items-center gap-2"
+              >
                 <input
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  autoComplete="name"
-                  className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your email"
-                  required
-                  autoComplete="email"
-                  className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
-                />
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  name="message"
-                  placeholder="Type a message..."
-                  required
-                  autoComplete="off"
-                  className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Say something..."
+                  maxLength={500}
+                  className="flex-1 bg-transparent text-sm text-heading placeholder:text-dimmed outline-none"
                 />
                 <button
                   type="submit"
-                  disabled={sending}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-white transition-colors hover:bg-accent/80 disabled:opacity-50"
-                  aria-label="Send message"
+                  disabled={loading || !input.trim()}
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-white transition-colors hover:bg-accent/80 disabled:opacity-30"
+                  aria-label="Send"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                   </svg>
                 </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </FadeIn>
       </div>

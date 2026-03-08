@@ -84,8 +84,11 @@ export function Skills() {
     const er = el.getBoundingClientRect();
     return {
       cx: er.left - cr.left + er.width / 2,
+      left: er.left - cr.left,
+      right: er.left - cr.left + er.width,
       top: er.top - cr.top,
       bottom: er.top - cr.top + er.height,
+      cy: er.top - cr.top + er.height / 2,
     };
   }, []);
 
@@ -101,25 +104,40 @@ export function Skills() {
     const chipPos = getRelPos(chip, container);
     const newTraces: TracePath[] = [];
 
-    // Top cards → chip (sharp 90° corners)
+    const R = 8; // tight corner radius — nearly 90° with a subtle rounding
+
+    // Helper: build a path with two slightly rounded corners
+    function roundedTrace(sx: number, sy: number, ex: number, ey: number, midY: number): string {
+      if (Math.abs(ex - sx) < 2) {
+        return `M ${sx} ${sy} L ${sx} ${ey}`;
+      }
+      const dirX = ex > sx ? 1 : -1;
+      const dirY1 = midY > sy ? 1 : -1;
+      const dirY2 = ey > midY ? 1 : -1;
+      const r = Math.min(R, Math.abs(ex - sx) / 2, Math.abs(midY - sy) / 2, Math.abs(ey - midY) / 2);
+
+      return [
+        `M ${sx} ${sy}`,
+        `L ${sx} ${midY - dirY1 * r}`,
+        `Q ${sx} ${midY} ${sx + dirX * r} ${midY}`,
+        `L ${ex - dirX * r} ${midY}`,
+        `Q ${ex} ${midY} ${ex} ${midY + dirY2 * r}`,
+        `L ${ex} ${ey}`,
+      ].join(" ");
+    }
+
+    // Top cards → chip (rounded corners)
     topRefs.current.forEach((block, i) => {
       if (!block) return;
       const bp = getRelPos(block, container);
-      const sx = bp.cx + (i - 1) * 12;
+      const sx = bp.cx;
       const sy = bp.bottom;
       const ex = chipPos.cx + (i - 1) * 16;
       const ey = chipPos.top;
-      const midY = sy + (ey - sy) * 0.45;
-
-      let d: string;
-      if (Math.abs(ex - sx) < 2) {
-        d = `M ${sx} ${sy} L ${sx} ${ey}`;
-      } else {
-        d = `M ${sx} ${sy} L ${sx} ${midY} L ${ex} ${midY} L ${ex} ${ey}`;
-      }
+      const midY = sy + (ey - sy) * 0.5;
 
       newTraces.push({
-        d,
+        d: roundedTrace(sx, sy, ex, ey, midY),
         beamGradientIndex: i,
         beamDuration: 2.5 + i * 0.4,
         beamDelay: i * 0.8,
@@ -129,25 +147,18 @@ export function Skills() {
       });
     });
 
-    // Bottom cards → chip (beams travel upward, sharp 90° corners)
+    // Bottom cards → chip (beams travel upward, rounded corners)
     bottomRefs.current.forEach((block, i) => {
       if (!block) return;
       const bp = getRelPos(block, container);
-      const sx = bp.cx + (i - 1) * 12;
+      const sx = bp.cx;
       const sy = bp.top;
       const ex = chipPos.cx + (i - 1) * 16;
       const ey = chipPos.bottom;
-      const midY = ey + (sy - ey) * 0.45;
-
-      let d: string;
-      if (Math.abs(ex - sx) < 2) {
-        d = `M ${sx} ${sy} L ${sx} ${ey}`;
-      } else {
-        d = `M ${sx} ${sy} L ${sx} ${midY} L ${ex} ${midY} L ${ex} ${ey}`;
-      }
+      const midY = ey + (sy - ey) * 0.5;
 
       newTraces.push({
-        d,
+        d: roundedTrace(sx, sy, ex, ey, midY),
         beamGradientIndex: i + 3,
         beamDuration: 2.5 + i * 0.4,
         beamDelay: 1.5 + i * 0.8,
@@ -206,6 +217,8 @@ export function Skills() {
           if (entry.isIntersecting) {
             setIsVisible(true);
             buildPaths();
+            // Rebuild after card entrance animations finish
+            setTimeout(buildPaths, 700);
           }
         });
       },
@@ -257,11 +270,18 @@ export function Skills() {
                 })}
               </defs>
 
+              {/* Glow filter for trace bloom */}
+              <filter id="trace-glow">
+                <feGaussianBlur stdDeviation="1.5" />
+              </filter>
+
               {/* ── Main connection traces ─────────────────────────────── */}
               {traces.map((trace, i) => {
                 const colors = BEAM_COLORS[trace.beamGradientIndex % BEAM_COLORS.length];
                 return (
                   <g key={`trace-${i}`}>
+                    {/* Bloom/glow layer — wider, blurred stroke for soft halo */}
+                    <path d={trace.d} stroke="currentColor" strokeOpacity="0.06" strokeWidth="3" filter="url(#trace-glow)" className="text-foreground" />
                     {/* Static trace line */}
                     <path d={trace.d} stroke="currentColor" strokeOpacity="0.1" strokeWidth="1" className="text-foreground" />
                     {/* Start dot */}

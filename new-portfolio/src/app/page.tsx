@@ -14,15 +14,12 @@ import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CommandPalette } from "@/components/CommandPalette";
 import { PageLoader } from "@/components/PageLoader";
-import { AskMe } from "@/components/AskMe";
-
 export default function Home() {
   return (
     <>
       <PageLoader />
       <SmoothScroll />
       <CommandPalette />
-      <AskMe />
       <Navbar />
       <main className="relative z-10">
         <Hero />

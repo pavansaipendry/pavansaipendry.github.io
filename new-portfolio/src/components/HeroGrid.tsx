@@ -2,146 +2,161 @@
 
 import { motion } from "framer-motion";
 
-const draw = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: (delay: number) => ({
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: { duration: 1.5, delay, ease: "easeInOut" as const },
-      opacity: { duration: 0.3, delay },
-    },
-  }),
-};
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: (delay: number) => ({
-    opacity: 1,
-    transition: { duration: 0.8, delay },
-  }),
-};
-
 export function HeroGrid() {
-  // Grid config
-  const cols = 6;
-  const rows = 5;
-  const cellW = 200;
-  const cellH = 160;
-  const r = 12; // corner radius
-  const w = cols * cellW;
-  const h = rows * cellH;
-
-  // Build vertical lines with rounded corners at intersections
-  const verticalLines: string[] = [];
-  for (let c = 0; c <= cols; c++) {
-    const x = c * cellW;
-    verticalLines.push(`M ${x} 0 L ${x} ${h}`);
-  }
-
-  // Build horizontal lines
-  const horizontalLines: string[] = [];
-  for (let rw = 0; rw <= rows; rw++) {
-    const y = rw * cellH;
-    horizontalLines.push(`M 0 ${y} L ${w} ${y}`);
-  }
-
-  // Corner arcs at select intersections for that Next.js look
-  const corners = [
-    // top-left area
-    { x: 1 * cellW, y: 1 * cellH, quadrant: "tl" },
-    { x: 5 * cellW, y: 1 * cellH, quadrant: "tr" },
-    { x: 1 * cellW, y: 4 * cellH, quadrant: "bl" },
-    { x: 5 * cellW, y: 4 * cellH, quadrant: "br" },
-    // inner
-    { x: 2 * cellW, y: 2 * cellH, quadrant: "tl" },
-    { x: 4 * cellW, y: 2 * cellH, quadrant: "tr" },
-    { x: 2 * cellW, y: 3 * cellH, quadrant: "bl" },
-    { x: 4 * cellW, y: 3 * cellH, quadrant: "br" },
-  ];
-
-  function arcPath(cx: number, cy: number, quadrant: string, radius: number) {
-    switch (quadrant) {
-      case "tl": return `M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx} ${cy - radius}`;
-      case "tr": return `M ${cx} ${cy - radius} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`;
-      case "bl": return `M ${cx} ${cy + radius} A ${radius} ${radius} 0 0 1 ${cx - radius} ${cy}`;
-      case "br": return `M ${cx + radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx} ${cy + radius}`;
-      default: return "";
-    }
-  }
+  const cellSize = 80;
 
   return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
-      <motion.svg
-        width={w}
-        height={h}
-        viewBox={`0 0 ${w} ${h}`}
-        className="absolute"
-        style={{ maxWidth: "100%", maxHeight: "100%" }}
-        initial="hidden"
-        animate="visible"
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* ── Dashed grid via SVG pattern ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute inset-0"
       >
-        {/* Vertical lines */}
-        {verticalLines.map((d, i) => (
-          <motion.path
-            key={`v-${i}`}
-            d={d}
-            stroke="var(--card-border)"
-            strokeWidth="1"
-            fill="none"
-            variants={draw}
-            custom={i * 0.08}
-          />
-        ))}
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            {/* Bloom/glow layer — wider, blurred strokes for soft halo */}
+            <filter id="grid-glow">
+              <feGaussianBlur stdDeviation="1.5" />
+            </filter>
+            <pattern
+              id="dashed-grid-glow"
+              width={cellSize}
+              height={cellSize}
+              patternUnits="userSpaceOnUse"
+            >
+              <line
+                x1="0" y1={cellSize} x2={cellSize} y2={cellSize}
+                stroke="currentColor" strokeOpacity="0.06" strokeWidth="3"
+                strokeDasharray="3 3"
+              />
+              <line
+                x1={cellSize} y1="0" x2={cellSize} y2={cellSize}
+                stroke="currentColor" strokeOpacity="0.06" strokeWidth="3"
+                strokeDasharray="3 3"
+              />
+            </pattern>
+            {/* Crisp line layer */}
+            <pattern
+              id="dashed-grid"
+              width={cellSize}
+              height={cellSize}
+              patternUnits="userSpaceOnUse"
+            >
+              <line
+                x1="0" y1={cellSize} x2={cellSize} y2={cellSize}
+                stroke="currentColor" strokeOpacity="0.1" strokeWidth="1"
+                strokeDasharray="3 3"
+              />
+              <line
+                x1={cellSize} y1="0" x2={cellSize} y2={cellSize}
+                stroke="currentColor" strokeOpacity="0.1" strokeWidth="1"
+                strokeDasharray="3 3"
+              />
+            </pattern>
+          </defs>
+          {/* Soft glow behind */}
+          <rect width="100%" height="100%" fill="url(#dashed-grid-glow)" filter="url(#grid-glow)" className="text-foreground" />
+          {/* Crisp lines on top */}
+          <rect width="100%" height="100%" fill="url(#dashed-grid)" className="text-foreground" />
+        </svg>
+      </motion.div>
 
-        {/* Horizontal lines */}
-        {horizontalLines.map((d, i) => (
-          <motion.path
-            key={`h-${i}`}
-            d={d}
-            stroke="var(--card-border)"
-            strokeWidth="1"
-            fill="none"
-            variants={draw}
-            custom={0.3 + i * 0.08}
-          />
-        ))}
-
-        {/* Corner arcs */}
-        {corners.map((c, i) => (
-          <motion.path
-            key={`c-${i}`}
-            d={arcPath(c.x, c.y, c.quadrant, r * 3)}
-            stroke="var(--card-border-hover)"
-            strokeWidth="1"
-            fill="none"
-            variants={draw}
-            custom={0.8 + i * 0.1}
-          />
-        ))}
-
-        {/* Small filled circles at key intersections */}
+      {/* ── Architectural details: corner arcs + dots + accent beams ── */}
+      <motion.svg
+        viewBox="0 0 1200 800"
+        className="absolute inset-0 h-full w-full"
+        preserveAspectRatio="xMidYMid slice"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        fill="none"
+      >
+        {/* Corner arcs at intersections — nextjs.org style */}
         {[
-          { x: 2 * cellW, y: 1 * cellH },
-          { x: 4 * cellW, y: 1 * cellH },
-          { x: 3 * cellW, y: 2 * cellH },
-          { x: 3 * cellW, y: 3 * cellH },
-          { x: 2 * cellW, y: 4 * cellH },
-          { x: 4 * cellW, y: 4 * cellH },
+          { x: 200, y: 160, q: "tl" },
+          { x: 1000, y: 160, q: "tr" },
+          { x: 200, y: 640, q: "bl" },
+          { x: 1000, y: 640, q: "br" },
+          { x: 400, y: 320, q: "tl" },
+          { x: 800, y: 320, q: "tr" },
+          { x: 400, y: 480, q: "bl" },
+          { x: 800, y: 480, q: "br" },
+        ].map(({ x, y, q }, i) => {
+          const r = 36;
+          let d = "";
+          switch (q) {
+            case "tl": d = `M ${x - r} ${y} A ${r} ${r} 0 0 1 ${x} ${y - r}`; break;
+            case "tr": d = `M ${x} ${y - r} A ${r} ${r} 0 0 1 ${x + r} ${y}`; break;
+            case "bl": d = `M ${x} ${y + r} A ${r} ${r} 0 0 1 ${x - r} ${y}`; break;
+            case "br": d = `M ${x + r} ${y} A ${r} ${r} 0 0 1 ${x} ${y + r}`; break;
+          }
+          return (
+            <path
+              key={`arc-${i}`}
+              d={d}
+              stroke="currentColor"
+              strokeOpacity="0.12"
+              strokeWidth="1"
+              strokeDasharray="3 3"
+              fill="none"
+              className="text-foreground"
+            />
+          );
+        })}
+
+        {/* Endpoint dots */}
+        {[
+          { x: 400, y: 160 },
+          { x: 600, y: 160 },
+          { x: 800, y: 160 },
+          { x: 200, y: 400 },
+          { x: 600, y: 400 },
+          { x: 1000, y: 400 },
+          { x: 400, y: 640 },
+          { x: 800, y: 640 },
         ].map((p, i) => (
-          <motion.circle
-            key={`dot-${i}`}
-            cx={p.x}
-            cy={p.y}
-            r={2}
-            fill="var(--dimmed)"
-            variants={fadeIn}
-            custom={1.2 + i * 0.1}
-          />
+          <g key={`dot-${i}`}>
+            <circle cx={p.x} cy={p.y} r="3.5" fill="var(--background)" />
+            <circle cx={p.x} cy={p.y} r="3" stroke="currentColor" strokeOpacity="0.12" strokeWidth="1" fill="none" className="text-foreground" />
+          </g>
         ))}
+
+        {/* Colored accent beams */}
+        <defs>
+          <linearGradient id="hero-beam-1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FF4A81" />
+            <stop offset="22%" stopColor="#DF6CF7" />
+            <stop offset="100%" stopColor="#0196FF" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="hero-beam-2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#FF7432" />
+            <stop offset="22%" stopColor="#F7CC4B" />
+            <stop offset="100%" stopColor="#F7CC4B" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="hero-beam-3" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stopColor="#2EB9DF" />
+            <stop offset="22%" stopColor="#61DAFB" />
+            <stop offset="100%" stopColor="#61DAFB" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        <motion.rect x="599" y="80" width="2" height="60" rx="1" fill="url(#hero-beam-3)"
+          initial={{ opacity: 0, scaleY: 0 }} animate={{ opacity: 1, scaleY: 1 }}
+          transition={{ duration: 0.8, delay: 1.0 }} style={{ transformOrigin: "600px 110px" }}
+        />
+        <motion.rect x="680" y="399" width="80" height="2" rx="1" fill="url(#hero-beam-2)"
+          initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 1.2 }} style={{ transformOrigin: "720px 400px" }}
+        />
+        <motion.rect x="399" y="240" width="2" height="50" rx="1" fill="url(#hero-beam-1)"
+          initial={{ opacity: 0, scaleY: 0 }} animate={{ opacity: 1, scaleY: 1 }}
+          transition={{ duration: 0.8, delay: 1.4 }} style={{ transformOrigin: "400px 265px" }}
+        />
       </motion.svg>
 
-      {/* Fade edges so it blends into background */}
+      {/* ── Edge fades ── */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
       <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
     </div>
