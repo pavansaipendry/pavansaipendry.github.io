@@ -17,6 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230a0a0f'/><text x='32' y='43' text-anchor='middle' font-family='monospace' font-weight='700' font-size='22' fill='%23c8ff00' letter-spacing='1'>PSR</text></svg>">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
 </head>
 <body>
   <!-- Page Loader -->
@@ -30,6 +31,18 @@
 
   <!-- Grain overlay -->
   <div class="grain-overlay"></div>
+
+  <!-- Page-wide dotted grid -->
+  <div class="page-grid" aria-hidden="true">
+    <div class="pgrid-v pv1"></div>
+    <div class="pgrid-v pv2"></div>
+    <div class="pgrid-v pv3"></div>
+    <div class="pgrid-v pv4"></div>
+    <div class="pgrid-v pv5"></div>
+    <div class="pgrid-h ph1"></div>
+    <div class="pgrid-h ph2"></div>
+    <div class="pgrid-h ph3"></div>
+  </div>
 
   <!-- Navigation -->
   <header>
@@ -56,11 +69,6 @@
 
   <!-- Hero Section -->
   <section id="home" class="hero">
-    <div class="hero-grid-bg" aria-hidden="true">
-      <div class="grid-line-v grid-line-v1"></div>
-      <div class="grid-line-v grid-line-v2"></div>
-      <div class="grid-line-h grid-line-h1"></div>
-    </div>
     <div class="hero-inner">
       <div class="hero-content">
         <div class="hero-label animate-on-scroll">
@@ -82,26 +90,26 @@
         </div>
       </div>
       <div class="hero-visual animate-on-scroll">
-        <div class="mockup-frame">
-          <div class="mockup-browser">
-            <div class="mockup-chrome">
-              <div class="mockup-dots"><span></span><span></span><span></span></div>
-              <div class="mockup-url"></div>
+        <div class="editor-frame">
+          <div class="editor-window">
+            <div class="editor-tab-bar">
+              <div class="editor-dots"><span></span><span></span><span></span></div>
+              <div class="editor-tab active">portfolio.tsx</div>
+              <div class="editor-tab">config.ts</div>
             </div>
-            <div class="mockup-body">
-              <div class="mockup-nav-row">
-                <div class="mockup-logo">&#9650;</div>
-                <div class="mockup-nav-items"><span></span><span></span><span class="wide"></span></div>
-                <div class="mockup-nav-btn"></div>
-              </div>
-              <div class="mockup-main">
-                <div class="mockup-sidebar">
-                  <span></span><span class="short"></span><span></span><span class="short"></span>
-                </div>
-                <div class="mockup-cards">
-                  <div></div><div></div><div></div><div></div>
-                </div>
-              </div>
+            <div class="editor-body">
+              <div class="code-line"><span class="ln">1</span><span class="ck">const</span> <span class="cv">dev</span> <span class="co">=</span> <span class="cb">{</span></div>
+              <div class="code-line"><span class="ln">2</span>  <span class="cp">name</span><span class="co">:</span> <span class="cs">"Pavan Sai"</span><span class="co">,</span></div>
+              <div class="code-line"><span class="ln">3</span>  <span class="cp">role</span><span class="co">:</span> <span class="cs">"Software Engineer"</span><span class="co">,</span></div>
+              <div class="code-line"><span class="ln">4</span>  <span class="cp">stack</span><span class="co">:</span> <span class="cb">[</span><span class="cs">"React"</span><span class="co">,</span> <span class="cs">"Python"</span><span class="co">,</span> <span class="cs">"AI/ML"</span><span class="cb">]</span><span class="co">,</span></div>
+              <div class="code-line"><span class="ln">5</span>  <span class="cp">focus</span><span class="co">:</span> <span class="cs">"autonomous systems"</span><span class="co">,</span></div>
+              <div class="code-line"><span class="ln">6</span>  <span class="cp">status</span><span class="co">:</span> <span class="cs">"building"</span><span class="co">,</span></div>
+              <div class="code-line"><span class="ln">7</span><span class="cb">}</span><span class="co">;</span></div>
+            </div>
+            <div class="editor-status">
+              <span>TypeScript</span>
+              <span>UTF-8</span>
+              <span>Ln 7, Col 3</span>
             </div>
           </div>
         </div>
@@ -159,13 +167,8 @@
       </div>
 
       <div class="skills-constellation animate-on-scroll">
-        <div class="skills-core" id="skillsCore">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
-          <span>My Stack</span>
-        </div>
         <canvas id="skillsCanvas" class="skills-canvas"></canvas>
-        <div class="skills-grid" id="skillsGrid">
-          
+        <div class="skills-row skills-row-top" id="skillsTop">
           <div class="skill-block" data-delay="0">
             <div class="skill-block-header">
               <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
@@ -175,37 +178,55 @@
               <span>Python</span><span>Java</span><span>C++</span><span>JavaScript</span><span>SQL</span><span>Scala</span><span>Kotlin</span><span>Haskell</span>
             </div>
           </div>
-
           <div class="skill-block" data-delay="1">
             <div class="skill-block-header">
               <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-              <h3>Frameworks & Libraries</h3>
+              <h3>Frameworks</h3>
             </div>
             <div class="skill-pills">
-              <span>React.js</span><span>FastAPI</span><span>Flask</span><span>Django</span><span>Pandas</span><span>TensorFlow</span><span>PyTorch</span><span>Keras</span><span>Kafka</span><span>LangChain</span><span>Hugging Face</span><span>BeautifulSoup</span><span>Spring</span>
+              <span>React.js</span><span>FastAPI</span><span>Flask</span><span>Django</span><span>Pandas</span><span>TensorFlow</span><span>PyTorch</span><span>Keras</span><span>Kafka</span><span>LangChain</span><span>Hugging Face</span><span>Spring</span>
             </div>
           </div>
-
           <div class="skill-block" data-delay="2">
             <div class="skill-block-header">
               <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span>
               <h3>Cloud & DevOps</h3>
             </div>
             <div class="skill-pills">
-              <span>AWS</span><span>S3</span><span>Lambda</span><span>EC2</span><span>Snowflake</span><span>Databricks</span><span>Docker</span><span>Kubernetes</span><span>GitHub Actions</span><span>Jenkins</span><span>Vercel</span><span>Render</span>
+              <span>AWS</span><span>S3</span><span>Lambda</span><span>EC2</span><span>Snowflake</span><span>Databricks</span><span>Docker</span><span>Kubernetes</span><span>GitHub Actions</span><span>Jenkins</span><span>Vercel</span>
             </div>
           </div>
+        </div>
 
+        <div class="skills-chip" id="skillsCore">
+          <div class="chip-pins chip-pins-top">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="chip-body">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+            <span>My Stack</span>
+          </div>
+          <div class="chip-pins chip-pins-bottom">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="chip-pins chip-pins-left">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="chip-pins chip-pins-right">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="skills-row skills-row-bottom" id="skillsBottom">
           <div class="skill-block" data-delay="3">
             <div class="skill-block-header">
-              <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></span>
-              <h3>AI/ML Concepts</h3>
+              <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/></svg></span>
+              <h3>AI/ML</h3>
             </div>
             <div class="skill-pills">
-              <span>RAG</span><span>RLHF</span><span>LLMs</span><span>NLP</span><span>Vector Embeddings</span><span>Semantic Search</span><span>Prompt Engineering</span><span>ETL Pipelines</span><span>Query Routing</span>
+              <span>RAG</span><span>RLHF</span><span>LLMs</span><span>NLP</span><span>Vector Embeddings</span><span>Semantic Search</span><span>Prompt Engineering</span><span>ETL Pipelines</span>
             </div>
           </div>
-
           <div class="skill-block" data-delay="4">
             <div class="skill-block-header">
               <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>
@@ -215,17 +236,15 @@
               <span>PostgreSQL</span><span>MongoDB</span><span>Redis</span><span>Supabase</span><span>DynamoDB</span><span>ChromaDB</span><span>SQLite</span>
             </div>
           </div>
-
           <div class="skill-block" data-delay="5">
             <div class="skill-block-header">
               <span class="skill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
               <h3>Tools</h3>
             </div>
             <div class="skill-pills">
-              <span>Power BI</span><span>Tableau</span><span>Postman</span><span>Jupyter Notebook</span><span>Grafana</span><span>Streamlit</span><span>Git</span>
+              <span>Power BI</span><span>Tableau</span><span>Postman</span><span>Jupyter</span><span>Grafana</span><span>Streamlit</span><span>Git</span>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -263,60 +282,6 @@
             Architecting the platform infrastructure, defining the core product vision, and preparing for initial launch.
           </li>
         </ul>
-
-        <div class="piqjob-chat">
-          <div class="chat-header">
-            <div class="chat-header-left">
-              <span class="chat-status-dot"></span>
-              <span class="chat-channel"># questions</span>
-            </div>
-            <span class="chat-online">3 online</span>
-          </div>
-          <div class="chat-messages">
-            <div class="chat-msg">
-              <div class="chat-avatar chat-avatar-bot">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3z" stroke="var(--c-accent)" stroke-width="1.5"/><circle cx="12" cy="5" r="1.5" fill="var(--c-accent)"/><circle cx="4.5" cy="19" r="1.5" fill="var(--c-accent)"/><circle cx="19.5" cy="19" r="1.5" fill="var(--c-accent)"/></svg>
-              </div>
-              <div class="chat-msg-body">
-                <div class="chat-msg-meta"><strong>PiqJob</strong><span class="chat-badge">APP</span><span class="chat-time">23:37</span></div>
-                <p>Hey! Welcome to PiqJob</p>
-              </div>
-            </div>
-            <div class="chat-msg">
-              <div class="chat-avatar chat-avatar-bot">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3z" stroke="var(--c-accent)" stroke-width="1.5"/><circle cx="12" cy="5" r="1.5" fill="var(--c-accent)"/><circle cx="4.5" cy="19" r="1.5" fill="var(--c-accent)"/><circle cx="19.5" cy="19" r="1.5" fill="var(--c-accent)"/></svg>
-              </div>
-              <div class="chat-msg-body">
-                <div class="chat-msg-meta"><strong>PiqJob</strong><span class="chat-badge">APP</span><span class="chat-time">23:37</span></div>
-                <p>Your personal job dashboard — pick the companies you love, choose the roles you want, and we deliver matching jobs straight to you.</p>
-              </div>
-            </div>
-            <div class="chat-msg chat-msg-user">
-              <div class="chat-avatar chat-avatar-you">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </div>
-              <div class="chat-msg-body">
-                <div class="chat-msg-meta"><strong>you</strong><span class="chat-time">23:38</span></div>
-                <p>how does the matching work?</p>
-              </div>
-            </div>
-            <div class="chat-msg">
-              <div class="chat-avatar chat-avatar-bot">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3z" stroke="var(--c-accent)" stroke-width="1.5"/><circle cx="12" cy="5" r="1.5" fill="var(--c-accent)"/><circle cx="4.5" cy="19" r="1.5" fill="var(--c-accent)"/><circle cx="19.5" cy="19" r="1.5" fill="var(--c-accent)"/></svg>
-              </div>
-              <div class="chat-msg-body">
-                <div class="chat-msg-meta"><strong>PiqJob</strong><span class="chat-badge">APP</span><span class="chat-time">23:38</span></div>
-                <p>You select companies + roles, and we pull fresh openings daily. Got questions? Drop them below!</p>
-              </div>
-            </div>
-          </div>
-          <div class="chat-input">
-            <span class="chat-input-text">Ask us anything...</span>
-            <div class="chat-input-send">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-            </div>
-          </div>
-        </div>
 
         <div class="tech-tags">
           <span>Entrepreneurship</span><span>Full-Stack</span><span>Product Design</span><span>Stealth</span>
@@ -614,49 +579,111 @@
   <!-- Contact Section -->
   <section id="contact" class="contact">
     <div class="container">
-      <div class="contact-inner animate-on-scroll">
-        <div class="section-header">
-          <span class="section-number">07</span>
-          <h2>Let's Connect</h2>
-        </div>
-        <p class="contact-desc">Currently open to software engineering and AI/ML opportunities. Let's build something impactful together.</p>
-        <div class="contact-links">
-          <a href="mailto:pavansaipendry2002@gmail.com" class="contact-card">
-            <span class="contact-card-icon">✉</span>
-            <span class="contact-card-label">Email</span>
-            <span class="contact-card-value">pavansaipendry2002@gmail.com</span>
-          </a>
-          <a href="#contact" class="contact-card">
-            <span class="contact-card-icon">📄</span>
-            <span class="contact-card-label">Resume</span>
-            <span class="contact-card-value">Available on request</span>
-          </a>
-          <a href="https://www.linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer" class="contact-card">
-            <span class="contact-card-icon">in</span>
-            <span class="contact-card-label">LinkedIn</span>
-            <span class="contact-card-value">pavansaireddypendry</span>
-          </a>
-          <a href="https://github.com/pavansaipendry" target="_blank" rel="noopener noreferrer" class="contact-card">
-            <span class="contact-card-icon">&lt;/&gt;</span>
-            <span class="contact-card-label">GitHub</span>
-            <span class="contact-card-value">pavansaipendry</span>
-          </a>
-          <a href="https://babyjay.bot" target="_blank" rel="noopener noreferrer" class="contact-card">
-            <span class="contact-card-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="4" y="8" width="16" height="13" rx="2"/>
-                <line x1="12" y1="8" x2="12" y2="4"/>
-                <circle cx="12" cy="3" r="1.5"/>
-                <rect x="7.5" y="12" width="3" height="2.5" rx="0.5"/>
-                <rect x="13.5" y="12" width="3" height="2.5" rx="0.5"/>
-                <path d="M8.5 17.5h7"/>
-                <path d="M4 14.5H2" stroke-linecap="round"/>
-                <path d="M20 14.5h2" stroke-linecap="round"/>
-              </svg>
-            </span>
-            <span class="contact-card-label">BabyJay</span>
-            <span class="contact-card-value">AI Campus Assistant</span>
-          </a>
+      <div class="section-header animate-on-scroll">
+        <span class="section-number">07</span>
+        <h2>Let's Connect</h2>
+      </div>
+      <div class="contact-chat-wrapper animate-on-scroll">
+        <div class="contact-chat">
+          <div class="chat-header">
+            <div class="chat-header-left">
+              <span class="chat-status-dot"></span>
+              <span class="chat-channel">Pavan Sai Reddy</span>
+            </div>
+            <span class="chat-online">online</span>
+          </div>
+          <div class="chat-messages" id="contactMessages">
+            <div class="chat-msg">
+              <div class="chat-avatar chat-avatar-bot">P</div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>Pavan</strong><span class="chat-time">now</span></div>
+                <p>Hey! Thanks for visiting my portfolio.</p>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-avatar chat-avatar-bot">P</div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>Pavan</strong><span class="chat-time">now</span></div>
+                <p>I'm currently open to software engineering and AI/ML opportunities. Feel free to reach out!</p>
+              </div>
+            </div>
+            <div class="chat-msg chat-msg-user">
+              <div class="chat-avatar chat-avatar-you">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>you</strong><span class="chat-time">now</span></div>
+                <p>How can I reach you?</p>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-avatar chat-avatar-bot">P</div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>Pavan</strong><span class="chat-time">now</span></div>
+                <p>Drop me a message below or find me on these platforms:</p>
+              </div>
+            </div>
+          </div>
+          <div class="contact-quick-links">
+            <a href="mailto:pavansaipendry2002@gmail.com" class="contact-quick-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Email</span>
+            </a>
+            <a href="https://www.linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer" class="contact-quick-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/pavansaipendry" target="_blank" rel="noopener noreferrer" class="contact-quick-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a href="#contact" class="contact-quick-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <span>Resume</span>
+            </a>
+          </div>
+          <form class="chat-compose" id="contactForm" action="https://formsubmit.co/pavansaipendry2002@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New message from portfolio">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="text" name="_honey" style="display:none">
+            <div class="chat-fields">
+              <input type="text" name="name" class="chat-field" placeholder="Your name" required autocomplete="name">
+              <input type="email" name="email" class="chat-field" placeholder="Your email" required autocomplete="email">
+            </div>
+            <div class="chat-compose-inner">
+              <input type="text" name="message" id="contactMsg" class="chat-compose-input" placeholder="Type a message..." required autocomplete="off">
+              <button type="submit" class="chat-send-btn" aria-label="Send message">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              </button>
+            </div>
+            <div class="chat-toolbar" aria-hidden="true">
+              <!-- Decorative icons like the Linear reference -->
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </span>
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+              </span>
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </span>
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 006 0V12a10 10 0 10-3.92 7.94"/></svg>
+              </span>
+              <span class="toolbar-divider"></span>
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              </span>
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </span>
+              <span class="toolbar-divider"></span>
+              <span class="toolbar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </span>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -664,12 +691,29 @@
 
   <footer class="footer">
     <div class="container">
-      <div class="footer-inner">
-        <p>© 2026 Pavan Sai Reddy Pendry</p>
-        <div class="footer-links">
-          <a href="https://github.com/pavansaipendry" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">pavan.</span>
+          <p class="footer-tagline">Software Engineer & AI/ML — building scalable autonomous systems.</p>
         </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="mailto:pavansaipendry2002@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/pavansaipendry" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://babyjay.bot" target="_blank" rel="noopener noreferrer">BabyJay</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Pavan Sai Reddy Pendry. Built with HTML, CSS & JS.</p>
+        <p class="footer-location">Lawrence, Kansas</p>
       </div>
     </div>
   </footer>
@@ -690,6 +734,9 @@
       </ul>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
