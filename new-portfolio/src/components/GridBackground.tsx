@@ -5,10 +5,10 @@ export function GridBackground() {
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Dot grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+            "radial-gradient(circle at 1px 1px, var(--dimmed) 1px, transparent 0)",
           backgroundSize: "40px 40px",
         }}
       />

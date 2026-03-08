@@ -4,11 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn, StaggerContainer, FadeInChild } from "./AnimatedSection";
 import { SpotlightCard } from "./SpotlightCard";
+import { SectionHeader } from "./SectionHeader";
 import { experiences } from "@/lib/data";
 
 function Tag({ children }: { children: string }) {
   return (
-    <span className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2.5 py-1 text-xs text-zinc-400">
+    <span className="rounded-md border border-pill-border bg-pill-bg px-2.5 py-1 text-xs text-muted">
       {children}
     </span>
   );
@@ -22,11 +23,7 @@ export function Experience() {
     <section id="experience" className="relative py-32 px-6">
       <div className="mx-auto max-w-5xl">
         <FadeIn>
-          <div className="mb-16 flex items-center gap-4">
-            <span className="font-mono text-sm text-purple-400">03</span>
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Experience</h2>
-            <div className="h-px flex-1 bg-gradient-to-r from-white/[0.08] to-transparent" />
-          </div>
+          <SectionHeader number="03" title="Experience" />
         </FadeIn>
 
         <StaggerContainer className="space-y-6">
@@ -35,30 +32,29 @@ export function Experience() {
               return (
                 <FadeInChild key={idx}>
                   <SpotlightCard className="relative overflow-hidden p-6 sm:p-8">
-                    {/* Startup accent gradient */}
                     <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 bg-gradient-to-bl from-blue-500/[0.08] to-transparent" />
                     <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                       <div>
-                        <h3 className="text-xl font-semibold text-white">{exp.title}</h3>
-                        <p className="text-sm text-zinc-400">
+                        <h3 className="text-xl font-semibold text-heading">{exp.title}</h3>
+                        <p className="text-sm text-muted">
                           <a
                             href={exp.orgLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-purple-400 transition-colors hover:text-purple-300"
+                            className="text-accent transition-colors hover:text-accent/80"
                           >
                             {exp.org} ↗
                           </a>
                         </p>
                       </div>
-                      <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-xs text-zinc-500">
+                      <span className="rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs text-dimmed">
                         {exp.date}
                       </span>
                     </div>
                     <ul className="mb-5 space-y-2">
                       {exp.bullets!.map((b, i) => (
-                        <li key={i} className="flex gap-2 text-sm text-zinc-400">
-                          <span className="mt-1 text-purple-400 shrink-0">→</span>
+                        <li key={i} className="flex gap-2 text-sm text-muted">
+                          <span className="mt-1 text-accent shrink-0">→</span>
                           {b}
                         </li>
                       ))}
@@ -66,6 +62,35 @@ export function Experience() {
                     <div className="flex flex-wrap gap-2">
                       {exp.tags.map((t) => <Tag key={t}>{t}</Tag>)}
                     </div>
+
+                    {/* PiqJob Chrome Extension product card */}
+                    {exp.product && (
+                      <div className="mt-6 rounded-lg border border-accent/15 bg-gradient-to-br from-accent/[0.03] to-transparent p-5 sm:p-6">
+                        <div className="mb-3 flex items-center gap-2">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                          </svg>
+                          <h4 className="text-base font-semibold text-heading">{exp.product.title}</h4>
+                        </div>
+                        <p className="mb-4 text-sm text-muted leading-relaxed">{exp.product.oneLiner}</p>
+                        <ul className="mb-4 space-y-2">
+                          {exp.product.highlights.map((h, i) => (
+                            <li key={i} className="flex gap-2 text-xs text-muted leading-relaxed">
+                              <span className="mt-0.5 text-accent shrink-0">▸</span>
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.product.tags.map((t) => (
+                            <span key={t} className="rounded border border-accent/15 bg-accent-soft px-2 py-0.5 text-[10px] font-medium text-accent">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </SpotlightCard>
                 </FadeInChild>
               );
@@ -74,16 +99,15 @@ export function Experience() {
             if (exp.type === "featured") {
               return (
                 <FadeInChild key={idx}>
-                  <div className="relative overflow-hidden rounded-xl border border-purple-500/20 bg-gradient-to-b from-purple-500/[0.04] to-transparent p-6 sm:p-8">
-                    {/* Featured glow */}
-                    <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-40 w-[600px] rounded-full bg-purple-500/[0.08] blur-3xl" />
+                  <div className="relative overflow-hidden rounded-xl border border-accent/20 bg-gradient-to-b from-accent/[0.04] to-transparent p-6 sm:p-8">
+                    <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-40 w-[600px] rounded-full bg-accent/[0.08] blur-3xl" />
 
                     <div className="relative">
                       <div className="mb-4 flex flex-wrap items-center gap-3">
-                        <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">
+                        <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
                           ★ Featured Project
                         </span>
-                        <span className="flex items-center gap-2 text-xs text-zinc-500">
+                        <span className="flex items-center gap-2 text-xs text-dimmed">
                           <span className="relative flex h-2 w-2">
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                             <span className="relative inline-flex h-2 w-2 rounded-full bg-green-400" />
@@ -94,16 +118,16 @@ export function Experience() {
 
                       <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
                         <div>
-                          <h3 className="text-xl font-semibold text-white">{exp.title}</h3>
-                          <p className="text-sm text-zinc-400">{exp.org}</p>
-                          <span className="text-xs text-zinc-500">{exp.date}</span>
+                          <h3 className="text-xl font-semibold text-heading">{exp.title}</h3>
+                          <p className="text-sm text-muted">{exp.org}</p>
+                          <span className="text-xs text-dimmed">{exp.date}</span>
                         </div>
                         <div className="flex gap-2">
                           <a
                             href={exp.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-white/[0.15] hover:text-white"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card-bg px-3 py-1.5 text-xs text-muted transition-colors hover:border-card-border-hover hover:text-heading"
                           >
                             Live Demo
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -115,7 +139,7 @@ export function Experience() {
                             href={exp.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-white/[0.15] hover:text-white"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card-bg px-3 py-1.5 text-xs text-muted transition-colors hover:border-card-border-hover hover:text-heading"
                           >
                             GitHub
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -125,21 +149,20 @@ export function Experience() {
                         </div>
                       </div>
 
-                      <p className="mb-6 text-sm text-zinc-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: exp.description! }} />
+                      <p className="mb-6 text-sm text-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: exp.description! }} />
 
-                      {/* Metrics grid */}
                       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                         {exp.highlights!.map((h, i) => (
-                          <div key={i} className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3 text-center">
-                            <div className="text-lg font-bold text-purple-300">{h.metric}</div>
-                            <div className="mt-1 text-xs text-zinc-500 leading-snug">{h.desc}</div>
+                          <div key={i} className="rounded-lg border border-card-border bg-card-bg p-3 text-center">
+                            <div className="text-lg font-bold text-accent">{h.metric}</div>
+                            <div className="mt-1 text-xs text-dimmed leading-snug">{h.desc}</div>
                           </div>
                         ))}
                       </div>
 
                       <button
                         onClick={() => setDrawerOpen(true)}
-                        className="group inline-flex items-center gap-2 text-sm text-purple-400 transition-colors hover:text-purple-300"
+                        className="group inline-flex items-center gap-2 text-sm text-accent transition-colors hover:text-accent/80"
                       >
                         Read Case Study
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -158,22 +181,21 @@ export function Experience() {
               );
             }
 
-            // Regular experience cards
             return (
               <FadeInChild key={idx}>
                 <SpotlightCard className="p-6 sm:p-8">
                   <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                     <div>
-                      <h3 className="text-lg font-semibold text-white">{exp.title}</h3>
-                      <p className="text-sm text-zinc-400">{exp.org}</p>
+                      <h3 className="text-lg font-semibold text-heading">{exp.title}</h3>
+                      <p className="text-sm text-muted">{exp.org}</p>
                     </div>
-                    <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-xs text-zinc-500">
+                    <span className="rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs text-dimmed">
                       {exp.date}
                     </span>
                   </div>
                   <ul className="mb-5 space-y-2">
                     {exp.bullets!.map((b, i) => (
-                      <li key={i} className="text-sm text-zinc-400 leading-relaxed pl-4 relative before:absolute before:left-0 before:top-[9px] before:h-1 before:w-1 before:rounded-full before:bg-zinc-600">
+                      <li key={i} className="text-sm text-muted leading-relaxed pl-4 relative before:absolute before:left-0 before:top-[9px] before:h-1 before:w-1 before:rounded-full before:bg-dimmed">
                         {b}
                       </li>
                     ))}
@@ -204,25 +226,25 @@ export function Experience() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md overflow-y-auto border-l border-white/[0.06] bg-[#0d0d14] p-8"
+              className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md overflow-y-auto border-l border-card-border bg-background p-8"
             >
               <button
                 onClick={() => setDrawerOpen(false)}
-                className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:text-white hover:bg-white/[0.06]"
+                className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-lg text-muted transition-colors hover:text-heading hover:bg-card-bg"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
 
-              <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">
+              <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
                 Case Study
               </span>
-              <h2 className="mt-4 text-2xl font-bold text-white">{featured.caseStudy!.title}</h2>
-              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">{featured.caseStudy!.desc}</p>
+              <h2 className="mt-4 text-2xl font-bold text-heading">{featured.caseStudy!.title}</h2>
+              <p className="mt-3 text-sm text-muted leading-relaxed">{featured.caseStudy!.desc}</p>
               <ul className="mt-6 space-y-4">
                 {featured.caseStudy!.points.map((p, i) => (
-                  <li key={i} className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-4 text-sm text-zinc-300 leading-relaxed">
+                  <li key={i} className="rounded-lg border border-card-border bg-card-bg p-4 text-sm text-foreground leading-relaxed">
                     {p}
                   </li>
                 ))}

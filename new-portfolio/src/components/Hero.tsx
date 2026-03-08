@@ -1,7 +1,50 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useInView, animate } from "framer-motion";
 import { siteConfig } from "@/lib/data";
+import { HeroGrid } from "./HeroGrid";
+
+const stats = [
+  { value: 6, suffix: "+", label: "Projects" },
+  { value: 3, suffix: "", label: "Publications" },
+  { value: 9500, suffix: "+", label: "Docs Served" },
+  { value: 82, suffix: "%", label: "BabyJay Approval" },
+];
+
+function formatNumber(n: number): string {
+  if (n >= 1000) {
+    return n.toLocaleString();
+  }
+  return n.toString();
+}
+
+function StatCounter({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [display, setDisplay] = useState("0");
+
+  useEffect(() => {
+    if (!isInView) return;
+    const controls = animate(0, value, {
+      duration: 2,
+      ease: [0.16, 1, 0.3, 1] as const,
+      onUpdate(v) {
+        setDisplay(formatNumber(Math.round(v)));
+      },
+    });
+    return () => controls.stop();
+  }, [isInView, value]);
+
+  return (
+    <div className="flex flex-col items-center gap-1 rounded-lg border border-card-border bg-card-bg px-5 py-4">
+      <span ref={ref} className="text-2xl font-bold text-heading sm:text-3xl">
+        {display}{suffix}
+      </span>
+      <span className="text-xs text-dimmed">{label}</span>
+    </div>
+  );
+}
 
 const wordVariants = {
   hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
@@ -21,25 +64,17 @@ export function Hero() {
   const words = ["Pavan", "Sai", "Reddy", "Pendry"];
 
   return (
-    <section id="home" className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
-      {/* Radial spotlight */}
+    <section id="home" className="relative flex min-h-screen items-end justify-center overflow-hidden px-6 pb-24 pt-32">
+      {/* Next.js-style grid background */}
+      <HeroGrid />
+
+      {/* Radial glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-[600px] w-[900px] bg-gradient-to-b from-purple-500/[0.08] via-transparent to-transparent blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-5xl text-center">
-        {/* Label */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.03] px-5 py-2 text-sm text-zinc-400 backdrop-blur-sm"
-        >
-          <span className="h-px w-6 bg-gradient-to-r from-transparent to-purple-400" />
-          Computer Science · AI/ML · Full-Stack
-        </motion.div>
-
-        {/* Title */}
-        <h1 className="mb-8">
-          <span className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        {/* Title — reduced sizes */}
+        <h1 className="mb-6">
+          <span className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {words.map((word, i) => (
               <motion.span
                 key={word}
@@ -47,10 +82,10 @@ export function Hero() {
                 variants={wordVariants}
                 initial="hidden"
                 animate="visible"
-                className={`text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl ${
+                className={`text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl ${
                   word === "Pendry"
                     ? "bg-gradient-to-r from-purple-400 via-purple-300 to-blue-400 bg-clip-text text-transparent"
-                    : "text-white"
+                    : "text-heading"
                 }`}
               >
                 {word}
@@ -64,7 +99,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="mx-auto mb-10 max-w-2xl text-lg text-zinc-400 leading-relaxed sm:text-xl"
+          className="mx-auto mb-8 max-w-2xl text-base text-muted leading-relaxed sm:text-lg"
         >
           {siteConfig.description}
         </motion.p>
@@ -82,7 +117,7 @@ export function Hero() {
               e.preventDefault();
               document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition-all duration-300 hover:bg-zinc-200 hover:shadow-lg hover:shadow-white/10"
+            className="group inline-flex items-center gap-2 rounded-full bg-btn-primary-bg px-7 py-3 text-sm font-medium text-btn-primary-text transition-all duration-300 hover:shadow-lg hover:shadow-accent/10 hover:opacity-90"
           >
             View Projects
             <svg
@@ -96,7 +131,7 @@ export function Hero() {
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-7 py-3 text-sm font-medium text-zinc-300 backdrop-blur-sm transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.06] hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-btn-secondary-border bg-btn-secondary-bg px-7 py-3 text-sm font-medium text-btn-secondary-text backdrop-blur-sm transition-all duration-300 hover:border-card-border-hover hover:text-heading"
           >
             GitHub
           </a>
@@ -104,47 +139,39 @@ export function Hero() {
             href={siteConfig.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-7 py-3 text-sm font-medium text-zinc-300 backdrop-blur-sm transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.06] hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-btn-secondary-border bg-btn-secondary-bg px-7 py-3 text-sm font-medium text-btn-secondary-text backdrop-blur-sm transition-all duration-300 hover:border-card-border-hover hover:text-heading"
           >
             LinkedIn
           </a>
         </motion.div>
 
-        {/* Code editor card */}
+        {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-16 max-w-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.3 }}
+          className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4"
         >
-          <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-[#0d0d14] shadow-2xl shadow-purple-500/[0.03]">
-            {/* Tab bar */}
-            <div className="flex items-center gap-3 border-b border-white/[0.06] px-4 py-3">
-              <div className="flex gap-1.5">
-                <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
-                <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
-                <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-              </div>
-              <span className="rounded bg-white/[0.06] px-3 py-1 text-xs text-zinc-400">portfolio.tsx</span>
-              <span className="px-3 py-1 text-xs text-zinc-600">config.ts</span>
-            </div>
-            {/* Code */}
-            <div className="p-5 font-mono text-sm leading-7">
-              <div><span className="text-zinc-600 mr-4">1</span><span className="text-purple-400">const</span> <span className="text-blue-300">dev</span> <span className="text-zinc-500">=</span> <span className="text-zinc-400">{"{"}</span></div>
-              <div><span className="text-zinc-600 mr-4">2</span>  <span className="text-zinc-300">name</span><span className="text-zinc-500">:</span> <span className="text-green-300">&quot;Pavan Sai&quot;</span><span className="text-zinc-500">,</span></div>
-              <div><span className="text-zinc-600 mr-4">3</span>  <span className="text-zinc-300">role</span><span className="text-zinc-500">:</span> <span className="text-green-300">&quot;Software Engineer&quot;</span><span className="text-zinc-500">,</span></div>
-              <div><span className="text-zinc-600 mr-4">4</span>  <span className="text-zinc-300">stack</span><span className="text-zinc-500">:</span> <span className="text-zinc-400">[</span><span className="text-green-300">&quot;React&quot;</span><span className="text-zinc-500">,</span> <span className="text-green-300">&quot;Python&quot;</span><span className="text-zinc-500">,</span> <span className="text-green-300">&quot;AI/ML&quot;</span><span className="text-zinc-400">]</span><span className="text-zinc-500">,</span></div>
-              <div><span className="text-zinc-600 mr-4">5</span>  <span className="text-zinc-300">focus</span><span className="text-zinc-500">:</span> <span className="text-green-300">&quot;autonomous systems&quot;</span><span className="text-zinc-500">,</span></div>
-              <div><span className="text-zinc-600 mr-4">6</span>  <span className="text-zinc-300">status</span><span className="text-zinc-500">:</span> <span className="text-green-300">&quot;building&quot;</span><span className="text-zinc-500">,</span></div>
-              <div><span className="text-zinc-600 mr-4">7</span><span className="text-zinc-400">{"}"}</span><span className="text-zinc-500">;</span></div>
-            </div>
-            {/* Status bar */}
-            <div className="flex items-center justify-between border-t border-white/[0.06] px-4 py-1.5 text-xs text-zinc-600">
-              <span>TypeScript</span>
-              <span>UTF-8</span>
-              <span>Ln 7, Col 3</span>
-            </div>
-          </div>
+          {stats.map((stat) => (
+            <StatCounter key={stat.label} {...stat} />
+          ))}
+        </motion.div>
+
+        {/* Terminal-style command */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.5 }}
+          className="mt-8 inline-flex items-center gap-2 rounded-lg border border-card-border bg-code-bg px-5 py-2.5 font-mono text-sm text-dimmed"
+        >
+          <span className="text-accent">▲</span>
+          <span className="text-muted">~</span>
+          <span className="text-foreground">npx create-pavan-portfolio@latest</span>
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
+            className="inline-block w-2 h-4 bg-accent/60 ml-1"
+          />
         </motion.div>
 
         {/* Scroll indicator */}
@@ -152,13 +179,13 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="mt-16 flex flex-col items-center gap-3"
+          className="mt-12 flex flex-col items-center gap-3"
         >
-          <span className="text-xs tracking-widest text-zinc-600 uppercase">Scroll</span>
+          <span className="text-xs tracking-widest text-dimmed uppercase">Scroll</span>
           <motion.div
             animate={{ height: [16, 32, 16] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px bg-gradient-to-b from-zinc-600 to-transparent"
+            className="w-px bg-gradient-to-b from-dimmed to-transparent"
           />
         </motion.div>
       </div>

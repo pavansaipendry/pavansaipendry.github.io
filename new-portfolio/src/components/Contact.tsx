@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { FadeIn } from "./AnimatedSection";
+import { SectionHeader } from "./SectionHeader";
 import { siteConfig } from "@/lib/data";
 
 interface Message {
@@ -103,27 +104,21 @@ export function Contact() {
     <section id="contact" className="relative py-32 px-6">
       <div className="mx-auto max-w-2xl">
         <FadeIn>
-          <div className="mb-16 flex items-center gap-4">
-            <span className="font-mono text-sm text-purple-400">07</span>
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Let&apos;s Connect
-            </h2>
-            <div className="h-px flex-1 bg-gradient-to-r from-white/[0.08] to-transparent" />
-          </div>
+          <SectionHeader number="08" title="Let's Connect" />
         </FadeIn>
 
         <FadeIn>
-          <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-[#0d0d14]">
+          <div className="overflow-hidden rounded-xl border border-card-border bg-code-bg">
             {/* Chat header */}
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-3">
+            <div className="flex items-center justify-between border-b border-card-border px-5 py-3">
               <div className="flex items-center gap-2.5">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                 </span>
-                <span className="text-sm font-medium text-white">Pavan Sai Reddy</span>
+                <span className="text-sm font-medium text-heading">Pavan Sai Reddy</span>
               </div>
-              <span className="text-xs text-green-400">online</span>
+              <span className="text-xs text-green-500">online</span>
             </div>
 
             {/* Messages */}
@@ -132,20 +127,20 @@ export function Contact() {
                 <div key={i} className={`flex gap-3 ${msg.from === "user" ? "flex-row-reverse" : ""}`}>
                   <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
                     msg.from === "bot"
-                      ? "bg-purple-500/20 text-purple-300"
-                      : "bg-white/[0.08] text-zinc-400"
+                      ? "bg-accent-soft text-accent"
+                      : "bg-card-bg text-muted border border-card-border"
                   }`}>
                     {msg.from === "bot" ? "P" : msg.name[0]?.toUpperCase()}
                   </div>
                   <div className={`max-w-[75%] ${msg.from === "user" ? "text-right" : ""}`}>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-medium text-zinc-300">{msg.from === "bot" ? "Pavan" : msg.name}</span>
-                      <span className="text-[10px] text-zinc-600">now</span>
+                      <span className="text-xs font-medium text-foreground">{msg.from === "bot" ? "Pavan" : msg.name}</span>
+                      <span className="text-[10px] text-dimmed">now</span>
                     </div>
-                    <p className={`rounded-lg px-3 py-2 text-sm leading-relaxed ${
+                    <p className={`rounded-lg px-3 py-2 text-sm leading-relaxed inline-block ${
                       msg.from === "user"
-                        ? "bg-purple-500/20 text-purple-100 inline-block"
-                        : "bg-white/[0.04] text-zinc-300 inline-block"
+                        ? "bg-accent-soft text-accent"
+                        : "bg-card-bg text-foreground border border-card-border"
                     }`}>
                       {msg.text}
                     </p>
@@ -155,14 +150,14 @@ export function Contact() {
             </div>
 
             {/* Quick links */}
-            <div className="flex flex-wrap gap-2 border-t border-white/[0.06] px-5 py-3">
+            <div className="flex flex-wrap gap-2 border-t border-card-border px-5 py-3">
               {contactLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-1.5 text-xs text-zinc-400 transition-colors hover:border-white/[0.12] hover:text-white"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card-bg px-3 py-1.5 text-xs text-muted transition-colors hover:border-card-border-hover hover:text-heading"
                 >
                   {link.icon}
                   {link.label}
@@ -175,7 +170,7 @@ export function Contact() {
               action={`https://formsubmit.co/${siteConfig.email}`}
               method="POST"
               onSubmit={handleSubmit}
-              className="border-t border-white/[0.06] p-4"
+              className="border-t border-card-border p-4"
             >
               <input type="hidden" name="_subject" value="New message from portfolio" />
               <input type="hidden" name="_captcha" value="false" />
@@ -189,7 +184,7 @@ export function Contact() {
                   placeholder="Your name"
                   required
                   autoComplete="name"
-                  className="flex-1 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:border-purple-500/40 focus:outline-none focus:ring-1 focus:ring-purple-500/20"
+                  className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
                 />
                 <input
                   type="email"
@@ -197,7 +192,7 @@ export function Contact() {
                   placeholder="Your email"
                   required
                   autoComplete="email"
-                  className="flex-1 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:border-purple-500/40 focus:outline-none focus:ring-1 focus:ring-purple-500/20"
+                  className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
                 />
               </div>
               <div className="flex gap-2">
@@ -207,12 +202,12 @@ export function Contact() {
                   placeholder="Type a message..."
                   required
                   autoComplete="off"
-                  className="flex-1 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:border-purple-500/40 focus:outline-none focus:ring-1 focus:ring-purple-500/20"
+                  className="flex-1 rounded-lg border border-input-border bg-input-bg px-3 py-2 text-sm text-heading placeholder:text-dimmed focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20"
                 />
                 <button
                   type="submit"
                   disabled={sending}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-purple-500 text-white transition-colors hover:bg-purple-400 disabled:opacity-50"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-white transition-colors hover:bg-accent/80 disabled:opacity-50"
                   aria-label="Send message"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

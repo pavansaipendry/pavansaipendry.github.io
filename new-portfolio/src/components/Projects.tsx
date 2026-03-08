@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FadeIn, StaggerContainer, FadeInChild } from "./AnimatedSection";
+import { FadeIn } from "./AnimatedSection";
 import { SpotlightCard } from "./SpotlightCard";
+import { SectionHeader } from "./SectionHeader";
 import { projects } from "@/lib/data";
 
 const filters = ["all", "ai", "fullstack", "data"] as const;
@@ -25,14 +26,9 @@ export function Projects() {
     <section id="projects" className="relative py-32 px-6">
       <div className="mx-auto max-w-5xl">
         <FadeIn>
-          <div className="mb-16 flex items-center gap-4">
-            <span className="font-mono text-sm text-purple-400">04</span>
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Projects</h2>
-            <div className="h-px flex-1 bg-gradient-to-r from-white/[0.08] to-transparent" />
-          </div>
+          <SectionHeader number="04" title="Projects" />
         </FadeIn>
 
-        {/* Filters */}
         <FadeIn className="mb-10">
           <div className="flex flex-wrap gap-2">
             {filters.map((f) => (
@@ -41,8 +37,8 @@ export function Projects() {
                 onClick={() => setActive(f)}
                 className={`rounded-full px-4 py-2 text-sm transition-all duration-300 ${
                   active === f
-                    ? "bg-white text-black font-medium"
-                    : "border border-white/[0.08] bg-white/[0.03] text-zinc-400 hover:border-white/[0.15] hover:text-white"
+                    ? "bg-btn-primary-bg text-btn-primary-text font-medium"
+                    : "border border-card-border bg-card-bg text-muted hover:border-card-border-hover hover:text-heading"
                 }`}
               >
                 {filterLabels[f]}
@@ -51,7 +47,6 @@ export function Projects() {
           </div>
         </FadeIn>
 
-        {/* Grid */}
         <motion.div layout className="grid gap-4 sm:grid-cols-2">
           <AnimatePresence mode="popLayout">
             {filtered.map((project) => (
@@ -65,9 +60,9 @@ export function Projects() {
               >
                 <SpotlightCard className="flex h-full flex-col p-6">
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="font-mono text-xs text-zinc-600">{project.number}</span>
+                    <span className="font-mono text-xs text-dimmed">{project.number}</span>
                     {project.ongoing && (
-                      <span className="flex items-center gap-1.5 text-xs text-green-400">
+                      <span className="flex items-center gap-1.5 text-xs text-green-500">
                         <span className="relative flex h-1.5 w-1.5">
                           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                           <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
@@ -77,13 +72,13 @@ export function Projects() {
                     )}
                   </div>
 
-                  <h3 className="mb-1 text-lg font-semibold text-white">{project.title}</h3>
-                  <span className="mb-3 text-xs text-zinc-500">{project.date}</span>
-                  <p className="mb-5 flex-1 text-sm text-zinc-400 leading-relaxed">{project.description}</p>
+                  <h3 className="mb-1 text-lg font-semibold text-heading">{project.title}</h3>
+                  <span className="mb-3 text-xs text-dimmed">{project.date}</span>
+                  <p className="mb-5 flex-1 text-sm text-muted leading-relaxed">{project.description}</p>
 
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {project.tags.map((t) => (
-                      <span key={t} className="rounded border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[11px] text-zinc-500">
+                      <span key={t} className="rounded border border-pill-border bg-pill-bg px-2 py-0.5 text-[11px] text-dimmed">
                         {t}
                       </span>
                     ))}
@@ -94,7 +89,7 @@ export function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-1.5 text-sm text-zinc-400 transition-colors hover:text-white"
+                      className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-heading"
                     >
                       View on GitHub
                       <svg

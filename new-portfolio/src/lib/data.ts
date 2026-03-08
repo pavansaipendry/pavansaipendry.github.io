@@ -14,6 +14,7 @@ export const navLinks = [
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Architecture", href: "#architecture" },
   { label: "Research", href: "#publications" },
   { label: "Contact", href: "#contact" },
 ];
@@ -79,6 +80,19 @@ export const experiences = [
       "Architecting the platform infrastructure, defining the core product vision, and preparing for initial launch.",
     ],
     tags: ["Entrepreneurship", "Full-Stack", "Product Design", "Stealth"],
+    product: {
+      title: "PiqJob Chrome Extension",
+      oneLiner: "AI-powered Chrome extension that passively detects job listings and auto-extracts structured data — no clicks, no copy-paste.",
+      highlights: [
+        "4-tier extraction engine: meta tags → JSON-LD → DOM selectors → LLM fallback, achieving reliable extraction across all major job boards",
+        "Signal-based page detection using URL patterns, meta tags, and DOM markers — zero user interaction required",
+        "Claude API backend proxy via Supabase Edge Functions for secure, cost-optimized LLM calls ($0.002/extraction avg)",
+        "Manifest V3 architecture with service workers, content scripts, and cross-context messaging",
+        "Auto-saves extracted jobs to Supabase with deduplication and user-scoped storage",
+        "Supports 50+ ATS platforms including Greenhouse, Lever, Workday, and iCIMS",
+      ],
+      tags: ["Chrome Extension", "Manifest V3", "TypeScript", "Supabase", "Claude API", "Edge Functions"],
+    },
   },
   {
     type: "featured" as const,
