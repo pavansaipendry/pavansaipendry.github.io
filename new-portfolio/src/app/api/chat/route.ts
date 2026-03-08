@@ -101,19 +101,45 @@ export async function POST(req: NextRequest) {
     }
     messages.push({ role: "user", content: message.trim() });
 
-    const response = await client.messages.create({
+    const stream = await client.messages.stream({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 300,
       system: SYSTEM_PROMPT,
       messages,
     });
 
-    const text = response.content
-      .filter((block): block is Anthropic.TextBlock => block.type === "text")
-      .map((block) => block.text)
-      .join("");
+    const encoder = new TextEncoder();
+    const readableStream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of stream) {
+            if (
+              event.type === "content_block_delta" &&
+              event.delta.type === "text_delta"
+            ) {
+              controller.enqueue(
+                encoder.encode(`data: ${JSON.stringify({ text: event.delta.text })}\n\n`)
+              );
+            }
+          }
+          controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+          controller.close();
+        } catch {
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ error: "Stream error" })}\n\n`)
+          );
+          controller.close();
+        }
+      },
+    });
 
-    return Response.json({ response: text });
+    return new Response(readableStream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
   } catch (error: unknown) {
     console.error("Chat API error:", error);
     if (error instanceof Anthropic.APIError && error.status === 401) {

@@ -42,9 +42,13 @@ export function AskMe() {
       if (!trimmed || loading) return;
 
       const userMsg: Message = { role: "user", content: trimmed };
+      const currentHistory = [...messages];
       setMessages((prev) => [...prev, userMsg]);
       setInput("");
       setLoading(true);
+
+      // Add an empty assistant message that we'll stream into
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
       try {
         const res = await fetch("/api/chat", {
@@ -52,23 +56,77 @@ export function AskMe() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: trimmed,
-            history: messages,
+            history: currentHistory,
           }),
         });
-        const data = await res.json();
-        if (data.error) {
-          setMessages((prev) => [
-            ...prev,
-            { role: "assistant", content: "Sorry, I'm having trouble right now. Try again later!" },
-          ]);
-        } else {
-          setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+
+        if (!res.ok || !res.body) {
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1] = {
+              role: "assistant",
+              content: "Sorry, I'm having trouble right now. Try again later!",
+            };
+            return updated;
+          });
+          setLoading(false);
+          return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n\n");
+          buffer = lines.pop() || "";
+
+          for (const line of lines) {
+            const cleaned = line.replace(/^data: /, "");
+            if (cleaned === "[DONE]") break;
+            try {
+              const parsed = JSON.parse(cleaned);
+              if (parsed.error) {
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = {
+                    role: "assistant",
+                    content: "Sorry, something went wrong.",
+                  };
+                  return updated;
+                });
+                setLoading(false);
+                return;
+              }
+              if (parsed.text) {
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  const last = updated[updated.length - 1];
+                  updated[updated.length - 1] = {
+                    ...last,
+                    content: last.content + parsed.text,
+                  };
+                  return updated;
+                });
+              }
+            } catch {
+              // skip malformed chunks
+            }
+          }
         }
       } catch {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "Couldn't connect. Please try again." },
-        ]);
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: "assistant",
+            content: "Couldn't connect. Please try again.",
+          };
+          return updated;
+        });
       } finally {
         setLoading(false);
       }
@@ -171,24 +229,36 @@ export function AskMe() {
                 </div>
               )}
 
-              {messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                >
+              {messages.map((msg, i) => {
+                // Hide the empty assistant message while loading dots are showing
+                if (msg.role === "assistant" && msg.content === "" && loading) return null;
+                const isStreaming = loading && i === messages.length - 1 && msg.role === "assistant";
+                return (
                   <div
-                    className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                      msg.role === "user"
-                        ? "bg-accent text-white rounded-br-md"
-                        : "border border-card-border bg-card-bg text-foreground rounded-bl-md"
-                    }`}
+                    key={i}
+                    className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
-                    {msg.content}
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                        msg.role === "user"
+                          ? "bg-accent text-white rounded-br-md"
+                          : "border border-card-border bg-card-bg text-foreground rounded-bl-md"
+                      }`}
+                    >
+                      {msg.content}
+                      {isStreaming && (
+                        <motion.span
+                          animate={{ opacity: [1, 0] }}
+                          transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+                          className="inline-block w-0.5 h-3.5 bg-accent ml-0.5 align-text-bottom"
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
-              {loading && (
+              {loading && messages.length > 0 && messages[messages.length - 1].content === "" && (
                 <div className="flex justify-start">
                   <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-card-border bg-card-bg px-4 py-3">
                     <span className="h-1.5 w-1.5 rounded-full bg-dimmed animate-bounce" style={{ animationDelay: "0ms" }} />

@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { siteConfig } from "@/lib/data";
 import { HeroGrid } from "./HeroGrid";
+import { skills, experiences, projects, publications } from "@/lib/data";
 
 const stats = [
   { value: 6, suffix: "+", label: "Projects" },
@@ -42,6 +43,327 @@ function StatCounter({ value, suffix, label }: { value: number; suffix: string; 
         {display}{suffix}
       </span>
       <span className="text-xs text-dimmed">{label}</span>
+    </div>
+  );
+}
+
+// ─── Interactive Terminal ───────────────────────────────────────────────────
+
+interface TerminalLine {
+  type: "input" | "output" | "error" | "success" | "ascii";
+  content: string;
+}
+
+const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
+  help: () => [
+    { type: "output", content: "Available commands:" },
+    { type: "output", content: "" },
+    { type: "success", content: "  about          Who is Pavan?" },
+    { type: "success", content: "  skills         List skill categories" },
+    { type: "success", content: "  skills <name>  Show skills in a category" },
+    { type: "success", content: "  projects       List all projects" },
+    { type: "success", content: "  experience     Work experience" },
+    { type: "success", content: "  publications   Research papers" },
+    { type: "success", content: "  contact        Get in touch" },
+    { type: "success", content: "  resume         Download resume" },
+    { type: "success", content: "  goto <section> Navigate to a section" },
+    { type: "success", content: "  clear          Clear terminal" },
+    { type: "success", content: "  neofetch       System info" },
+    { type: "output", content: "" },
+    { type: "output", content: "  Try: sudo hire-me" },
+  ],
+
+  about: () => [
+    { type: "output", content: `${siteConfig.name}` },
+    { type: "output", content: "Software Engineer & AI/ML Engineer" },
+    { type: "output", content: "" },
+    { type: "output", content: siteConfig.description },
+    { type: "output", content: "" },
+    { type: "output", content: `GitHub:   ${siteConfig.github}` },
+    { type: "output", content: `LinkedIn: ${siteConfig.linkedin}` },
+  ],
+
+  skills: (args: string[]) => {
+    if (args.length > 0) {
+      const query = args.join(" ").toLowerCase();
+      const category = skills.find((s) => s.title.toLowerCase().includes(query));
+      if (category) {
+        return [
+          { type: "success", content: `[${category.title}]` },
+          { type: "output", content: category.items.join(", ") },
+        ];
+      }
+      return [{ type: "error", content: `Category "${args.join(" ")}" not found. Try: skills` }];
+    }
+    return skills.map((s) => ({
+      type: "output" as const,
+      content: `  ${s.title.padEnd(16)} ${s.items.slice(0, 4).join(", ")}...`,
+    }));
+  },
+
+  projects: () => {
+    const lines: TerminalLine[] = [];
+    projects.forEach((p) => {
+      const status = p.ongoing ? " [active]" : "";
+      lines.push({
+        type: p.ongoing ? "success" : "output",
+        content: `  ${p.number}. ${p.title}${status}  —  ${p.date}`,
+      });
+    });
+    return lines;
+  },
+
+  experience: () => {
+    return experiences.map((e) => ({
+      type: "output" as const,
+      content: `  ${e.title} @ ${e.org}  —  ${e.date}`,
+    }));
+  },
+
+  publications: () => {
+    return publications.map((p) => ({
+      type: "output" as const,
+      content: `  ${p.title}${p.venue ? ` (${p.venue})` : ""}`,
+    }));
+  },
+
+  contact: () => [
+    { type: "output", content: `Email:    ${siteConfig.email}` },
+    { type: "output", content: `GitHub:   ${siteConfig.github}` },
+    { type: "output", content: `LinkedIn: ${siteConfig.linkedin}` },
+    { type: "success", content: "Or scroll down to the contact section!" },
+  ],
+
+  neofetch: () => [
+    { type: "ascii", content: "   ____  ____  ____  " },
+    { type: "ascii", content: "  |  _ \\/ ___||  _ \\ " },
+    { type: "ascii", content: "  | |_) \\___ \\| |_) |" },
+    { type: "ascii", content: "  |  __/ ___) |  _ < " },
+    { type: "ascii", content: "  |_|   |____/|_| \\_\\" },
+    { type: "output", content: "" },
+    { type: "success", content: "  OS:      Next.js 16 / React 19" },
+    { type: "success", content: "  Shell:   TypeScript 5" },
+    { type: "success", content: "  Theme:   Dark Editorial" },
+    { type: "success", content: "  UI:      Tailwind CSS 4 + Framer Motion" },
+    { type: "success", content: "  AI:      Claude Haiku (streaming)" },
+    { type: "success", content: `  Uptime:  Since Oct 2020` },
+    { type: "success", content: `  Projects: ${projects.length}+` },
+    { type: "success", content: `  Papers:  ${publications.length}` },
+  ],
+
+  resume: () => {
+    if (typeof window !== "undefined") {
+      window.open("/resume.pdf", "_blank");
+    }
+    return [{ type: "success", content: "Opening resume..." }];
+  },
+
+  goto: (args: string[]) => {
+    const section = args[0]?.toLowerCase();
+    const valid = ["home", "about", "skills", "experience", "projects", "architecture", "research", "contact"];
+    if (!section || !valid.includes(section)) {
+      return [
+        { type: "error", content: `Usage: goto <section>` },
+        { type: "output", content: `Sections: ${valid.join(", ")}` },
+      ];
+    }
+    if (typeof window !== "undefined") {
+      const target = section === "research" ? "publications" : section;
+      document.querySelector(`#${target}`)?.scrollIntoView({ behavior: "smooth" });
+    }
+    return [{ type: "success", content: `Navigating to ${section}...` }];
+  },
+
+  sudo: (args: string[]) => {
+    const cmd = args.join(" ").toLowerCase();
+    if (cmd === "hire-me") {
+      return [
+        { type: "success", content: "Permission granted." },
+        { type: "output", content: "" },
+        { type: "success", content: "Initiating hire sequence..." },
+        { type: "success", content: "Compiling 6+ projects, 3 publications, 4 roles..." },
+        { type: "success", content: "Deploying Pavan to your team... Done!" },
+        { type: "output", content: "" },
+        { type: "output", content: `Reach out → ${siteConfig.email}` },
+      ];
+    }
+    if (cmd.startsWith("rm")) {
+      return [{ type: "error", content: "Nice try. This portfolio is immutable." }];
+    }
+    return [{ type: "error", content: `sudo: ${args.join(" ")}: command not found` }];
+  },
+
+  whoami: () => [{ type: "output", content: "visitor@pavansaipendry.dev" }],
+
+  pwd: () => [{ type: "output", content: "/home/pavan/portfolio" }],
+
+  ls: () => [
+    { type: "output", content: "about/  skills/  experience/  projects/  publications/  contact/" },
+  ],
+
+  echo: (args: string[]) => [{ type: "output", content: args.join(" ") }],
+
+  date: () => [{ type: "output", content: new Date().toString() }],
+};
+
+function InteractiveTerminal() {
+  const [lines, setLines] = useState<TerminalLine[]>([
+    { type: "output", content: 'Welcome to pavan.sh — type "help" for commands' },
+  ]);
+  const [input, setInput] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [lines]);
+
+  const execute = useCallback(
+    (raw: string) => {
+      const trimmed = raw.trim();
+      if (!trimmed) return;
+
+      const newLine: TerminalLine = { type: "input", content: trimmed };
+      const parts = trimmed.split(/\s+/);
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+
+      setHistory((prev) => [...prev, trimmed]);
+      setHistoryIndex(-1);
+
+      if (cmd === "clear") {
+        setLines([]);
+        return;
+      }
+
+      const handler = TERMINAL_COMMANDS[cmd];
+      if (handler) {
+        const output = handler(args);
+        setLines((prev) => [...prev, newLine, ...output]);
+      } else {
+        setLines((prev) => [
+          ...prev,
+          newLine,
+          { type: "error", content: `command not found: ${cmd}. Type "help" for available commands.` },
+        ]);
+      }
+    },
+    []
+  );
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      execute(input);
+      setInput("");
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (history.length === 0) return;
+      const newIndex = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1);
+      setHistoryIndex(newIndex);
+      setInput(history[newIndex]);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex === -1) return;
+      const newIndex = historyIndex + 1;
+      if (newIndex >= history.length) {
+        setHistoryIndex(-1);
+        setInput("");
+      } else {
+        setHistoryIndex(newIndex);
+        setInput(history[newIndex]);
+      }
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      const partial = input.toLowerCase();
+      if (!partial) return;
+      const cmds = Object.keys(TERMINAL_COMMANDS);
+      const match = cmds.find((c) => c.startsWith(partial));
+      if (match) setInput(match);
+    } else if (e.key === "l" && e.ctrlKey) {
+      e.preventDefault();
+      setLines([]);
+    }
+  };
+
+  return (
+    <div
+      className="w-full max-w-xl mx-auto rounded-lg border border-card-border bg-code-bg overflow-hidden text-left shadow-2xl shadow-black/20"
+      onClick={() => inputRef.current?.focus()}
+    >
+      {/* Title bar */}
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-card-border bg-card-bg">
+        <div className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+        </div>
+        <span className="flex-1 text-center text-[11px] text-dimmed font-mono">pavan.sh</span>
+      </div>
+
+      {/* Terminal body */}
+      <div
+        ref={scrollRef}
+        data-lenis-prevent
+        className="h-48 overflow-y-auto px-4 py-3 font-mono text-xs sm:text-sm leading-relaxed cursor-text"
+      >
+        {lines.map((line, i) => (
+          <div key={i} className="min-h-[1.25rem]">
+            {line.type === "input" ? (
+              <span>
+                <span className="text-accent">▲</span>{" "}
+                <span className="text-muted">~</span>{" "}
+                <span className="text-foreground">{line.content}</span>
+              </span>
+            ) : line.type === "error" ? (
+              <span className="text-red-400">{line.content}</span>
+            ) : line.type === "success" ? (
+              <span className="text-accent">{line.content}</span>
+            ) : line.type === "ascii" ? (
+              <span className="text-accent/70">{line.content}</span>
+            ) : (
+              <span className="text-muted">{line.content}</span>
+            )}
+          </div>
+        ))}
+
+        {/* Active input line */}
+        <div className="flex items-center min-h-[1.25rem]">
+          <span className="text-accent">▲</span>{" "}
+          <span className="text-muted ml-1">~</span>{" "}
+          <div className="relative flex-1 ml-1">
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              className="w-full bg-transparent text-foreground outline-none caret-transparent font-mono text-xs sm:text-sm"
+              spellCheck={false}
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+            />
+            {/* Custom blinking cursor */}
+            <span
+              className="pointer-events-none absolute top-0 left-0 text-foreground font-mono text-xs sm:text-sm"
+              aria-hidden
+            >
+              <span className="invisible">{input}</span>
+              <motion.span
+                animate={{ opacity: focused ? [1, 0] : 0 }}
+                transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
+                className="inline-block w-1.5 h-3.5 sm:h-4 bg-accent align-text-bottom ml-px"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -157,21 +479,14 @@ export function Hero() {
           ))}
         </motion.div>
 
-        {/* Terminal-style command */}
+        {/* Interactive Terminal */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.5 }}
-          className="mt-8 inline-flex items-center gap-2 rounded-lg border border-card-border bg-code-bg px-5 py-2.5 font-mono text-sm text-dimmed"
+          className="mt-8"
         >
-          <span className="text-accent">▲</span>
-          <span className="text-muted">~</span>
-          <span className="text-foreground">npx create-pavan-portfolio@latest</span>
-          <motion.span
-            animate={{ opacity: [1, 0] }}
-            transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
-            className="inline-block w-2 h-4 bg-accent/60 ml-1"
-          />
+          <InteractiveTerminal />
         </motion.div>
 
         {/* Scroll indicator */}

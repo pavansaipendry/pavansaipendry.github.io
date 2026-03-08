@@ -7,6 +7,7 @@ import { SpotlightCard } from "./SpotlightCard";
 import { SectionHeader } from "./SectionHeader";
 import { skills } from "@/lib/data";
 
+// ─── Icons ──────────────────────────────────────────────────────────────────
 const icons: Record<string, React.ReactNode> = {
   Languages: (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -44,32 +45,36 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
-const lineColors = [
-  { r: 124, g: 92, b: 252 },   // purple
-  { r: 59, g: 130, b: 246 },   // blue
-  { r: 0, g: 200, b: 255 },    // cyan
-  { r: 168, g: 85, b: 247 },   // violet
-  { r: 34, g: 197, b: 94 },    // green
-  { r: 251, g: 146, b: 60 },   // orange
+// ─── Next.js-style beam colors (2-stop gradient per beam) ───────────────────
+const BEAM_COLORS = [
+  ["#FF4A81", "#DF6CF7"],   // pink → purple
+  ["#2EB9DF", "#61DAFB"],   // cyan → blue
+  ["#FF7432", "#F7CC4B"],   // orange → yellow
+  ["#7c5cfc", "#a78bfa"],   // purple → violet
+  ["#34d399", "#6ee7b7"],   // green → emerald
+  ["#3b82f6", "#93c5fd"],   // blue → sky
 ];
 
-interface LineData {
-  waypoints: { x: number; y: number }[];
-  colorIndex: number;
-  progress: number;
-  speed: number;
+// ─── Types ──────────────────────────────────────────────────────────────────
+interface TracePath {
+  d: string;            // SVG path d attribute
+  beamGradientIndex: number;
+  beamDuration: number; // seconds
+  beamDelay: number;    // seconds
+  beamLength: number;   // px length of the beam rect
+  startDot: { x: number; y: number };
+  endDot: { x: number; y: number };
 }
 
 export function Skills() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const topRefs = useRef<(HTMLDivElement | null)[]>([]);
   const bottomRefs = useRef<(HTMLDivElement | null)[]>([]);
   const chipRef = useRef<HTMLDivElement>(null);
-  const linesRef = useRef<LineData[]>([]);
-  const runningRef = useRef(false);
-  const animIdRef = useRef<number>(0);
+  const [traces, setTraces] = useState<TracePath[]>([]);
+  const [svgSize, setSvgSize] = useState({ w: 0, h: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const svgRef = useRef<SVGSVGElement>(null);
 
   const topSkills = skills.slice(0, 3);
   const bottomSkills = skills.slice(3, 6);
@@ -78,160 +83,119 @@ export function Skills() {
     const cr = container.getBoundingClientRect();
     const er = el.getBoundingClientRect();
     return {
-      x: er.left - cr.left + er.width / 2,
-      y: er.top - cr.top + er.height / 2,
+      cx: er.left - cr.left + er.width / 2,
       top: er.top - cr.top,
       bottom: er.top - cr.top + er.height,
     };
   }, []);
 
+  // ─── Build SVG paths ────────────────────────────────────────────────────
   const buildPaths = useCallback(() => {
     const container = containerRef.current;
-    const canvas = canvasRef.current;
     const chip = chipRef.current;
-    if (!container || !canvas || !chip) return;
+    if (!container || !chip) return;
 
     const cr = container.getBoundingClientRect();
-    canvas.width = cr.width;
-    canvas.height = cr.height;
+    setSvgSize({ w: cr.width, h: cr.height });
 
     const chipPos = getRelPos(chip, container);
-    const lines: LineData[] = [];
+    const newTraces: TracePath[] = [];
 
-    // Top blocks connect downward to chip
+    // Top cards → chip (sharp 90° corners)
     topRefs.current.forEach((block, i) => {
       if (!block) return;
       const bp = getRelPos(block, container);
-      const midY = bp.bottom + (chipPos.y - bp.bottom) * 0.5;
-      lines.push({
-        waypoints: [
-          { x: bp.x, y: bp.bottom },
-          { x: bp.x, y: midY },
-          { x: chipPos.x, y: midY },
-          { x: chipPos.x, y: chipPos.y - 35 },
-        ],
-        colorIndex: i,
-        progress: Math.random(),
-        speed: 0.006 + Math.random() * 0.003,
+      const sx = bp.cx + (i - 1) * 12;
+      const sy = bp.bottom;
+      const ex = chipPos.cx + (i - 1) * 16;
+      const ey = chipPos.top;
+      const midY = sy + (ey - sy) * 0.45;
+
+      let d: string;
+      if (Math.abs(ex - sx) < 2) {
+        d = `M ${sx} ${sy} L ${sx} ${ey}`;
+      } else {
+        d = `M ${sx} ${sy} L ${sx} ${midY} L ${ex} ${midY} L ${ex} ${ey}`;
+      }
+
+      newTraces.push({
+        d,
+        beamGradientIndex: i,
+        beamDuration: 2.5 + i * 0.4,
+        beamDelay: i * 0.8,
+        beamLength: 60 + i * 10,
+        startDot: { x: sx, y: sy },
+        endDot: { x: ex, y: ey },
       });
     });
 
-    // Bottom blocks connect upward from chip
+    // Bottom cards → chip (beams travel upward, sharp 90° corners)
     bottomRefs.current.forEach((block, i) => {
       if (!block) return;
       const bp = getRelPos(block, container);
-      const midY = chipPos.y + (bp.top - chipPos.y) * 0.5;
-      lines.push({
-        waypoints: [
-          { x: chipPos.x, y: chipPos.y + 35 },
-          { x: chipPos.x, y: midY },
-          { x: bp.x, y: midY },
-          { x: bp.x, y: bp.top },
-        ],
-        colorIndex: i + 3,
-        progress: Math.random(),
-        speed: 0.006 + Math.random() * 0.003,
+      const sx = bp.cx + (i - 1) * 12;
+      const sy = bp.top;
+      const ex = chipPos.cx + (i - 1) * 16;
+      const ey = chipPos.bottom;
+      const midY = ey + (sy - ey) * 0.45;
+
+      let d: string;
+      if (Math.abs(ex - sx) < 2) {
+        d = `M ${sx} ${sy} L ${sx} ${ey}`;
+      } else {
+        d = `M ${sx} ${sy} L ${sx} ${midY} L ${ex} ${midY} L ${ex} ${ey}`;
+      }
+
+      newTraces.push({
+        d,
+        beamGradientIndex: i + 3,
+        beamDuration: 2.5 + i * 0.4,
+        beamDelay: 1.5 + i * 0.8,
+        beamLength: 60 + i * 10,
+        startDot: { x: sx, y: sy },
+        endDot: { x: ex, y: ey },
       });
     });
 
-    linesRef.current = lines;
+    setTraces(newTraces);
+
   }, [getRelPos]);
 
-  const lerpPath = useCallback((waypoints: { x: number; y: number }[], t: number) => {
-    let totalLen = 0;
-    const segments: number[] = [];
-    for (let i = 0; i < waypoints.length - 1; i++) {
-      const dx = waypoints[i + 1].x - waypoints[i].x;
-      const dy = waypoints[i + 1].y - waypoints[i].y;
-      segments.push(Math.sqrt(dx * dx + dy * dy));
-      totalLen += segments[i];
-    }
-    let targetDist = t * totalLen;
-    for (let i = 0; i < segments.length; i++) {
-      if (targetDist <= segments[i]) {
-        const frac = segments[i] > 0 ? targetDist / segments[i] : 0;
-        return {
-          x: waypoints[i].x + (waypoints[i + 1].x - waypoints[i].x) * frac,
-          y: waypoints[i].y + (waypoints[i + 1].y - waypoints[i].y) * frac,
-        };
-      }
-      targetDist -= segments[i];
-    }
-    return waypoints[waypoints.length - 1];
-  }, []);
+  // ─── Set stroke-dasharray on beam paths after render ────────────────────
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || traces.length === 0) return;
 
-  const draw = useCallback(() => {
-    if (!runningRef.current) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    // Animate beams with Web Animations API (real numeric values, smooth through corners)
+    svg.querySelectorAll<SVGPathElement>(".skills-beam-head").forEach((path) => {
+      const totalLength = path.getTotalLength();
+      const beamLength = totalLength * 0.18;
+      path.style.strokeDasharray = `${beamLength} ${totalLength}`;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const startOffset = totalLength + beamLength;
+      const dur = parseFloat(path.style.getPropertyValue("--beam-duration")) * 1000 || 3000;
+      const del = parseFloat(path.style.getPropertyValue("--beam-delay")) * 1000 || 0;
 
-    linesRef.current.forEach((line) => {
-      const c = lineColors[line.colorIndex % lineColors.length];
-
-      // Static path (circuit trace)
-      ctx.beginPath();
-      ctx.moveTo(line.waypoints[0].x, line.waypoints[0].y);
-      for (let i = 1; i < line.waypoints.length; i++) {
-        ctx.lineTo(line.waypoints[i].x, line.waypoints[i].y);
-      }
-      ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.12)`;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Corner nodes
-      line.waypoints.forEach((wp, i) => {
-        if (i > 0 && i < line.waypoints.length - 1) {
-          ctx.beginPath();
-          ctx.arc(wp.x, wp.y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},0.25)`;
-          ctx.fill();
+      path.getAnimations().forEach((a) => a.cancel());
+      path.animate(
+        [
+          { strokeDashoffset: `${startOffset}`, opacity: 0 },
+          { strokeDashoffset: `${startOffset}`, opacity: 1, offset: 0.05 },
+          { strokeDashoffset: "0", opacity: 1, offset: 0.85 },
+          { strokeDashoffset: "0", opacity: 0 },
+        ],
+        {
+          duration: dur,
+          delay: del,
+          iterations: Infinity,
+          easing: "linear",
+          fill: "forwards",
         }
-      });
-
-      // Animated pulse along the line
-      line.progress += line.speed;
-      if (line.progress > 1) line.progress = 0;
-
-      const segLen = 0.15;
-      const t1 = line.progress;
-      const t2 = Math.min(1, t1 + segLen);
-      const steps = 20;
-
-      ctx.beginPath();
-      for (let s = 0; s <= steps; s++) {
-        const t = t1 + (t2 - t1) * (s / steps);
-        const pos = lerpPath(line.waypoints, t);
-        if (s === 0) ctx.moveTo(pos.x, pos.y);
-        else ctx.lineTo(pos.x, pos.y);
-      }
-      ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.7)`;
-      ctx.lineWidth = 2.5;
-      ctx.stroke();
-
-      // Glow head
-      const headPos = lerpPath(line.waypoints, t2);
-      const glow = ctx.createRadialGradient(headPos.x, headPos.y, 0, headPos.x, headPos.y, 12);
-      glow.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.5)`);
-      glow.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
-      ctx.beginPath();
-      ctx.arc(headPos.x, headPos.y, 12, 0, Math.PI * 2);
-      ctx.fillStyle = glow;
-      ctx.fill();
-
-      // Head dot
-      ctx.beginPath();
-      ctx.arc(headPos.x, headPos.y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},0.9)`;
-      ctx.fill();
+      );
     });
+  }, [traces]);
 
-    animIdRef.current = requestAnimationFrame(draw);
-  }, [lerpPath]);
-
+  // ─── Observer + resize ────────────────────────────────────────────────
   useEffect(() => {
     const section = containerRef.current;
     if (!section) return;
@@ -242,11 +206,6 @@ export function Skills() {
           if (entry.isIntersecting) {
             setIsVisible(true);
             buildPaths();
-            runningRef.current = true;
-            draw();
-          } else {
-            runningRef.current = false;
-            if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
           }
         });
       },
@@ -254,18 +213,14 @@ export function Skills() {
     );
     observer.observe(section);
 
-    const onResize = () => {
-      if (runningRef.current) buildPaths();
-    };
+    const onResize = () => buildPaths();
     window.addEventListener("resize", onResize);
 
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", onResize);
-      runningRef.current = false;
-      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
     };
-  }, [buildPaths, draw]);
+  }, [buildPaths]);
 
   return (
     <section id="skills" className="relative py-32 px-6">
@@ -276,120 +231,260 @@ export function Skills() {
 
         {/* Circuit board layout */}
         <div ref={containerRef} className="relative">
-          <canvas
-            ref={canvasRef}
-            className="pointer-events-none absolute inset-0 hidden md:block"
-          />
 
-          {/* Top row: 3 skill cards */}
+          {/* ═══ SVG Overlay ═══ */}
+          {svgSize.w > 0 && (
+            <svg
+              ref={svgRef}
+              width={svgSize.w}
+              height={svgSize.h}
+              viewBox={`0 0 ${svgSize.w} ${svgSize.h}`}
+              className="pointer-events-none absolute inset-0 hidden md:block"
+              fill="none"
+            >
+              <defs>
+                {traces.map((trace, i) => {
+                  const colors = BEAM_COLORS[trace.beamGradientIndex % BEAM_COLORS.length];
+                  return (
+                    <linearGradient key={`tg-${i}`} id={`trace-beam-${i}`} gradientUnits="userSpaceOnUse"
+                      x1={trace.startDot.x} y1={trace.startDot.y}
+                      x2={trace.endDot.x} y2={trace.endDot.y}
+                    >
+                      <stop offset="0%" stopColor={colors[0]} />
+                      <stop offset="100%" stopColor={colors[1]} />
+                    </linearGradient>
+                  );
+                })}
+              </defs>
+
+              {/* ── Main connection traces ─────────────────────────────── */}
+              {traces.map((trace, i) => {
+                const colors = BEAM_COLORS[trace.beamGradientIndex % BEAM_COLORS.length];
+                return (
+                  <g key={`trace-${i}`}>
+                    {/* Static trace line */}
+                    <path d={trace.d} stroke="currentColor" strokeOpacity="0.1" strokeWidth="1" className="text-foreground" />
+                    {/* Start dot */}
+                    <circle cx={trace.startDot.x} cy={trace.startDot.y} r="4" fill="var(--background)" />
+                    <circle cx={trace.startDot.x} cy={trace.startDot.y} r="3.5" stroke="currentColor" strokeOpacity="0.1" strokeWidth="1" fill="none" className="text-foreground" />
+                    {/* End dot */}
+                    <circle cx={trace.endDot.x} cy={trace.endDot.y} r="4" fill="var(--background)" />
+                    <circle cx={trace.endDot.x} cy={trace.endDot.y} r="3.5" stroke="currentColor" strokeOpacity="0.1" strokeWidth="1" fill="none" className="text-foreground" />
+
+                    {/* Animated beam */}
+                    <path
+                      d={trace.d}
+                      stroke={`url(#trace-beam-${i})`}
+                      strokeWidth="2"
+                      strokeLinecap="butt"
+                      fill="none"
+                      className="skills-beam-path skills-beam-head"
+                      style={{
+                        "--beam-duration": `${trace.beamDuration}s`,
+                        "--beam-delay": `${trace.beamDelay}s`,
+                      } as React.CSSProperties}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          )}
+
+          {/* ═══ Top Row: 3 skill cards ═══ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             className="grid gap-4 sm:grid-cols-3 mb-16 md:mb-24"
           >
-            {topSkills.map((group, i) => (
-              <div key={group.title} ref={(el) => { topRefs.current[i] = el; }}>
-                <SpotlightCard className="p-5 h-full">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
-                      {icons[group.title]}
+            {topSkills.map((group, i) => {
+              const beamColors = BEAM_COLORS[i % BEAM_COLORS.length];
+              return (
+                <div key={group.title} ref={(el) => { topRefs.current[i] = el; }}>
+                  <SpotlightCard className="p-5 h-full relative overflow-hidden">
+                    {/* Bottom edge glow — where the trace exits */}
+                    <div
+                      className="pointer-events-none absolute bottom-0 left-0 right-0 h-[1px]"
+                      style={{
+                        background: `linear-gradient(90deg, transparent 20%, ${beamColors[0]} 40%, ${beamColors[1]} 60%, transparent 80%)`,
+                        opacity: 0.5,
+                      }}
+                    />
+                    <div
+                      className="pointer-events-none absolute bottom-0 left-0 right-0 h-8"
+                      style={{
+                        background: `linear-gradient(to top, ${beamColors[0]}08, transparent)`,
+                      }}
+                    />
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
+                        {icons[group.title]}
+                      </div>
+                      <h3 className="font-semibold text-heading text-sm">{group.title}</h3>
                     </div>
-                    <h3 className="font-semibold text-heading text-sm">{group.title}</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {group.items.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-md border border-pill-border bg-pill-bg px-2 py-0.5 text-xs text-muted transition-colors hover:border-accent/30 hover:text-accent"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </SpotlightCard>
-              </div>
-            ))}
+                    <div className="flex flex-wrap gap-1.5">
+                      {group.items.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-md border border-pill-border bg-pill-bg px-2 py-0.5 text-xs text-muted transition-colors hover:border-accent/30 hover:text-accent"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </SpotlightCard>
+                </div>
+              );
+            })}
           </motion.div>
 
-          {/* Central chip */}
+          {/* ═══ Central Chip ═══ */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isVisible ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex justify-center mb-16 md:mb-24"
           >
-            <div ref={chipRef} className="relative">
-              {/* Top pins */}
-              <div className="flex justify-center gap-2 mb-1">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <span key={`tp-${i}`} className="block h-3 w-1.5 rounded-t-sm bg-card-border" />
+            <div ref={chipRef} className="relative group">
+              {/* Top connectors */}
+              <div className="flex justify-center gap-[5px] mb-[1px]">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <span
+                    key={`tp-${i}`}
+                    className="block h-[14px] w-[3px] rounded-t-[1px]"
+                    style={{
+                      background: "linear-gradient(180deg, var(--card-border) 0%, var(--card-border-hover) 50%, var(--card-border) 100%)",
+                    }}
+                  />
                 ))}
               </div>
 
               {/* Chip body */}
-              <div className="relative flex items-center gap-3 rounded-lg border border-card-border-hover bg-code-bg px-8 py-4 shadow-lg shadow-accent/[0.05]">
-                {/* Left pins */}
-                <div className="absolute -left-3 top-1/2 -translate-y-1/2 flex flex-col gap-1.5">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <span key={`lp-${i}`} className="block h-1.5 w-3 rounded-l-sm bg-card-border" />
+              <div className="relative overflow-hidden rounded-[6px] border border-card-border px-10 py-5"
+                style={{
+                  background: "linear-gradient(180deg, var(--card-bg), transparent)",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.08)",
+                }}
+              >
+                {/* Left connectors */}
+                <div className="absolute -left-[14px] top-1/2 -translate-y-1/2 flex flex-col gap-[5px]">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span
+                      key={`lp-${i}`}
+                      className="block h-[3px] w-[14px] rounded-l-[1px]"
+                      style={{
+                        background: "linear-gradient(90deg, var(--card-border) 0%, var(--card-border-hover) 50%, var(--card-border) 100%)",
+                      }}
+                    />
                   ))}
                 </div>
-                {/* Right pins */}
-                <div className="absolute -right-3 top-1/2 -translate-y-1/2 flex flex-col gap-1.5">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <span key={`rp-${i}`} className="block h-1.5 w-3 rounded-r-sm bg-card-border" />
+                {/* Right connectors */}
+                <div className="absolute -right-[14px] top-1/2 -translate-y-1/2 flex flex-col gap-[5px]">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span
+                      key={`rp-${i}`}
+                      className="block h-[3px] w-[14px] rounded-r-[1px]"
+                      style={{
+                        background: "linear-gradient(90deg, var(--card-border) 0%, var(--card-border-hover) 50%, var(--card-border) 100%)",
+                      }}
+                    />
                   ))}
                 </div>
 
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent">
-                  <rect x="5" y="5" width="14" height="14" rx="2" />
-                  <rect x="9" y="9" width="6" height="6" />
-                </svg>
-                <span className="text-sm font-semibold text-heading">My Stack</span>
+                {/* Pin-1 marker */}
+                <div className="absolute top-[6px] left-[6px] h-[5px] w-[5px] rounded-full border border-card-border" />
 
-                {/* Accent glow */}
-                <div className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-r from-accent/[0.05] via-transparent to-accent/[0.05]" />
+                {/* Chip shine effect — nextjs.org style */}
+                <div
+                  data-cpu-shine
+                  className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700"
+                  style={{
+                    background: "linear-gradient(90deg, transparent 20%, transparent 40%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 55%, transparent 70%)",
+                    backgroundSize: "200%",
+                    animation: "shine 5s infinite",
+                    transform: "scale(2.2) rotate(-30deg)",
+                    mixBlendMode: "plus-lighter",
+                  }}
+                />
+
+                {/* Content */}
+                <div className="relative flex items-center gap-3">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent">
+                    <rect x="5" y="5" width="14" height="14" rx="2" />
+                    <rect x="9" y="9" width="6" height="6" />
+                    <line x1="12" y1="5" x2="12" y2="2" />
+                    <line x1="12" y1="22" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="2" y2="12" />
+                    <line x1="22" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold text-heading tracking-wide">My Stack</span>
+                    <span className="text-[9px] text-dimmed font-mono tracking-widest mt-0.5">PSR–2026</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Bottom pins */}
-              <div className="flex justify-center gap-2 mt-1">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <span key={`bp-${i}`} className="block h-3 w-1.5 rounded-b-sm bg-card-border" />
+              {/* Bottom connectors */}
+              <div className="flex justify-center gap-[5px] mt-[1px]">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <span
+                    key={`bp-${i}`}
+                    className="block h-[14px] w-[3px] rounded-b-[1px]"
+                    style={{
+                      background: "linear-gradient(180deg, var(--card-border-hover) 0%, var(--card-border) 50%, transparent 100%)",
+                    }}
+                  />
                 ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Bottom row: 3 skill cards */}
+          {/* ═══ Bottom Row: 3 skill cards ═══ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="grid gap-4 sm:grid-cols-3"
           >
-            {bottomSkills.map((group, i) => (
-              <div key={group.title} ref={(el) => { bottomRefs.current[i] = el; }}>
-                <SpotlightCard className="p-5 h-full">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
-                      {icons[group.title]}
+            {bottomSkills.map((group, i) => {
+              const beamColors = BEAM_COLORS[(i + 3) % BEAM_COLORS.length];
+              return (
+                <div key={group.title} ref={(el) => { bottomRefs.current[i] = el; }}>
+                  <SpotlightCard className="p-5 h-full relative overflow-hidden">
+                    {/* Top edge glow — where the trace enters */}
+                    <div
+                      className="pointer-events-none absolute top-0 left-0 right-0 h-[1px]"
+                      style={{
+                        background: `linear-gradient(90deg, transparent 20%, ${beamColors[0]} 40%, ${beamColors[1]} 60%, transparent 80%)`,
+                        opacity: 0.5,
+                      }}
+                    />
+                    <div
+                      className="pointer-events-none absolute top-0 left-0 right-0 h-8"
+                      style={{
+                        background: `linear-gradient(to bottom, ${beamColors[0]}08, transparent)`,
+                      }}
+                    />
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
+                        {icons[group.title]}
+                      </div>
+                      <h3 className="font-semibold text-heading text-sm">{group.title}</h3>
                     </div>
-                    <h3 className="font-semibold text-heading text-sm">{group.title}</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {group.items.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-md border border-pill-border bg-pill-bg px-2 py-0.5 text-xs text-muted transition-colors hover:border-accent/30 hover:text-accent"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </SpotlightCard>
-              </div>
-            ))}
+                    <div className="flex flex-wrap gap-1.5">
+                      {group.items.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-md border border-pill-border bg-pill-bg px-2 py-0.5 text-xs text-muted transition-colors hover:border-accent/30 hover:text-accent"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </SpotlightCard>
+                </div>
+              );
+            })}
           </motion.div>
         </div>
       </div>

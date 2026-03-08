@@ -147,6 +147,43 @@ body {
   }
 }
 
+/* ─── Skills section: animated beams (nextjs.org style) ─── */
+@keyframes beam-travel {
+  0% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+.skills-beam-path {
+  will-change: stroke-dashoffset;
+}
+
+/* ─── Chip shine sweep (nextjs.org style) ─── */
+@keyframes shine {
+  0% {
+    background-position: 0%;
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    background-position: 200%;
+    opacity: 0;
+  }
+}
+
 /* Grain overlay */
 body::before {
   content: "";
