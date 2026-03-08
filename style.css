@@ -1305,3 +1305,67 @@ body.theme-cyan {
 .browser-line.short { width: 40%; }
 .browser-box-grid { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
 .browser-box { flex: 1; height: 40px; border: 1px dashed var(--c-border-hover); border-radius: 4px; }
+
+/* ─── Light Mode Theme Variables (The "Hero" Match) ─── */
+body.theme-light {
+  /* Backgrounds */
+  --c-bg: #ffffff;
+  --c-bg-elevated: #fafafa;
+  --c-bg-card: #ffffff;
+  --c-surface: #f3f4f6;
+  
+  /* Borders - Sharp, subtle gray like the GitHub/LinkedIn buttons */
+  --c-border: #eaeaea;
+  --c-border-hover: #cccccc;
+  
+  /* Text - High contrast */
+  --c-text: #333333;       /* Main body text */
+  --c-text-muted: #666666; /* Secondary text */
+  --c-text-dim: #999999;   /* Dates, small labels */
+  --c-white: #000000;      /* Flips all your H2/H3 headings to Pure Black */
+  
+  /* Accents - Matching the blue "Pendry" */
+  --c-accent: #3b82f6; 
+  --c-accent-soft: rgba(59, 130, 246, 0.1);
+  --c-accent2: #111111;
+}
+
+/* ─── Light Mode Component Overrides ─── */
+/* Makes the "View Projects" button solid black in light mode */
+body.theme-light .cta-primary {
+  background: #000000;
+  color: #ffffff;
+}
+body.theme-light .cta-primary:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* Ensure navbar text is readable */
+body.theme-light .navbar {
+  background: rgba(255, 255, 255, 0.85);
+}
+body.theme-light .nav-brand {
+  color: #000000;
+}
+body.theme-light .nav-links a:hover, 
+body.theme-light .nav-links a.active {
+  color: #000000;
+  background: var(--c-surface);
+}
+
+/* Tech skill pills & buttons */
+body.theme-light .skill-pills span,
+body.theme-light .tech-tags span,
+body.theme-light .filter-btn {
+  background: #ffffff;
+  border-color: #eaeaea;
+  color: #444444;
+}
+body.theme-light .skill-pills span:hover,
+body.theme-light .tech-tags span:hover,
+body.theme-light .filter-btn:hover,
+body.theme-light .filter-btn.active {
+  background: #f8f9fa;
+  border-color: #000000;
+  color: #000000;
+}
