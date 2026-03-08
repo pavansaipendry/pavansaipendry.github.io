@@ -6,18 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
   /* ─── Accent Theme Toggle ─── */
-  const accentToggle = document.getElementById('accentToggle');
-  
-  accentToggle.addEventListener('click', () => {
-    document.body.classList.toggle('theme-cyan');
-    
-    // Optional: Save preference to localStorage so it persists on reload
-    if(document.body.classList.contains('theme-cyan')) {
-      localStorage.setItem('psr-theme', 'cyan');
-    } else {
-      localStorage.setItem('psr-theme', 'yellow');
-    }
-  });
+  // Check on load
+  if (localStorage.getItem('psr-theme') === 'light') {
+    document.body.classList.add('theme-light');
+  }
+
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('theme-light');
+      localStorage.setItem('psr-theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+    });
+  }
 
   /* ─── Mobile Navigation ─── */
   const navToggle = document.getElementById('navToggle');

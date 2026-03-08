@@ -34,11 +34,9 @@
         <li><a href="#publications" data-text="Research">Research</a></li>
         <li><a href="#contact" data-text="Contact">Contact</a></li>
       </ul>
-      <button id="accentToggle" class="accent-toggle" aria-label="Toggle Core Theme">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
+      <button id="themeToggle" class="accent-toggle" aria-label="Toggle Light/Dark Theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -206,6 +204,20 @@
             <li>Currently building <strong>PiqJob</strong>, a new startup venture currently in the early development phase.</li>
             <li>Architecting the platform infrastructure, defining the core product vision, and preparing for initial launch.</li>
           </ul>
+          <div class="abstract-browser">
+            <div class="browser-top">
+              <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+            </div>
+            <div class="browser-body">
+              <div class="browser-line"></div>
+              <div class="browser-line short"></div>
+              <div class="browser-box-grid">
+                <div class="browser-box"></div>
+                <div class="browser-box"></div>
+              </div>
+            </div>
+          </div>
+
           <div class="tech-tags">
             <span>Entrepreneurship</span><span>Full-Stack</span><span>Product Design</span><span>Stealth</span>
           </div>
@@ -342,6 +354,18 @@
         <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
         <button class="filter-btn" data-filter="data">Data Pipelines</button>
       </div>
+      <div class="hardware-diagram animate-on-scroll">
+        <div class="chip-core">Powered By</div>
+        <div class="data-lines">
+          <div class="data-node"><div class="data-line"></div>React & Next.js</div>
+          <div class="data-node"><div class="data-line"></div>Python Ecosystem</div>
+          <div class="data-node"><div class="data-line"></div>PostgreSQL</div>
+        </div>
+        <p style="text-align:center; font-size: 0.9rem; color: var(--c-text-muted); margin-top: 2rem;">
+          The core architecture driving my AI projects. High-throughput data pipelines fused with responsive front-end interfaces.
+        </p>
+      </div>
+
       <div class="projects-grid">
         <div class="project-card project-card--ongoing animate-on-scroll" data-delay="0" data-category="ai fullstack">
           <div class="project-card-inner">
