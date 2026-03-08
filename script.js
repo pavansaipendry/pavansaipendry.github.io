@@ -171,18 +171,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => sectionObserver.observe(section));
     
-  /* ─── Neural Node Canvas ─── */
+  /* ─── Neural Node Canvas (pauses when hero is off-screen) ─── */
   const canvas = document.getElementById('neuralCanvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let width, height;
     let particles = [];
-    
+    let canvasRunning = true;
+    let animFrameId = null;
+
     function initCanvas() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = document.querySelector('.hero').offsetHeight;
       particles = [];
-      for(let i = 0; i < (window.innerWidth < 768 ? 30 : 70); i++) {
+      for (let i = 0; i < (window.innerWidth < 768 ? 30 : 70); i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -192,27 +194,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     }
-    
+
     function drawParticles() {
+      if (!canvasRunning) return;
       ctx.clearRect(0, 0, width, height);
-      // Check which theme is active for the neural nodes
+      const isLight = document.body.classList.contains('theme-light');
       const isCyan = document.body.classList.contains('theme-cyan');
-      ctx.fillStyle = isCyan ? 'rgba(0, 240, 255, 0.5)' : 'rgba(200, 255, 0, 0.5)';
-      ctx.strokeStyle = isCyan ? 'rgba(0, 240, 255, 0.1)' : 'rgba(200, 255, 0, 0.1)';
-      
+      if (isLight) {
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.35)';
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)';
+      } else if (isCyan) {
+        ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
+        ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
+      } else {
+        ctx.fillStyle = 'rgba(200, 255, 0, 0.5)';
+        ctx.strokeStyle = 'rgba(200, 255, 0, 0.1)';
+      }
+
       particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
-        
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
-        
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
-        
-        // Connect nearby particles
-        for(let j = i + 1; j < particles.length; j++) {
+
+        for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
           if (dist < 120) {
@@ -223,9 +232,24 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       });
-      requestAnimationFrame(drawParticles);
+      animFrameId = requestAnimationFrame(drawParticles);
     }
-    
+
+    // Pause canvas when hero section is not visible
+    const heroSection = document.querySelector('.hero');
+    const canvasObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          canvasRunning = true;
+          drawParticles();
+        } else {
+          canvasRunning = false;
+          if (animFrameId) cancelAnimationFrame(animFrameId);
+        }
+      });
+    }, { threshold: 0 });
+    canvasObserver.observe(heroSection);
+
     initCanvas();
     drawParticles();
     window.addEventListener('resize', initCanvas);

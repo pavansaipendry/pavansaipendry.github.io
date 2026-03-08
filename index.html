@@ -3,11 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pavan Sai Reddy Pendry | Portfolio</title>
+  <title>Pavan Sai Reddy Pendry | Software Engineer & AI/ML</title>
+  <meta name="description" content="Pavan Sai Reddy Pendry — Full-stack developer and AI/ML engineer building scalable autonomous systems. M.S. Computer Science, University of Kansas.">
+  <meta property="og:title" content="Pavan Sai Reddy Pendry | Software Engineer & AI/ML">
+  <meta property="og:description" content="Full-stack developer and AI/ML engineer building scalable autonomous systems from research to deployment.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pavansaipendry.dev">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pavan Sai Reddy Pendry | Software Engineer & AI/ML">
+  <meta name="twitter:description" content="Full-stack developer and AI/ML engineer building scalable autonomous systems from research to deployment.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230a0a0f'/><text x='32' y='43' text-anchor='middle' font-family='monospace' font-weight='700' font-size='22' fill='%23c8ff00' letter-spacing='1'>PSR</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -46,7 +53,7 @@
 
   <!-- Hero Section -->
   <section id="home" class="hero">
-    <canvas id="neuralCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
+    <canvas id="neuralCanvas" class="neural-canvas"></canvas>
     <div class="hero-bg-text" aria-hidden="true">ENGINEER</div>
     <div class="hero-content">
       <div class="hero-label animate-on-scroll">
@@ -55,9 +62,9 @@
       </div>
       <h1 class="hero-title">
         <span class="title-line"><span class="title-word">Pavan</span> <span class="title-word">Sai</span></span>
-        <span class="title-line"><span class="title-word">Reddy</span> <span class="title-word accent-word" style="color: var(--c-accent);">Pendry</span></span>
+        <span class="title-line"><span class="title-word">Reddy</span> <span class="title-word accent-word">Pendry</span></span>
       </h1>
-      <p class="hero-description animate-on-scroll">Full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale. [cite: 3]</p>
+      <p class="hero-description animate-on-scroll">Full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale.</p>
       <div class="hero-ctas animate-on-scroll">
         <a href="#projects" class="cta-primary">
           <span>View Projects</span>
@@ -82,8 +89,8 @@
       </div>
       <div class="about-grid">
         <div class="about-text animate-on-scroll">
-          <p class="about-lead">I am a full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale. [cite: 3]</p>
-          <p>Currently pursuing my M.S. in Computer Science at the University of Kansas [cite: 5, 6], I have a proven track record of creating impactful applications, from an AI-powered campus assistant to real-time market data services. [cite: 22, 44] My focus is on backend engineering and AI integration within high-growth teams. [cite: 3]</p>
+          <p class="about-lead">I am a full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale.</p>
+          <p>Currently pursuing my M.S. in Computer Science at the University of Kansas, I have a proven track record of creating impactful applications, from an AI-powered campus assistant to real-time market data services. My focus is on backend engineering and AI integration within high-growth teams.</p>
         </div>
         <div class="education-cards animate-on-scroll">
           <div class="edu-card">
@@ -204,25 +211,25 @@
       </div>
 
       <div class="piqjob-card animate-on-scroll">
-        <div class="exp-card-header" style="margin-bottom: 0.5rem;">
+        <div class="exp-card-header piqjob-header">
           <div>
-            <h3 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--c-heading);">Founder & Engineer</h3>
-            <p class="exp-org" style="margin-top: 0.5rem; margin-bottom: 1rem;">
-              <a href="https://piqjob.com/" target="_blank" rel="noopener noreferrer" style="color: var(--c-text-muted); transition: color 0.3s;" onmouseover="this.style.color='var(--c-accent)'" onmouseout="this.style.color='var(--c-text-muted)'">
+            <h3 class="piqjob-title">Founder & Engineer</h3>
+            <p class="exp-org piqjob-org">
+              <a href="https://piqjob.com/" target="_blank" rel="noopener noreferrer" class="piqjob-link">
                 PiqJob ↗
               </a>
             </p>
           </div>
           <span class="exp-date">Upcoming (2026)</span>
         </div>
-        
-        <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-          <li style="position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; color: var(--c-text-muted);">
-            <span style="position: absolute; left: 0; color: var(--c-text-muted);">→</span>
-            Currently building <strong style="color: var(--c-accent);">PiqJob</strong>, a new startup venture currently in the early development phase.
+
+        <ul class="piqjob-list">
+          <li>
+            <span class="piqjob-arrow">→</span>
+            Currently building <strong>PiqJob</strong>, a new startup venture currently in the early development phase.
           </li>
-          <li style="position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; color: var(--c-text-muted);">
-            <span style="position: absolute; left: 0; color: var(--c-text-muted);">→</span>
+          <li>
+            <span class="piqjob-arrow">→</span>
             Architecting the platform infrastructure, defining the core product vision, and preparing for initial launch.
           </li>
         </ul>
@@ -250,9 +257,9 @@
       <div class="featured-card animate-on-scroll">
         <div class="featured-glow"></div>
         
-        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
-          <div class="featured-badge" style="margin-bottom: 0;">★ Featured Project</div>
-          <div class="status-indicator" style="margin-bottom: 0;">
+        <div class="featured-meta">
+          <div class="featured-badge">★ Featured Project</div>
+          <div class="status-indicator">
             <span class="status-dot"></span>
             <span class="status-text">Live: 7,355 Courses Synced</span>
           </div>
@@ -275,7 +282,7 @@
             </a>
           </div>
         </div>
-        <p class="featured-intro">Bulit <strong>BabyJay</strong>, an AI-powered campus assistant serving <strong>9,500+</strong> knowledge documents with <strong>82.4%</strong> user approval rate.</p>
+        <p class="featured-intro">Built <strong>BabyJay</strong>, an AI-powered campus assistant serving <strong>9,500+</strong> knowledge documents with <strong>82.4%</strong> user approval rate.</p>
         <div class="featured-highlights">
           <div class="highlight-item">
             <span class="highlight-metric">35×</span>
@@ -383,7 +390,7 @@
           <div class="data-node"><div class="data-line"></div>Python Ecosystem</div>
           <div class="data-node"><div class="data-line"></div>PostgreSQL</div>
         </div>
-        <p style="text-align:center; font-size: 0.9rem; color: var(--c-text-muted); margin-top: 2rem;">
+        <p class="hardware-desc">
           The core architecture driving my AI projects. High-throughput data pipelines fused with responsive front-end interfaces.
         </p>
       </div>
@@ -508,7 +515,7 @@
   <section id="publications" class="publications">
     <div class="container">
       <div class="section-header animate-on-scroll">
-        <span class="section-number">05</span>
+        <span class="section-number">06</span>
         <h2>Research & Publications</h2>
       </div>
       <div class="pub-list">
@@ -553,7 +560,7 @@
     <div class="container">
       <div class="contact-inner animate-on-scroll">
         <div class="section-header">
-          <span class="section-number">06</span>
+          <span class="section-number">07</span>
           <h2>Let's Connect</h2>
         </div>
         <p class="contact-desc">Currently open to software engineering and AI/ML opportunities. Let's build something impactful together.</p>
@@ -563,10 +570,10 @@
             <span class="contact-card-label">Email</span>
             <span class="contact-card-value">pavansaipendry2002@gmail.com</span>
           </a>
-          <a href="tel:+17858137825" class="contact-card">
-            <span class="contact-card-icon">☎</span>
-            <span class="contact-card-label">Phone</span>
-            <span class="contact-card-value">+1 785 813 7825</span>
+          <a href="#contact" class="contact-card">
+            <span class="contact-card-icon">📄</span>
+            <span class="contact-card-label">Resume</span>
+            <span class="contact-card-value">Available on request</span>
           </a>
           <a href="https://www.linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer" class="contact-card">
             <span class="contact-card-icon">in</span>
@@ -618,12 +625,12 @@
     </button>
     <div class="drawer-content">
       <div class="featured-badge">Case Study</div>
-      <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.5rem; color: var(--c-white);">BabyJay Architecture</h2>
-      <p style="color: var(--c-text-muted); margin-bottom: 2rem; line-height: 1.7;">Deep dive into the RAG pipeline and real-time enrollment data integrations that power the campus assistant.</p>
-      <ul style="list-style: none; padding: 0;">
-        <li style="margin-bottom: 1rem; color: var(--c-text-muted);"><strong style="color: var(--c-accent);">Hybrid RAG:</strong> Engineered retrieval system with 4 specialized retrievers achieving 35x speedup.</li>
-        <li style="margin-bottom: 1rem; color: var(--c-text-muted);"><strong style="color: var(--c-accent);">Live Data:</strong> Built web scrapers for classes.ku.edu, enabling live seat availability queries with 2-layer semantic caching.</li>
-        <li style="margin-bottom: 1rem; color: var(--c-text-muted);"><strong style="color: var(--c-accent);">RLHF Pipeline:</strong> Designed feedback analytics system that learns from user input to dynamically enhance system prompts.</li>
+      <h2 class="drawer-title">BabyJay Architecture</h2>
+      <p class="drawer-desc">Deep dive into the RAG pipeline and real-time enrollment data integrations that power the campus assistant.</p>
+      <ul class="drawer-list">
+        <li><strong>Hybrid RAG:</strong> Engineered retrieval system with 4 specialized retrievers achieving 35x speedup.</li>
+        <li><strong>Live Data:</strong> Built web scrapers for classes.ku.edu, enabling live seat availability queries with 2-layer semantic caching.</li>
+        <li><strong>RLHF Pipeline:</strong> Designed feedback analytics system that learns from user input to dynamically enhance system prompts.</li>
       </ul>
     </div>
   </div>
