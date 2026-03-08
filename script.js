@@ -1,12 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Check on load
-    if (localStorage.getItem('psr-theme') === 'cyan') {
-      document.body.classList.add('theme-cyan');
-    }
+  /* ─── Page Loader ─── */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const loader = document.getElementById('pageLoader');
+      if (loader) loader.classList.add('done');
+    }, 600);
+  });
 
-  /* ─── Accent Theme Toggle ─── */
-  // Check on load
+  /* ─── Theme Toggle ─── */
+  if (localStorage.getItem('psr-theme') === 'cyan') {
+    document.body.classList.add('theme-cyan');
+  }
   if (localStorage.getItem('psr-theme') === 'light') {
     document.body.classList.add('theme-light');
   }
@@ -37,54 +42,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
   });
 
-  const heroBgText = document.querySelector('.hero-bg-text');
-  window.addEventListener('scroll', () => {
-    if (heroBgText) {
-      // Moves the text down slightly as the user scrolls down
-      const scrollY = window.scrollY;
-      heroBgText.style.transform = `translate(-50%, calc(-50% + ${scrollY * 0.35}px))`;
-    }
-  });
-
-  const cta = document.querySelector('.cta-primary');
-  if (cta && window.matchMedia('(pointer: fine)').matches) {
-    cta.addEventListener('mousemove', (e) => {
-      const rect = cta.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      cta.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-    });
-    cta.addEventListener('mouseleave', () => {
-      cta.style.transform = `translate(0px, 0px)`;
-    });
-  }
-
-  // Close on Escape key
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
-      closeNav();
-    }
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) closeNav();
   });
 
-  // Close when tapping outside the nav on mobile
   document.addEventListener('click', e => {
-    if (
-      navLinks.classList.contains('open') &&
-      !navLinks.contains(e.target) &&
-      !navToggle.contains(e.target)
-    ) {
+    if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !navToggle.contains(e.target)) {
       closeNav();
     }
   });
 
-  // Smooth scroll & close mobile nav
   document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const target = document.getElementById(link.getAttribute('href').substring(1));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
       closeNav();
     });
   });
@@ -119,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateFollower();
 
-    // Hover effects on interactive elements
     document.querySelectorAll('a, button, .nav-toggle, summary, .skill-pills span, .tech-tags span').forEach(el => {
       el.addEventListener('mouseenter', () => {
         cursor.style.width = '16px';
@@ -143,16 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const delay = entry.target.dataset.delay || 0;
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-        }, delay * 100);
+        setTimeout(() => entry.target.classList.add('visible'), delay * 100);
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
 
   /* ─── Active Nav Link Highlighting ─── */
   const sections = document.querySelectorAll('section[id]');
@@ -170,114 +138,179 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
 
   sections.forEach(section => sectionObserver.observe(section));
-    
-  /* ─── Neural Node Canvas (pauses when hero is off-screen) ─── */
-  const canvas = document.getElementById('neuralCanvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
-    let canvasRunning = true;
-    let animFrameId = null;
 
-    function initCanvas() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = document.querySelector('.hero').offsetHeight;
-      particles = [];
-      for (let i = 0; i < (window.innerWidth < 768 ? 30 : 70); i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          radius: Math.random() * 2 + 1
-        });
-      }
+  /* ─── Skills Canvas — Animated Connection Lines ─── */
+  const skillsCanvas = document.getElementById('skillsCanvas');
+  const skillsCore = document.getElementById('skillsCore');
+  const skillsGrid = document.getElementById('skillsGrid');
+
+  if (skillsCanvas && skillsCore && skillsGrid && window.innerWidth > 768) {
+    const ctx = skillsCanvas.getContext('2d');
+    let sWidth, sHeight;
+    let particles = [];
+    let paths = [];
+    let skillsRunning = false;
+    let skillsAnimId = null;
+
+    function getRelPos(el, container) {
+      const cr = container.getBoundingClientRect();
+      const er = el.getBoundingClientRect();
+      return {
+        x: er.left - cr.left + er.width / 2,
+        y: er.top - cr.top + er.height / 2,
+        top: er.top - cr.top,
+        bottom: er.top - cr.top + er.height
+      };
     }
 
-    function drawParticles() {
-      if (!canvasRunning) return;
-      ctx.clearRect(0, 0, width, height);
-      const isLight = document.body.classList.contains('theme-light');
-      const isCyan = document.body.classList.contains('theme-cyan');
-      if (isLight) {
-        ctx.fillStyle = 'rgba(59, 130, 246, 0.35)';
-        ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)';
-      } else if (isCyan) {
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
-        ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
-      } else {
-        ctx.fillStyle = 'rgba(200, 255, 0, 0.5)';
-        ctx.strokeStyle = 'rgba(200, 255, 0, 0.1)';
+    function buildPaths() {
+      const container = skillsCanvas.parentElement;
+      const cr = container.getBoundingClientRect();
+      sWidth = skillsCanvas.width = cr.width;
+      sHeight = skillsCanvas.height = cr.height;
+
+      const core = getRelPos(skillsCore, container);
+      const blocks = skillsGrid.querySelectorAll('.skill-block');
+      paths = [];
+      particles = [];
+
+      blocks.forEach((block) => {
+        const bp = getRelPos(block, container);
+        // Create right-angle path: go down from core, then horizontal, then down to block
+        const midY = core.y + (bp.top - core.y) * 0.5;
+        const waypoints = [
+          { x: core.x, y: core.y + 20 },
+          { x: core.x, y: midY },
+          { x: bp.x, y: midY },
+          { x: bp.x, y: bp.top }
+        ];
+        paths.push(waypoints);
+
+        // Create a particle for each path
+        particles.push({
+          pathIndex: paths.length - 1,
+          progress: Math.random(),
+          speed: 0.002 + Math.random() * 0.002
+        });
+      });
+    }
+
+    function lerpPath(waypoints, t) {
+      // Calculate total length
+      let totalLen = 0;
+      const segments = [];
+      for (let i = 0; i < waypoints.length - 1; i++) {
+        const dx = waypoints[i + 1].x - waypoints[i].x;
+        const dy = waypoints[i + 1].y - waypoints[i].y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        segments.push(len);
+        totalLen += len;
       }
+      let targetDist = t * totalLen;
+      for (let i = 0; i < segments.length; i++) {
+        if (targetDist <= segments[i]) {
+          const frac = targetDist / segments[i];
+          return {
+            x: waypoints[i].x + (waypoints[i + 1].x - waypoints[i].x) * frac,
+            y: waypoints[i].y + (waypoints[i + 1].y - waypoints[i].y) * frac
+          };
+        }
+        targetDist -= segments[i];
+      }
+      return waypoints[waypoints.length - 1];
+    }
 
-      particles.forEach((p, i) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+    function drawSkills() {
+      if (!skillsRunning) return;
+      ctx.clearRect(0, 0, sWidth, sHeight);
 
+      const isLight = document.body.classList.contains('theme-light');
+      const lineColor = isLight ? 'rgba(59,130,246,0.15)' : 'rgba(200,255,0,0.12)';
+      const dotColor = isLight ? 'rgba(59,130,246,0.9)' : 'rgba(200,255,0,0.9)';
+      const glowColor = isLight ? 'rgba(59,130,246,0.3)' : 'rgba(200,255,0,0.3)';
+
+      // Draw paths
+      paths.forEach(waypoints => {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.moveTo(waypoints[0].x, waypoints[0].y);
+        for (let i = 1; i < waypoints.length; i++) {
+          ctx.lineTo(waypoints[i].x, waypoints[i].y);
+        }
+        ctx.strokeStyle = lineColor;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Draw small dots at corners
+        waypoints.forEach((wp, i) => {
+          if (i > 0 && i < waypoints.length - 1) {
+            ctx.beginPath();
+            ctx.arc(wp.x, wp.y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = lineColor;
+            ctx.fill();
+          }
+        });
+      });
+
+      // Animate particles flowing along paths
+      particles.forEach(p => {
+        p.progress += p.speed;
+        if (p.progress > 1) p.progress = 0;
+
+        const pos = lerpPath(paths[p.pathIndex], p.progress);
+
+        // Glow
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = glowColor;
         ctx.fill();
 
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor;
+        ctx.fill();
       });
-      animFrameId = requestAnimationFrame(drawParticles);
+
+      skillsAnimId = requestAnimationFrame(drawSkills);
     }
 
-    // Pause canvas when hero section is not visible
-    const heroSection = document.querySelector('.hero');
-    const canvasObserver = new IntersectionObserver((entries) => {
+    // Only run when visible
+    const skillsSection = document.getElementById('skills');
+    const skillsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          canvasRunning = true;
-          drawParticles();
+          buildPaths();
+          skillsRunning = true;
+          drawSkills();
         } else {
-          canvasRunning = false;
-          if (animFrameId) cancelAnimationFrame(animFrameId);
+          skillsRunning = false;
+          if (skillsAnimId) cancelAnimationFrame(skillsAnimId);
         }
       });
-    }, { threshold: 0 });
-    canvasObserver.observe(heroSection);
+    }, { threshold: 0.1 });
+    skillsObserver.observe(skillsSection);
 
-    initCanvas();
-    drawParticles();
-    window.addEventListener('resize', initCanvas);
+    window.addEventListener('resize', () => {
+      if (skillsRunning) buildPaths();
+    });
   }
 
-  /* ─── Animated Instant Tech-Stack Filtering ─── */
+  /* ─── Project Filters ─── */
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.projects-grid .project-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // 1. Update button styling
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
       const filterValue = btn.getAttribute('data-filter');
-      
-      // 2. Animate the cards
+
       projectCards.forEach(card => {
-        // Strip the animation class first so we can re-trigger it
         card.classList.remove('show-filter');
-        
-        const categories = card.getAttribute('data-category') || "";
-        
+        const categories = card.getAttribute('data-category') || '';
         if (filterValue === 'all' || categories.includes(filterValue)) {
           card.classList.remove('hide');
-          // Force a browser reflow to restart the animation
-          void card.offsetWidth; 
+          void card.offsetWidth;
           card.classList.add('show-filter');
         } else {
           card.classList.add('hide');
@@ -295,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openDrawer() {
     caseDrawer.classList.add('open');
     drawerOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
@@ -307,12 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
   drawerTriggers.forEach(btn => btn.addEventListener('click', openDrawer));
   if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
   if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
-  
-  // Close drawer on Escape key
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && caseDrawer.classList.contains('open')) {
-      closeDrawer();
-    }
+    if (e.key === 'Escape' && caseDrawer.classList.contains('open')) closeDrawer();
   });
 
 });

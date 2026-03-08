@@ -19,6 +19,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Page Loader -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-bar"></div>
+  </div>
+
   <!-- Custom cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursorFollower"></div>
@@ -29,9 +34,7 @@
   <!-- Navigation -->
   <header>
     <nav class="navbar" id="navbar">
-      <a href="#home" class="nav-brand">
-        <span class="brand-bracket">[</span>PSR<span class="brand-bracket">]</span>
-      </a>
+      <a href="#home" class="nav-brand">pavan.</a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home" data-text="Home">Home</a></li>
         <li><a href="#about" data-text="About">About</a></li>
@@ -53,25 +56,55 @@
 
   <!-- Hero Section -->
   <section id="home" class="hero">
-    <canvas id="neuralCanvas" class="neural-canvas"></canvas>
-    <div class="hero-bg-text" aria-hidden="true">ENGINEER</div>
-    <div class="hero-content">
-      <div class="hero-label animate-on-scroll">
-        <span class="label-line"></span>
-        <span>Computer Science · AI/ML · Full-Stack</span>
+    <div class="hero-grid-bg" aria-hidden="true">
+      <div class="grid-line-v grid-line-v1"></div>
+      <div class="grid-line-v grid-line-v2"></div>
+      <div class="grid-line-h grid-line-h1"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-label animate-on-scroll">
+          <span class="label-line"></span>
+          <span>Computer Science · AI/ML · Full-Stack</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="title-line"><span class="title-word">Pavan</span> <span class="title-word">Sai</span></span>
+          <span class="title-line"><span class="title-word">Reddy</span> <span class="title-word accent-word">Pendry</span></span>
+        </h1>
+        <p class="hero-description animate-on-scroll">Full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale.</p>
+        <div class="hero-ctas animate-on-scroll">
+          <a href="#projects" class="cta-primary">
+            <span>View Projects</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+          <a href="https://github.com/pavansaipendry" target="_blank" rel="noopener noreferrer" class="cta-secondary">GitHub</a>
+          <a href="https://linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer" class="cta-secondary">LinkedIn</a>
+        </div>
       </div>
-      <h1 class="hero-title">
-        <span class="title-line"><span class="title-word">Pavan</span> <span class="title-word">Sai</span></span>
-        <span class="title-line"><span class="title-word">Reddy</span> <span class="title-word accent-word">Pendry</span></span>
-      </h1>
-      <p class="hero-description animate-on-scroll">Full-stack developer with strong AI/ML experience, building scalable autonomous systems from research to deployment at production scale.</p>
-      <div class="hero-ctas animate-on-scroll">
-        <a href="#projects" class="cta-primary">
-          <span>View Projects</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-        </a>
-        <a href="https://github.com/pavansaipendry" target="_blank" rel="noopener noreferrer" class="cta-secondary">GitHub</a>
-        <a href="https://linkedin.com/in/pavansaireddypendry" target="_blank" rel="noopener noreferrer" class="cta-secondary">LinkedIn</a>
+      <div class="hero-visual animate-on-scroll">
+        <div class="mockup-frame">
+          <div class="mockup-browser">
+            <div class="mockup-chrome">
+              <div class="mockup-dots"><span></span><span></span><span></span></div>
+              <div class="mockup-url"></div>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-nav-row">
+                <div class="mockup-logo">&#9650;</div>
+                <div class="mockup-nav-items"><span></span><span></span><span class="wide"></span></div>
+                <div class="mockup-nav-btn"></div>
+              </div>
+              <div class="mockup-main">
+                <div class="mockup-sidebar">
+                  <span></span><span class="short"></span><span></span><span class="short"></span>
+                </div>
+                <div class="mockup-cards">
+                  <div></div><div></div><div></div><div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="scroll-indicator">
@@ -125,17 +158,13 @@
         <h2>Skills & Tools</h2>
       </div>
 
-      <div class="circuit-section animate-on-scroll">
-        <div class="circuit-chip">Powered By</div>
-        
-        <div class="circuit-lines">
-          <div class="circuit-line-horizontal"></div>
-          <div class="circuit-line-vertical left"></div>
-          <div class="circuit-line-vertical center"></div>
-          <div class="circuit-line-vertical right"></div>
+      <div class="skills-constellation animate-on-scroll">
+        <div class="skills-core" id="skillsCore">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+          <span>My Stack</span>
         </div>
-        
-        <div class="circuit-grid">
+        <canvas id="skillsCanvas" class="skills-canvas"></canvas>
+        <div class="skills-grid" id="skillsGrid">
           
           <div class="skill-block" data-delay="0">
             <div class="skill-block-header">
@@ -203,6 +232,7 @@
   </section>
 
   <!-- Experience Section -->
+
   <section id="experience" class="experience">
     <div class="container">
       <div class="section-header animate-on-scroll">
@@ -234,16 +264,56 @@
           </li>
         </ul>
 
-        <div class="abstract-browser">
-          <div class="browser-top">
-            <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+        <div class="piqjob-chat">
+          <div class="chat-header">
+            <div class="chat-header-left">
+              <span class="chat-status-dot"></span>
+              <span class="chat-channel"># questions</span>
+            </div>
+            <span class="chat-online">3 online</span>
           </div>
-          <div class="browser-body">
-            <div class="browser-line"></div>
-            <div class="browser-line short"></div>
-            <div class="browser-box-grid">
-              <div class="browser-box"></div>
-              <div class="browser-box"></div>
+          <div class="chat-messages">
+            <div class="chat-msg">
+              <div class="chat-avatar chat-avatar-bot">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3z" stroke="var(--c-accent)" stroke-width="1.5"/><circle cx="12" cy="5" r="1.5" fill="var(--c-accent)"/><circle cx="4.5" cy="19" r="1.5" fill="var(--c-accent)"/><circle cx="19.5" cy="19" r="1.5" fill="var(--c-accent)"/></svg>
+              </div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>PiqJob</strong><span class="chat-badge">APP</span><span class="chat-time">23:37</span></div>
+                <p>Hey! Welcome to PiqJob</p>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-avatar chat-avatar-bot">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3z" stroke="var(--c-accent)" stroke-width="1.5"/><circle cx="12" cy="5" r="1.5" fill="var(--c-accent)"/><circle cx="4.5" cy="19" r="1.5" fill="var(--c-accent)"/><circle cx="19.5" cy="19" r="1.5" fill="var(--c-accent)"/></svg>
+              </div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>PiqJob</strong><span class="chat-badge">APP</span><span class="chat-time">23:37</span></div>
+                <p>Your personal job dashboard — pick the companies you love, choose the roles you want, and we deliver matching jobs straight to you.</p>
+              </div>
+            </div>
+            <div class="chat-msg chat-msg-user">
+              <div class="chat-avatar chat-avatar-you">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>you</strong><span class="chat-time">23:38</span></div>
+                <p>how does the matching work?</p>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-avatar chat-avatar-bot">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3z" stroke="var(--c-accent)" stroke-width="1.5"/><circle cx="12" cy="5" r="1.5" fill="var(--c-accent)"/><circle cx="4.5" cy="19" r="1.5" fill="var(--c-accent)"/><circle cx="19.5" cy="19" r="1.5" fill="var(--c-accent)"/></svg>
+              </div>
+              <div class="chat-msg-body">
+                <div class="chat-msg-meta"><strong>PiqJob</strong><span class="chat-badge">APP</span><span class="chat-time">23:38</span></div>
+                <p>You select companies + roles, and we pull fresh openings daily. Got questions? Drop them below!</p>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <span class="chat-input-text">Ask us anything...</span>
+            <div class="chat-input-send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
             </div>
           </div>
         </div>
@@ -383,18 +453,6 @@
         <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
         <button class="filter-btn" data-filter="data">Data Pipelines</button>
       </div>
-      <div class="hardware-diagram animate-on-scroll">
-        <div class="chip-core">Powered By</div>
-        <div class="data-lines">
-          <div class="data-node"><div class="data-line"></div>React & Next.js</div>
-          <div class="data-node"><div class="data-line"></div>Python Ecosystem</div>
-          <div class="data-node"><div class="data-line"></div>PostgreSQL</div>
-        </div>
-        <p class="hardware-desc">
-          The core architecture driving my AI projects. High-throughput data pipelines fused with responsive front-end interfaces.
-        </p>
-      </div>
-
       <div class="projects-grid">
         <div class="project-card project-card--ongoing animate-on-scroll" data-delay="0" data-category="ai fullstack">
           <div class="project-card-inner">
@@ -483,8 +541,6 @@
             </div>
           </div>
         </div>
-      </div>
-
       </div>
     </div>
   </section>
