@@ -14,16 +14,17 @@ const INK_SOFT = "rgba(16, 16, 20, 0.55)";
 const PAPER = "#eceae6";
 
 const BIO: { text: string; accent?: boolean }[] = [
-  { text: "Grad" }, { text: "student" }, { text: "by" }, { text: "day," },
-  { text: "systems", accent: true }, { text: "builder", accent: true },
-  { text: "by" }, { text: "night." }, { text: "I" }, { text: "took" },
-  { text: "an" }, { text: "AI" }, { text: "campus" }, { text: "assistant" },
-  { text: "from" }, { text: "idea" }, { text: "to" },
+  { text: "Systems", accent: true }, { text: "builder,", accent: true },
+  { text: "fresh" }, { text: "M.S." }, { text: "in" }, { text: "hand." },
+  { text: "I" }, { text: "took" }, { text: "an" }, { text: "AI" },
+  { text: "campus" }, { text: "assistant" }, { text: "from" },
+  { text: "idea" }, { text: "to" },
   { text: "7,300+", accent: true }, { text: "courses", accent: true },
   { text: "served," }, { text: "published" }, { text: "research" },
-  { text: "along" }, { text: "the" }, { text: "way," }, { text: "and" },
-  { text: "I'm" }, { text: "now" }, { text: "building" },
-  { text: "my" }, { text: "own" }, { text: "startup.", accent: true },
+  { text: "along" }, { text: "the" }, { text: "way" }, { text: "-" },
+  { text: "and" }, { text: "now" }, { text: "I" }, { text: "build" },
+  { text: "the" }, { text: "engines" }, { text: "underneath," },
+  { text: "from", accent: true }, { text: "scratch.", accent: true },
 ];
 
 const STATS = [

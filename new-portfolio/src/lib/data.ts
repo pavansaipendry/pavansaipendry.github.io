@@ -150,13 +150,13 @@ export const projects = [
   {
     number: "05",
     title: "PiqJob",
-    date: "2025 - Present",
+    date: "2025",
     description:
-      "My startup, built solo. A Chrome extension that notices job listings while you browse and saves them to your dashboard automatically - no copy-pasting, no spreadsheets.",
+      "Built solo, end-to-end. A Chrome extension that notices job listings while you browse and saves them to your dashboard automatically - no copy-pasting, no spreadsheets.",
     tags: ["Next.js 16", "TypeScript", "Chrome MV3", "Supabase", "Node.js"],
     live: "https://piqjob.com",
     category: ["fullstack"],
-    ongoing: true,
+    ongoing: false,
     images: ["/projects/piqjob.svg"],
     accent: "#e879f9",
   },
