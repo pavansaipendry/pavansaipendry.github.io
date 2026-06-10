@@ -14,7 +14,6 @@ const WorkChapters = dynamic(() => import("@/components/WorkChapters").then((m) 
 const AboutChapter = dynamic(() => import("@/components/AboutChapter").then((m) => ({ default: m.AboutChapter })));
 const ExperienceList = dynamic(() => import("@/components/ExperienceList").then((m) => ({ default: m.ExperienceList })));
 const PublicationsList = dynamic(() => import("@/components/PublicationsList").then((m) => ({ default: m.PublicationsList })));
-const TerminalStrip = dynamic(() => import("@/components/TerminalStrip").then((m) => ({ default: m.TerminalStrip })));
 const Contact = dynamic(() => import("@/components/Contact").then((m) => ({ default: m.Contact })));
 const Footer = dynamic(() => import("@/components/Footer").then((m) => ({ default: m.Footer })));
 const CommandPalette = dynamic(() => import("@/components/CommandPalette").then((m) => ({ default: m.CommandPalette })));
@@ -36,7 +35,6 @@ export default function Home() {
           <AboutChapter />
           <ExperienceList />
           <PublicationsList />
-          <TerminalStrip />
           <Contact />
         </main>
         <Footer />
