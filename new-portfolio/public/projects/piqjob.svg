@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="pjbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#1d1426"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#pjbg)"/>
+
+  <!-- Browser chrome -->
+  <rect x="0" y="0" width="1200" height="56" fill="#161822" opacity="0.9"/>
+  <circle cx="32" cy="28" r="6" fill="#ff5f57"/>
+  <circle cx="54" cy="28" r="6" fill="#febc2e"/>
+  <circle cx="76" cy="28" r="6" fill="#28c840"/>
+  <rect x="110" y="14" width="560" height="28" rx="14" fill="#1e2030"/>
+  <text x="130" y="33" font-family="monospace" font-size="12" fill="#666">careers.acme.ai/jobs/ml-engineer-2491</text>
+  <rect x="1090" y="12" width="32" height="32" rx="8" fill="#e879f930"/>
+  <text x="1106" y="34" font-family="sans-serif" font-size="16" fill="#e879f9" text-anchor="middle">P</text>
+  <circle cx="1118" cy="16" r="5" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.4;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Job page (left, grayed) -->
+  <g opacity="0.55">
+    <rect x="40" y="90" width="640" height="44" rx="6" fill="#1e2030"/>
+    <text x="60" y="118" font-family="sans-serif" font-size="20" font-weight="700" fill="#ddd">Machine Learning Engineer</text>
+    <rect x="40" y="150" width="240" height="14" rx="4" fill="#262938"/>
+    <rect x="40" y="178" width="640" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="196" width="610" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="214" width="630" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="232" width="560" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="262" width="180" height="10" rx="4" fill="#262938"/>
+    <rect x="40" y="284" width="640" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="302" width="600" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="320" width="620" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="350" width="180" height="10" rx="4" fill="#262938"/>
+    <rect x="40" y="372" width="640" height="8" rx="4" fill="#1e2030"/>
+    <rect x="40" y="390" width="580" height="8" rx="4" fill="#1e2030"/>
+  </g>
+
+  <!-- Scan beam over page -->
+  <rect x="40" y="90" width="640" height="3" fill="#e879f9" opacity="0.6">
+    <animate attributeName="y" values="90;400;90" dur="5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Extension popup (right) -->
+  <rect x="720" y="90" width="440" height="360" rx="12" fill="#1e2030" stroke="#e879f955" stroke-width="1.5"/>
+  <text x="745" y="124" font-family="sans-serif" font-size="13" font-weight="700" fill="#e879f9">PiqJob</text>
+  <rect x="1040" y="106" width="100" height="22" rx="11" fill="#34d39920"/>
+  <text x="1090" y="121" font-family="sans-serif" font-size="10" fill="#34d399" text-anchor="middle">JOB DETECTED</text>
+
+  <g font-family="sans-serif" font-size="12">
+    <text x="745" y="165" fill="#888">Title</text>
+    <text x="900" y="165" fill="#fff">Machine Learning Engineer</text>
+    <text x="745" y="195" fill="#888">Company</text>
+    <text x="900" y="195" fill="#fff">Acme AI</text>
+    <text x="745" y="225" fill="#888">Location</text>
+    <text x="900" y="225" fill="#fff">Remote (US)</text>
+    <text x="745" y="255" fill="#888">Salary</text>
+    <text x="900" y="255" fill="#34d399">$160k - $190k</text>
+    <text x="745" y="285" fill="#888">Source</text>
+    <text x="900" y="285" fill="#fff">Greenhouse · JSON-LD</text>
+  </g>
+
+  <rect x="745" y="315" width="390" height="1" fill="#2a2d42"/>
+  <rect x="745" y="340" width="390" height="44" rx="8" fill="#e879f9"/>
+  <text x="940" y="368" font-family="sans-serif" font-size="14" font-weight="700" fill="#13151f" text-anchor="middle">Saved to dashboard ✓</text>
+  <text x="940" y="425" font-family="monospace" font-size="11" fill="#666" text-anchor="middle">zero clicks · extracted in 0.4s</text>
+
+  <!-- Dashboard strip (bottom) -->
+  <rect x="40" y="480" width="1120" height="220" rx="10" fill="#13151f" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="512" font-family="sans-serif" font-size="11" fill="#888">MY PIPELINE - 34 JOBS</text>
+
+  <g font-family="sans-serif" font-size="13">
+    <rect x="60" y="530" width="1080" height="44" rx="6" fill="#1e2030"/>
+    <text x="80" y="557" fill="#fff">ML Engineer - Acme AI</text>
+    <text x="700" y="557" fill="#888" font-size="11">Remote · $160-190k</text>
+    <rect x="1020" y="540" width="56" height="24" rx="12" fill="#34d39920"/>
+    <text x="1048" y="557" fill="#34d399" font-size="11" text-anchor="middle">92</text>
+
+    <rect x="60" y="584" width="1080" height="44" rx="6" fill="#1b1d2b"/>
+    <text x="80" y="611" fill="#ccc">SWE, Inference - Nimbus</text>
+    <text x="700" y="611" fill="#777" font-size="11">SF · $185-210k</text>
+    <rect x="1020" y="594" width="56" height="24" rx="12" fill="#facc1520"/>
+    <text x="1048" y="611" fill="#facc15" font-size="11" text-anchor="middle">87</text>
+
+    <rect x="60" y="638" width="1080" height="44" rx="6" fill="#1b1d2b"/>
+    <text x="80" y="665" fill="#ccc">Research Engineer - Vector Labs</text>
+    <text x="700" y="665" fill="#777" font-size="11">NYC · $170k</text>
+    <rect x="1020" y="648" width="56" height="24" rx="12" fill="#facc1520"/>
+    <text x="1048" y="665" fill="#facc15" font-size="11" text-anchor="middle">81</text>
+  </g>
+</svg>

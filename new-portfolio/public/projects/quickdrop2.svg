@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#f5f5f0"/>
+  <!-- Light theme - QR Connect screen -->
+  <rect x="0" y="0" width="1200" height="52" fill="#fff" stroke="#e5e5e0" stroke-width="1"/>
+  <text x="40" y="34" font-family="monospace" font-size="17" font-weight="700" fill="#1a1a2e">⚡ QuickDrop</text>
+  <rect x="1040" y="14" width="120" height="26" rx="13" fill="#34d39915"/>
+  <text x="1100" y="32" font-family="sans-serif" font-size="11" fill="#059669" text-anchor="middle">● Connected</text>
+
+  <!-- Center: large QR -->
+  <rect x="340" y="90" width="520" height="520" rx="20" fill="#fff" stroke="#e0e0dc" stroke-width="1.5"/>
+  <text x="600" y="130" font-family="sans-serif" font-size="16" font-weight="600" fill="#333" text-anchor="middle">Scan with your Android device</text>
+
+  <!-- QR code mockup - larger -->
+  <rect x="420" y="160" width="360" height="360" rx="10" fill="#fafaf8"/>
+  <g fill="#1a1a2e">
+    <rect x="440" y="180" width="50" height="50" rx="4"/><rect x="500" y="180" width="25" height="25" rx="2"/><rect x="535" y="180" width="25" height="25" rx="2"/>
+    <rect x="570" y="180" width="25" height="25" rx="2"/><rect x="605" y="180" width="25" height="25" rx="2"/><rect x="640" y="180" width="25" height="25" rx="2"/>
+    <rect x="710" y="180" width="50" height="50" rx="4"/>
+    <rect x="440" y="240" width="25" height="25" rx="2"/><rect x="500" y="240" width="25" height="25" rx="2"/><rect x="570" y="240" width="25" height="25" rx="2"/>
+    <rect x="640" y="240" width="25" height="25" rx="2"/><rect x="710" y="240" width="25" height="25" rx="2"/>
+    <rect x="440" y="280" width="25" height="25" rx="2"/><rect x="500" y="280" width="25" height="25" rx="2"/><rect x="535" y="280" width="25" height="25" rx="2"/>
+    <rect x="605" y="280" width="25" height="25" rx="2"/><rect x="710" y="280" width="25" height="25" rx="2"/>
+    <rect x="440" y="320" width="25" height="25" rx="2"/><rect x="535" y="320" width="25" height="25" rx="2"/><rect x="570" y="320" width="25" height="25" rx="2"/>
+    <rect x="605" y="320" width="25" height="25" rx="2"/><rect x="640" y="320" width="25" height="25" rx="2"/><rect x="675" y="320" width="25" height="25" rx="2"/>
+    <rect x="440" y="360" width="25" height="25" rx="2"/><rect x="500" y="360" width="25" height="25" rx="2"/><rect x="535" y="360" width="25" height="25" rx="2"/>
+    <rect x="640" y="360" width="25" height="25" rx="2"/><rect x="710" y="360" width="25" height="25" rx="2"/>
+    <rect x="440" y="430" width="50" height="50" rx="4"/><rect x="535" y="430" width="25" height="25" rx="2"/><rect x="605" y="430" width="25" height="25" rx="2"/>
+    <rect x="710" y="430" width="50" height="50" rx="4"/>
+  </g>
+
+  <rect x="440" y="535" width="320" height="36" rx="8" fill="#059669"/>
+  <text x="600" y="558" font-family="monospace" font-size="14" fill="#fff" text-anchor="middle">192.168.1.42:5000</text>
+  <text x="600" y="590" font-family="sans-serif" font-size="12" fill="#999" text-anchor="middle">Both devices must be on the same WiFi network</text>
+
+  <!-- Bottom stats -->
+  <rect x="40" y="640" width="350" height="70" rx="12" fill="#fff" stroke="#e0e0dc" stroke-width="1"/>
+  <text x="60" y="668" font-family="sans-serif" font-size="11" fill="#999">MODE</text>
+  <text x="60" y="693" font-family="monospace" font-size="18" font-weight="600" fill="#1a1a2e">WiFi Direct</text>
+
+  <rect x="420" y="640" width="350" height="70" rx="12" fill="#fff" stroke="#e0e0dc" stroke-width="1"/>
+  <text x="440" y="668" font-family="sans-serif" font-size="11" fill="#999">MAX SPEED</text>
+  <text x="440" y="693" font-family="monospace" font-size="18" font-weight="600" fill="#059669">30+ MB/s</text>
+
+  <rect x="800" y="640" width="360" height="70" rx="12" fill="#fff" stroke="#e0e0dc" stroke-width="1"/>
+  <text x="820" y="668" font-family="sans-serif" font-size="11" fill="#999">ENCRYPTION</text>
+  <text x="820" y="693" font-family="monospace" font-size="18" font-weight="600" fill="#1a1a2e">Local Only — No Cloud</text>
+</svg>

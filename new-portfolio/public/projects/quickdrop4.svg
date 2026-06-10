@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#18181b"/>
+  <!-- Warm dark - ADB connection terminal view -->
+  <rect x="40" y="30" width="1120" height="690" rx="12" fill="#09090b" stroke="#27272a" stroke-width="1.5"/>
+  <!-- Title bar -->
+  <rect x="40" y="30" width="1120" height="40" rx="12" fill="#1c1c1f"/>
+  <rect x="40" y="58" width="1120" height="12" fill="#1c1c1f"/>
+  <circle cx="65" cy="50" r="6" fill="#ef4444"/><circle cx="85" cy="50" r="6" fill="#eab308"/><circle cx="105" cy="50" r="6" fill="#22c55e"/>
+  <text x="600" y="55" font-family="monospace" font-size="12" fill="#71717a" text-anchor="middle">quickdrop — zsh — 120×40</text>
+
+  <g font-family="monospace" font-size="13.5" fill="#a1a1aa">
+    <text x="70" y="100" fill="#22c55e">~/quickdrop $</text><text x="210" y="100" fill="#f4f4f5"> python quickdrop.py --mode adb --port 5000</text>
+    <text x="70" y="125" fill="#a78bfa">
+    ╔═══════════════════════════════════════════════╗</text>
+    <text x="70" y="150" fill="#a78bfa">
+    ║  ⚡ QuickDrop v2.1.0                         ║</text>
+    <text x="70" y="175" fill="#a78bfa">
+    ║  No cloud. No accounts. Just files.           ║</text>
+    <text x="70" y="200" fill="#a78bfa">
+    ╚═══════════════════════════════════════════════╝</text>
+    <text x="70" y="235" fill="#22c55e">[INFO]</text><text x="140" y="235"> Checking ADB devices...</text>
+    <text x="70" y="260" fill="#22c55e">[INFO]</text><text x="140" y="260"> Found device: Pixel 8 Pro (adb:1234567)</text>
+    <text x="70" y="285" fill="#22c55e">[INFO]</text><text x="140" y="285"> USB 3.0 connection detected</text>
+    <text x="70" y="310" fill="#22c55e">[INFO]</text><text x="140" y="310"> Flask server starting on 0.0.0.0:5000</text>
+    <text x="70" y="335" fill="#22c55e">[INFO]</text><text x="140" y="335"> QR code generated at http://localhost:5000/qr</text>
+    <text x="70" y="360" fill="#3b82f6">[CONN]</text><text x="140" y="360"> Android client connected from 192.168.1.42</text>
+    <text x="70" y="395" fill="#eab308">[RECV]</text><text x="140" y="395"> vacation_photos.zip (2.4 GB) — chunked upload</text>
+    <text x="70" y="420" fill="#a1a1aa">       ████████████████████████████████████ 100%  34.1 MB/s</text>
+    <text x="70" y="445" fill="#22c55e">[DONE]</text><text x="140" y="445"> Saved to ~/Downloads/vacation_photos.zip ✓</text>
+    <text x="70" y="475" fill="#eab308">[RECV]</text><text x="140" y="475"> project_demo.mp4 (3.1 GB) — chunked upload</text>
+    <text x="70" y="500" fill="#a1a1aa">       ██████████████████████████░░░░░░░░░░  68%  32.4 MB/s</text>
+    <text x="70" y="525" fill="#71717a">       ETA: 32s remaining | Chunk size: 4MB</text>
+    <text x="70" y="565" fill="#71717a">──────────────────────────────────────────────────────</text>
+    <text x="70" y="590" fill="#71717a"> Session: 2 files | 5.5 GB transferred | Avg: 33.2 MB/s</text>
+    <text x="70" y="615" fill="#71717a"> Uptime: 3m 42s | Errors: 0 | Connection: Stable</text>
+    <text x="70" y="650" fill="#22c55e">~/quickdrop $</text><text x="210" y="650" fill="#f4f4f5"> █</text>
+  </g>
+</svg>

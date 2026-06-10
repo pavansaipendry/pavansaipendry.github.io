@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#1a1d2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg3)"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="56" fill="#161822" opacity="0.9"/>
+  <text x="40" y="36" font-family="monospace" font-size="18" font-weight="700" fill="#F19EC8">🔍 AI Text Detection</text>
+  <rect x="880" y="16" width="100" height="24" rx="12" fill="#F19EC820"/>
+  <text x="930" y="33" font-family="sans-serif" font-size="11" fill="#F19EC8" text-anchor="middle">LLaMA Fine-tuned</text>
+  <text x="1100" y="36" font-family="monospace" font-size="12" fill="#666">88% Accuracy</text>
+
+  <!-- Left: Input panel -->
+  <rect x="40" y="80" width="560" height="400" rx="12" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="115" font-family="sans-serif" font-size="14" font-weight="600" fill="#ccc">Input Text</text>
+  <rect x="480" y="98" width="100" height="28" rx="6" fill="#F19EC830"/>
+  <text x="530" y="117" font-family="sans-serif" font-size="12" fill="#F19EC8" text-anchor="middle">Analyze</text>
+
+  <!-- Sample text block -->
+  <g font-family="sans-serif" font-size="13" fill="#aaa" opacity="0.9">
+    <text x="60" y="155">The advancement of artificial intelligence has brought</text>
+    <text x="60" y="175">about significant changes in how we approach problem</text>
+    <text x="60" y="195">solving across various domains. Machine learning</text>
+    <text x="60" y="215">algorithms, particularly deep neural networks, have</text>
+    <text x="60" y="235">demonstrated remarkable capabilities in pattern</text>
+    <text x="60" y="255">recognition and natural language understanding. These</text>
+    <text x="60" y="275">technologies continue to evolve at an unprecedented</text>
+    <text x="60" y="295">pace, offering new possibilities for automation and</text>
+    <text x="60" y="315">intelligent decision-making systems that can augment</text>
+    <text x="60" y="335">human capabilities in meaningful ways.</text>
+  </g>
+
+  <!-- Highlight overlays on suspicious phrases -->
+  <rect x="55" y="140" width="450" height="18" fill="#fa4D43" opacity="0.08" rx="2"/>
+  <rect x="55" y="220" width="400" height="18" fill="#fa4D43" opacity="0.08" rx="2"/>
+  <rect x="55" y="260" width="420" height="18" fill="#fa4D43" opacity="0.08" rx="2"/>
+  <rect x="55" y="300" width="440" height="18" fill="#fa4D43" opacity="0.08" rx="2"/>
+
+  <!-- Word count -->
+  <text x="60" y="370" font-family="monospace" font-size="11" fill="#555">Words: 87 | Characters: 542 | Sentences: 4</text>
+
+  <!-- Confidence meter -->
+  <rect x="60" y="400" width="520" height="50" rx="8" fill="#252840"/>
+  <text x="80" y="420" font-family="sans-serif" font-size="11" fill="#888">DETECTION CONFIDENCE</text>
+  <rect x="80" y="430" width="480" height="8" rx="4" fill="#2a2d42"/>
+  <rect x="80" y="430" width="422" height="8" rx="4" fill="#fa4D43"/>
+  <text x="520" y="420" font-family="monospace" font-size="14" font-weight="700" fill="#fa4D43" text-anchor="end">88%</text>
+
+  <!-- Right: Results panel -->
+  <rect x="620" y="80" width="540" height="400" rx="12" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="640" y="115" font-family="sans-serif" font-size="14" font-weight="600" fill="#ccc">Analysis Results</text>
+
+  <!-- Verdict -->
+  <rect x="640" y="135" width="500" height="70" rx="10" fill="#fa4D4315"/>
+  <text x="660" y="162" font-family="sans-serif" font-size="13" font-weight="600" fill="#fa4D43">⚠ AI-GENERATED TEXT DETECTED</text>
+  <text x="660" y="185" font-family="sans-serif" font-size="12" fill="#888">This text exhibits patterns consistent with LLM-generated content</text>
+
+  <!-- Feature scores -->
+  <text x="640" y="230" font-family="sans-serif" font-size="12" font-weight="600" fill="#aaa">Feature Analysis</text>
+
+  <text x="660" y="258" font-family="sans-serif" font-size="12" fill="#888">Perplexity Score</text>
+  <rect x="660" y="265" width="300" height="6" rx="3" fill="#2a2d42"/>
+  <rect x="660" y="265" width="45" height="6" rx="3" fill="#fa4D43"/>
+  <text x="1120" y="258" font-family="monospace" font-size="12" fill="#fa4D43" text-anchor="end">Low (12.4)</text>
+
+  <text x="660" y="295" font-family="sans-serif" font-size="12" fill="#888">Burstiness</text>
+  <rect x="660" y="302" width="300" height="6" rx="3" fill="#2a2d42"/>
+  <rect x="660" y="302" width="60" height="6" rx="3" fill="#FBB833"/>
+  <text x="1120" y="295" font-family="monospace" font-size="12" fill="#FBB833" text-anchor="end">Low (0.18)</text>
+
+  <text x="660" y="332" font-family="sans-serif" font-size="12" fill="#888">Vocabulary Diversity</text>
+  <rect x="660" y="339" width="300" height="6" rx="3" fill="#2a2d42"/>
+  <rect x="660" y="339" width="210" height="6" rx="3" fill="#34d399"/>
+  <text x="1120" y="332" font-family="monospace" font-size="12" fill="#34d399" text-anchor="end">Medium (0.68)</text>
+
+  <text x="660" y="369" font-family="sans-serif" font-size="12" fill="#888">Sentence Uniformity</text>
+  <rect x="660" y="376" width="300" height="6" rx="3" fill="#2a2d42"/>
+  <rect x="660" y="376" width="264" height="6" rx="3" fill="#fa4D43"/>
+  <text x="1120" y="369" font-family="monospace" font-size="12" fill="#fa4D43" text-anchor="end">High (0.89)</text>
+
+  <text x="660" y="406" font-family="sans-serif" font-size="12" fill="#888">Repetitive Phrasing</text>
+  <rect x="660" y="413" width="300" height="6" rx="3" fill="#2a2d42"/>
+  <rect x="660" y="413" width="240" height="6" rx="3" fill="#fa4D43"/>
+  <text x="1120" y="406" font-family="monospace" font-size="12" fill="#fa4D43" text-anchor="end">High (0.82)</text>
+
+  <!-- Model info -->
+  <rect x="640" y="435" width="500" height="30" rx="6" fill="#252840"/>
+  <text x="660" y="455" font-family="monospace" font-size="11" fill="#666">Model: LLaMA-7B-ft-v3 | Inference: 142ms | Lambda@edge</text>
+
+  <!-- Bottom: Stats cards -->
+  <rect x="40" y="510" width="280" height="100" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="540" font-family="sans-serif" font-size="11" fill="#888">DATASET SIZE</text>
+  <text x="60" y="575" font-family="monospace" font-size="30" font-weight="700" fill="#F19EC8">100K</text>
+  <text x="60" y="598" font-family="monospace" font-size="11" fill="#666">training samples</text>
+
+  <rect x="340" y="510" width="280" height="100" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="360" y="540" font-family="sans-serif" font-size="11" fill="#888">ACCURACY</text>
+  <text x="360" y="575" font-family="monospace" font-size="30" font-weight="700" fill="#34d399">88%</text>
+  <text x="360" y="598" font-family="monospace" font-size="11" fill="#666">F1-score on test set</text>
+
+  <rect x="640" y="510" width="280" height="100" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="660" y="540" font-family="sans-serif" font-size="11" fill="#888">CONCURRENCY</text>
+  <text x="660" y="575" font-family="monospace" font-size="30" font-weight="700" fill="#FBB833">2,000</text>
+  <text x="660" y="598" font-family="monospace" font-size="11" fill="#666">concurrent requests</text>
+
+  <rect x="940" y="510" width="220" height="100" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="960" y="540" font-family="sans-serif" font-size="11" fill="#888">LATENCY</text>
+  <text x="960" y="575" font-family="monospace" font-size="30" font-weight="700" fill="#34d399">&lt;200ms</text>
+  <text x="960" y="598" font-family="monospace" font-size="11" fill="#666">p95 response time</text>
+
+  <!-- API endpoint bar -->
+  <rect x="40" y="635" width="1120" height="40" rx="8" fill="#111320" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="660" font-family="monospace" font-size="12" fill="#F19EC8">POST</text>
+  <text x="105" y="660" font-family="monospace" font-size="12" fill="#888">/api/v1/detect</text>
+  <text x="1060" y="660" font-family="monospace" font-size="11" fill="#34d399" text-anchor="end">200 OK — 142ms</text>
+  <rect x="1080" y="645" width="60" height="24" rx="4" fill="#34d39920"/>
+  <text x="1110" y="662" font-family="monospace" font-size="11" fill="#34d399" text-anchor="middle">AWS λ</text>
+</svg>

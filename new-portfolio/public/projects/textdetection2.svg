@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#fffbeb"/>
+  <!-- Warm light theme - Training metrics dashboard -->
+  <rect x="0" y="0" width="1200" height="52" fill="#fff" stroke="#e5e5dc" stroke-width="1"/>
+  <text x="40" y="34" font-family="monospace" font-size="17" font-weight="700" fill="#b45309">🧠 Model Training Dashboard</text>
+  <rect x="990" y="14" width="100" height="26" rx="13" fill="#dcfce7"/>
+  <text x="1040" y="32" font-family="sans-serif" font-size="11" fill="#166534" text-anchor="middle">✓ Complete</text>
+
+  <!-- Accuracy over epochs -->
+  <rect x="40" y="75" width="560" height="300" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="60" y="105" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Accuracy vs Epochs</text>
+  <text x="570" y="105" font-family="monospace" font-size="11" fill="#b45309" text-anchor="end">Final: 88.2%</text>
+
+  <!-- Grid -->
+  <g stroke="#f5f0e6" stroke-width="1">
+    <line x1="80" y1="130" x2="580" y2="130"/><line x1="80" y1="170" x2="580" y2="170"/>
+    <line x1="80" y1="210" x2="580" y2="210"/><line x1="80" y1="250" x2="580" y2="250"/>
+    <line x1="80" y1="290" x2="580" y2="290"/><line x1="80" y1="330" x2="580" y2="330"/>
+  </g>
+  <text x="70" y="134" font-family="monospace" font-size="9" fill="#a3a3a3" text-anchor="end">100</text>
+  <text x="70" y="174" font-family="monospace" font-size="9" fill="#a3a3a3" text-anchor="end">90</text>
+  <text x="70" y="214" font-family="monospace" font-size="9" fill="#a3a3a3" text-anchor="end">80</text>
+  <text x="70" y="254" font-family="monospace" font-size="9" fill="#a3a3a3" text-anchor="end">70</text>
+  <text x="70" y="294" font-family="monospace" font-size="9" fill="#a3a3a3" text-anchor="end">60</text>
+  <text x="70" y="334" font-family="monospace" font-size="9" fill="#a3a3a3" text-anchor="end">50</text>
+
+  <!-- Train line (blue) -->
+  <polyline points="100,310 150,260 200,220 250,195 300,180 350,168 400,155 450,148 500,142 550,138" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+  <!-- Val line (orange) -->
+  <polyline points="100,320 150,275 200,235 250,210 300,195 350,188 400,178 450,170 500,165 550,158" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <!-- Legend -->
+  <line x1="400" y1="360" x2="420" y2="360" stroke="#3b82f6" stroke-width="2.5"/>
+  <text x="428" y="364" font-family="sans-serif" font-size="11" fill="#57534e">Train (89.4%)</text>
+  <line x1="510" y1="360" x2="530" y2="360" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="538" y="364" font-family="sans-serif" font-size="11" fill="#57534e">Validation (88.2%)</text>
+
+  <!-- Loss curve -->
+  <rect x="620" y="75" width="540" height="300" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="640" y="105" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Loss vs Epochs</text>
+  <text x="1130" y="105" font-family="monospace" font-size="11" fill="#166534" text-anchor="end">Final: 0.312</text>
+
+  <g stroke="#f5f0e6" stroke-width="1">
+    <line x1="660" y1="130" x2="1140" y2="130"/><line x1="660" y1="180" x2="1140" y2="180"/>
+    <line x1="660" y1="230" x2="1140" y2="230"/><line x1="660" y1="280" x2="1140" y2="280"/>
+    <line x1="660" y1="330" x2="1140" y2="330"/>
+  </g>
+
+  <!-- Train loss (descending) -->
+  <polyline points="680,150 730,190 780,220 830,250 880,272 930,288 980,298 1030,305 1080,310 1120,312" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+  <!-- Val loss -->
+  <polyline points="680,145 730,185 780,215 830,248 880,268 930,282 980,295 1030,302 1080,308 1120,318" fill="none" stroke="#8b5cf6" stroke-width="2.5"/>
+  <line x1="960" y1="360" x2="980" y2="360" stroke="#ef4444" stroke-width="2.5"/>
+  <text x="988" y="364" font-family="sans-serif" font-size="11" fill="#57534e">Train (0.298)</text>
+  <line x1="1060" y1="360" x2="1080" y2="360" stroke="#8b5cf6" stroke-width="2.5"/>
+  <text x="1088" y="364" font-family="sans-serif" font-size="11" fill="#57534e">Val (0.312)</text>
+
+  <!-- Stats row -->
+  <rect x="40" y="400" width="270" height="100" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="60" y="430" font-family="sans-serif" font-size="11" fill="#a3a3a3">DATASET</text>
+  <text x="60" y="462" font-family="monospace" font-size="26" font-weight="700" fill="#b45309">100,000</text>
+  <text x="60" y="486" font-family="sans-serif" font-size="12" fill="#78716c">80K train / 10K val / 10K test</text>
+
+  <rect x="330" y="400" width="270" height="100" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="350" y="430" font-family="sans-serif" font-size="11" fill="#a3a3a3">MODEL</text>
+  <text x="350" y="462" font-family="monospace" font-size="26" font-weight="700" fill="#7c3aed">LLaMA 7B</text>
+  <text x="350" y="486" font-family="sans-serif" font-size="12" fill="#78716c">Fine-tuned on AWS EC2 p3.2xlarge</text>
+
+  <rect x="620" y="400" width="270" height="100" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="640" y="430" font-family="sans-serif" font-size="11" fill="#a3a3a3">TRAINING TIME</text>
+  <text x="640" y="462" font-family="monospace" font-size="26" font-weight="700" fill="#1c1917">6h 42m</text>
+  <text x="640" y="486" font-family="sans-serif" font-size="12" fill="#78716c">10 epochs | batch size: 32</text>
+
+  <rect x="910" y="400" width="250" height="100" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="930" y="430" font-family="sans-serif" font-size="11" fill="#a3a3a3">F1 SCORE</text>
+  <text x="930" y="462" font-family="monospace" font-size="26" font-weight="700" fill="#166534">0.882</text>
+  <text x="930" y="486" font-family="sans-serif" font-size="12" fill="#78716c">Precision: 0.89 | Recall: 0.87</text>
+
+  <!-- Confusion matrix preview -->
+  <rect x="40" y="525" width="540" height="195" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="60" y="555" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Confusion Matrix</text>
+  <text x="180" y="590" font-family="sans-serif" font-size="11" fill="#78716c" text-anchor="middle">Predicted Human</text>
+  <text x="380" y="590" font-family="sans-serif" font-size="11" fill="#78716c" text-anchor="middle">Predicted AI</text>
+  <text x="80" y="630" font-family="sans-serif" font-size="11" fill="#78716c">Actual Human</text>
+  <rect x="160" y="610" width="120" height="40" rx="4" fill="#dcfce7"/>
+  <text x="220" y="636" font-family="monospace" font-size="16" font-weight="700" fill="#166534" text-anchor="middle">4,412</text>
+  <rect x="310" y="610" width="120" height="40" rx="4" fill="#fee2e2"/>
+  <text x="370" y="636" font-family="monospace" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle">588</text>
+  <text x="80" y="680" font-family="sans-serif" font-size="11" fill="#78716c">Actual AI</text>
+  <rect x="160" y="660" width="120" height="40" rx="4" fill="#fee2e2"/>
+  <text x="220" y="686" font-family="monospace" font-size="16" font-weight="700" fill="#dc2626" text-anchor="middle">632</text>
+  <rect x="310" y="660" width="120" height="40" rx="4" fill="#dcfce7"/>
+  <text x="370" y="686" font-family="monospace" font-size="16" font-weight="700" fill="#166534" text-anchor="middle">4,368</text>
+
+  <!-- Deployment info -->
+  <rect x="620" y="525" width="540" height="195" rx="12" fill="#fff" stroke="#e5e5dc" stroke-width="1.5"/>
+  <text x="640" y="555" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Deployment — AWS Lambda</text>
+  <g font-family="monospace" font-size="12">
+    <text x="640" y="590" fill="#78716c">Runtime:</text><text x="760" y="590" fill="#1c1917">Python 3.11 + ONNX Runtime</text>
+    <text x="640" y="615" fill="#78716c">Memory:</text><text x="760" y="615" fill="#1c1917">3008 MB</text>
+    <text x="640" y="640" fill="#78716c">Cold Start:</text><text x="760" y="640" fill="#f59e0b">~2.1s (provisioned concurrency: 10)</text>
+    <text x="640" y="665" fill="#78716c">Warm Latency:</text><text x="760" y="665" fill="#166534">&lt;200ms p95</text>
+    <text x="640" y="690" fill="#78716c">Concurrency:</text><text x="760" y="690" fill="#1c1917">2,000 simultaneous requests</text>
+  </g>
+</svg>

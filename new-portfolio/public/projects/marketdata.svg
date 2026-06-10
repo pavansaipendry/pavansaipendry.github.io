@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="mdbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#1f1a12"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#mdbg)"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="56" fill="#161822" opacity="0.9"/>
+  <text x="40" y="36" font-family="monospace" font-size="18" font-weight="700" fill="#FBB833">📈 Market Data Service</text>
+  <rect x="930" y="16" width="76" height="24" rx="12" fill="#34d39920"/>
+  <circle cx="944" cy="28" r="4" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <text x="972" y="33" font-family="sans-serif" font-size="11" fill="#34d399" text-anchor="middle">LIVE</text>
+  <text x="1160" y="36" font-family="monospace" font-size="12" fill="#666" text-anchor="end">99.99% uptime</text>
+
+  <!-- Ticker cards -->
+  <g font-family="monospace">
+    <rect x="40" y="80" width="265" height="86" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="60" y="106" font-size="11" fill="#888" font-family="sans-serif">AAPL</text>
+    <text x="60" y="136" font-size="26" font-weight="700" fill="#fff">$189.42</text>
+    <text x="60" y="156" font-size="11" fill="#34d399">+2.34 (+1.25%)</text>
+
+    <rect x="325" y="80" width="265" height="86" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="345" y="106" font-size="11" fill="#888" font-family="sans-serif">GOOGL</text>
+    <text x="345" y="136" font-size="26" font-weight="700" fill="#fff">$142.87</text>
+    <text x="345" y="156" font-size="11" fill="#fa4d43">-1.12 (-0.78%)</text>
+
+    <rect x="610" y="80" width="265" height="86" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="630" y="106" font-size="11" fill="#888" font-family="sans-serif">MSFT</text>
+    <text x="630" y="136" font-size="26" font-weight="700" fill="#fff">$415.20</text>
+    <text x="630" y="156" font-size="11" fill="#34d399">+5.67 (+1.38%)</text>
+
+    <rect x="895" y="80" width="265" height="86" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="915" y="106" font-size="11" fill="#888" font-family="sans-serif">NVDA</text>
+    <text x="915" y="136" font-size="26" font-weight="700" fill="#fff">$878.35</text>
+    <text x="915" y="156" font-size="11" fill="#34d399">+12.40 (+1.43%)</text>
+  </g>
+
+  <!-- Price chart -->
+  <rect x="40" y="190" width="780" height="330" rx="10" fill="#13151f" stroke="#2a2d42"/>
+  <text x="60" y="220" font-family="sans-serif" font-size="11" fill="#888">AAPL - PRICE (1D)</text>
+  <g stroke="#1e2030">
+    <line x1="60" y1="280" x2="800" y2="280"/>
+    <line x1="60" y1="350" x2="800" y2="350"/>
+    <line x1="60" y1="420" x2="800" y2="420"/>
+  </g>
+  <polyline points="60,440 120,420 180,430 240,390 300,400 360,360 420,375 480,330 540,345 600,310 660,320 720,285 780,295"
+    fill="none" stroke="#FBB833" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="780" cy="295" r="5" fill="#FBB833">
+    <animate attributeName="r" values="4;7;4" dur="1.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.5;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <text x="60" y="500" font-family="monospace" font-size="11" fill="#555">finnhub poll → postgres → redis cache → kafka stream</text>
+
+  <!-- Stream feed -->
+  <rect x="840" y="190" width="320" height="330" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+  <text x="860" y="220" font-family="sans-serif" font-size="11" fill="#888">KAFKA STREAM - price-events</text>
+  <g font-family="monospace" font-size="12">
+    <text x="860" y="252" fill="#34d399">▸ AAPL 189.42 +1.25%
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+    </text>
+    <text x="860" y="278" fill="#fa4d43">▸ GOOGL 142.87 -0.78%</text>
+    <text x="860" y="304" fill="#34d399">▸ MSFT 415.20 +1.38%</text>
+    <text x="860" y="330" fill="#34d399">▸ NVDA 878.35 +1.43%</text>
+    <text x="860" y="356" fill="#fa4d43">▸ TSLA 248.90 -0.42%</text>
+    <text x="860" y="382" fill="#34d399">▸ AMZN 185.62 +0.89%</text>
+    <text x="860" y="408" fill="#34d399">▸ META 512.30 +2.10%</text>
+  </g>
+  <rect x="860" y="430" width="280" height="1" fill="#2a2d42"/>
+  <g font-family="monospace" font-size="12">
+    <text x="860" y="460" fill="#888">events/s</text>
+    <text x="1140" y="460" fill="#fff" text-anchor="end">2,847</text>
+    <text x="860" y="486" fill="#888">avg latency</text>
+    <text x="1140" y="486" fill="#fff" text-anchor="end">12ms</text>
+  </g>
+
+  <!-- Bottom stats -->
+  <g font-family="monospace">
+    <rect x="40" y="545" width="360" height="80" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="60" y="572" font-size="11" fill="#888" font-family="sans-serif">REDIS CACHE</text>
+    <text x="60" y="602" font-size="22" font-weight="700" fill="#FBB833">Hit rate: 94.2%</text>
+
+    <rect x="420" y="545" width="360" height="80" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="440" y="572" font-size="11" fill="#888" font-family="sans-serif">POSTGRESQL</text>
+    <text x="440" y="602" font-size="22" font-weight="700" fill="#34d399">60% faster queries</text>
+
+    <rect x="800" y="545" width="360" height="80" rx="10" fill="#1e2030" stroke="#2a2d42"/>
+    <text x="820" y="572" font-size="11" fill="#888" font-family="sans-serif">SYSTEM</text>
+    <text x="820" y="602" font-size="22" font-weight="700" fill="#fff">47d 12h · 0 incidents</text>
+  </g>
+
+  <text x="40" y="690" font-family="monospace" font-size="12" fill="#555">fastapi · kafka · postgresql · redis · docker</text>
+</svg>

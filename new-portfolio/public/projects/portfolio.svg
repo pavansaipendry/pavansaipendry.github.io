@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="pfbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#15121f"/>
+    </linearGradient>
+    <radialGradient id="pfglow" cx="0.8" cy="0.1" r="0.7">
+      <stop offset="0%" stop-color="#7c5cfc" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#7c5cfc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#pfbg)"/>
+  <rect width="1200" height="750" fill="url(#pfglow)"/>
+
+  <!-- Nav -->
+  <text x="48" y="52" font-family="sans-serif" font-size="16" font-weight="700" fill="#fafafa">pavan<tspan fill="#7c5cfc">.</tspan></text>
+  <g font-family="sans-serif" font-size="12" fill="#8888a0">
+    <text x="780" y="50">Work</text>
+    <text x="850" y="50">About</text>
+    <text x="925" y="50">Experience</text>
+    <text x="1030" y="50">Research</text>
+    <text x="1115" y="50">Contact</text>
+  </g>
+
+  <!-- Hero lockup -->
+  <text x="40" y="240" font-family="sans-serif" font-size="150" font-weight="800" letter-spacing="-4" fill="#fafafa">PAVAN</text>
+  <text x="1160" y="390" font-family="sans-serif" font-size="150" font-weight="800" letter-spacing="-4" fill="none" stroke="#fafafa" stroke-width="2" text-anchor="end" opacity="0.85">SAI REDDY</text>
+  <text x="40" y="545" font-family="sans-serif" font-size="150" font-weight="800" letter-spacing="-4" fill="#fafafa">PENDRY</text>
+  <text x="40" y="600" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#8888a0">software engineer × ai/ml</text>
+
+  <!-- Scroll progress beam -->
+  <rect x="0" y="0" width="1200" height="4" fill="#1e2030"/>
+  <rect x="0" y="0" width="420" height="4" fill="#7c5cfc">
+    <animate attributeName="width" values="80;1100;80" dur="8s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Cursor ring -->
+  <g>
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#fafafa" stroke-opacity="0.5" stroke-width="1.5">
+      <animateMotion dur="10s" repeatCount="indefinite" path="M 860 480 C 1000 380, 700 300, 880 240 C 1040 190, 1080 420, 860 480"/>
+    </circle>
+    <circle cx="0" cy="0" r="3" fill="#fafafa">
+      <animateMotion dur="10s" repeatCount="indefinite" path="M 860 480 C 1000 380, 700 300, 880 240 C 1040 190, 1080 420, 860 480"/>
+    </circle>
+  </g>
+
+  <!-- Terminal card -->
+  <rect x="760" y="560" width="400" height="140" rx="10" fill="#0d0d14" stroke="#2a2d42" stroke-width="1"/>
+  <circle cx="784" cy="584" r="5" fill="#ff5f57"/>
+  <circle cx="802" cy="584" r="5" fill="#febc2e"/>
+  <circle cx="820" cy="584" r="5" fill="#28c840"/>
+  <text x="960" y="588" font-family="monospace" font-size="10" fill="#666" text-anchor="middle">pavan.sh</text>
+  <g font-family="monospace" font-size="12">
+    <text x="784" y="620" fill="#8888a0">Welcome to pavan.sh - type "help"</text>
+    <text x="784" y="644" fill="#7c5cfc">▲ <tspan fill="#e2e2e8">~ sudo hire-me</tspan></text>
+    <text x="784" y="668" fill="#34d399">Permission granted.</text>
+  </g>
+  <rect x="784" y="678" width="8" height="13" fill="#7c5cfc">
+    <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Footer meta -->
+  <text x="40" y="700" font-family="monospace" font-size="12" fill="#555">next.js 16 · react 19 · lenis scrub engine · claude chat · zero ui libraries</text>
+</svg>

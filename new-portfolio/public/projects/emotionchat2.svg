@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#f0fdf4"/>
+  <!-- Green-light theme - Analytics dashboard -->
+  <rect x="0" y="0" width="1200" height="52" fill="#fff" stroke="#dcfce7" stroke-width="1"/>
+  <text x="40" y="34" font-family="monospace" font-size="17" font-weight="700" fill="#166534">📊 Emotion Analytics</text>
+  <text x="1080" y="34" font-family="monospace" font-size="12" fill="#6b7280" text-anchor="end">Last 30 days</text>
+
+  <!-- Top KPIs -->
+  <rect x="40" y="75" width="200" height="90" rx="10" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="60" y="100" font-family="sans-serif" font-size="11" fill="#6b7280">TOTAL SESSIONS</text>
+  <text x="60" y="138" font-family="monospace" font-size="30" font-weight="800" fill="#166534">3,247</text>
+
+  <rect x="260" y="75" width="200" height="90" rx="10" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="280" y="100" font-family="sans-serif" font-size="11" fill="#6b7280">DAILY USERS</text>
+  <text x="280" y="138" font-family="monospace" font-size="30" font-weight="800" fill="#0891b2">108</text>
+
+  <rect x="480" y="75" width="200" height="90" rx="10" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="500" y="100" font-family="sans-serif" font-size="11" fill="#6b7280">AVG ACCURACY</text>
+  <text x="500" y="138" font-family="monospace" font-size="30" font-weight="800" fill="#7c3aed">89.4%</text>
+
+  <rect x="700" y="75" width="200" height="90" rx="10" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="720" y="100" font-family="sans-serif" font-size="11" fill="#6b7280">AVG LATENCY</text>
+  <text x="720" y="138" font-family="monospace" font-size="30" font-weight="800" fill="#ea580c">138ms</text>
+
+  <rect x="920" y="75" width="240" height="90" rx="10" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="940" y="100" font-family="sans-serif" font-size="11" fill="#6b7280">SATISFACTION</text>
+  <text x="940" y="138" font-family="monospace" font-size="30" font-weight="800" fill="#166534">4.6/5.0</text>
+
+  <!-- Emotion distribution pie chart area -->
+  <rect x="40" y="190" width="380" height="320" rx="12" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="60" y="225" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Emotion Distribution</text>
+
+  <!-- Simplified pie chart with colored segments -->
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#e5e7eb" stroke-width="40"/>
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#22c55e" stroke-width="40" stroke-dasharray="188 440" stroke-dashoffset="0"/>
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#3b82f6" stroke-width="40" stroke-dasharray="100 528" stroke-dashoffset="-188"/>
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#f59e0b" stroke-width="40" stroke-dasharray="75 553" stroke-dashoffset="-288"/>
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#ef4444" stroke-width="40" stroke-dasharray="50 578" stroke-dashoffset="-363"/>
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#8b5cf6" stroke-width="40" stroke-dasharray="40 588" stroke-dashoffset="-413"/>
+  <circle cx="230" cy="370" r="100" fill="none" stroke="#ec4899" stroke-width="40" stroke-dasharray="30 598" stroke-dashoffset="-453"/>
+  <circle cx="230" cy="370" r="60" fill="#f0fdf4"/>
+
+  <!-- Legend -->
+  <rect x="60" y="488" width="10" height="10" rx="2" fill="#22c55e"/><text x="78" y="498" font-family="sans-serif" font-size="11" fill="#57534e">Joy (30%)</text>
+  <rect x="160" y="488" width="10" height="10" rx="2" fill="#3b82f6"/><text x="178" y="498" font-family="sans-serif" font-size="11" fill="#57534e">Sadness (16%)</text>
+  <rect x="280" y="488" width="10" height="10" rx="2" fill="#f59e0b"/><text x="298" y="498" font-family="sans-serif" font-size="11" fill="#57534e">Anxiety (12%)</text>
+  <rect x="60" y="508" width="10" height="10" rx="2" fill="#ef4444"/><text x="78" y="518" font-family="sans-serif" font-size="11" fill="#57534e">Anger (8%)</text>
+  <rect x="160" y="508" width="10" height="10" rx="2" fill="#8b5cf6"/><text x="178" y="518" font-family="sans-serif" font-size="11" fill="#57534e">Surprise (6%)</text>
+  <rect x="280" y="508" width="10" height="10" rx="2" fill="#ec4899"/><text x="298" y="518" font-family="sans-serif" font-size="11" fill="#57534e">Other (28%)</text>
+
+  <!-- User activity chart -->
+  <rect x="440" y="190" width="720" height="320" rx="12" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="460" y="225" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Daily Active Users</text>
+
+  <!-- Bar chart -->
+  <g opacity="0.8">
+    <rect x="480" y="400" width="20" height="60" rx="3" fill="#0891b2"/>
+    <rect x="510" y="370" width="20" height="90" rx="3" fill="#0891b2"/>
+    <rect x="540" y="350" width="20" height="110" rx="3" fill="#0891b2"/>
+    <rect x="570" y="380" width="20" height="80" rx="3" fill="#0891b2"/>
+    <rect x="600" y="330" width="20" height="130" rx="3" fill="#0891b2"/>
+    <rect x="630" y="310" width="20" height="150" rx="3" fill="#22c55e"/>
+    <rect x="660" y="340" width="20" height="120" rx="3" fill="#0891b2"/>
+    <rect x="690" y="320" width="20" height="140" rx="3" fill="#0891b2"/>
+    <rect x="720" y="290" width="20" height="170" rx="3" fill="#22c55e"/>
+    <rect x="750" y="360" width="20" height="100" rx="3" fill="#0891b2"/>
+    <rect x="780" y="340" width="20" height="120" rx="3" fill="#0891b2"/>
+    <rect x="810" y="310" width="20" height="150" rx="3" fill="#0891b2"/>
+    <rect x="840" y="280" width="20" height="180" rx="3" fill="#22c55e"/>
+    <rect x="870" y="300" width="20" height="160" rx="3" fill="#0891b2"/>
+    <rect x="900" y="270" width="20" height="190" rx="3" fill="#22c55e"/>
+    <rect x="930" y="330" width="20" height="130" rx="3" fill="#0891b2"/>
+    <rect x="960" y="310" width="20" height="150" rx="3" fill="#0891b2"/>
+    <rect x="990" y="280" width="20" height="180" rx="3" fill="#22c55e"/>
+    <rect x="1020" y="260" width="20" height="200" rx="3" fill="#22c55e"/>
+    <rect x="1050" y="290" width="20" height="170" rx="3" fill="#0891b2"/>
+    <rect x="1080" y="270" width="20" height="190" rx="3" fill="#22c55e"/>
+    <rect x="1110" y="250" width="20" height="210" rx="3" fill="#22c55e"/>
+  </g>
+  <text x="460" y="485" font-family="sans-serif" font-size="11" fill="#a3a3a3">Trending ↑ — 12% growth week over week</text>
+
+  <!-- Model performance -->
+  <rect x="40" y="535" width="1120" height="180" rx="12" fill="#fff" stroke="#dcfce7" stroke-width="1.5"/>
+  <text x="60" y="570" font-family="sans-serif" font-size="14" font-weight="600" fill="#1c1917">Per-Class Performance</text>
+
+  <g font-family="sans-serif" font-size="12">
+    <!-- Headers -->
+    <text x="80" y="600" fill="#a3a3a3">Emotion</text>
+    <text x="250" y="600" fill="#a3a3a3">Precision</text>
+    <text x="400" y="600" fill="#a3a3a3">Recall</text>
+    <text x="550" y="600" fill="#a3a3a3">F1</text>
+    <text x="700" y="600" fill="#a3a3a3">Support</text>
+    <text x="850" y="600" fill="#a3a3a3">Confidence</text>
+
+    <text x="80" y="625" fill="#1c1917" font-weight="500">😊 Joy</text>
+    <text x="250" y="625" fill="#166534" font-family="monospace">0.92</text>
+    <text x="400" y="625" fill="#166534" font-family="monospace">0.91</text>
+    <text x="550" y="625" fill="#166534" font-family="monospace">0.915</text>
+    <text x="700" y="625" fill="#57534e" font-family="monospace">1,842</text>
+    <rect x="850" y="612" width="240" height="16" rx="3" fill="#f0fdf4"/><rect x="850" y="612" width="220" height="16" rx="3" fill="#22c55e" opacity="0.3"/><text x="1100" y="625" fill="#166534" font-family="monospace" text-anchor="end">92%</text>
+
+    <text x="80" y="650" fill="#1c1917" font-weight="500">😢 Sadness</text>
+    <text x="250" y="650" fill="#166534" font-family="monospace">0.88</text>
+    <text x="400" y="650" fill="#166534" font-family="monospace">0.86</text>
+    <text x="550" y="650" fill="#166534" font-family="monospace">0.870</text>
+    <text x="700" y="650" fill="#57534e" font-family="monospace">1,654</text>
+    <rect x="850" y="637" width="240" height="16" rx="3" fill="#f0fdf4"/><rect x="850" y="637" width="200" height="16" rx="3" fill="#3b82f6" opacity="0.3"/><text x="1100" y="650" fill="#1d4ed8" font-family="monospace" text-anchor="end">87%</text>
+
+    <text x="80" y="675" fill="#1c1917" font-weight="500">😠 Anger</text>
+    <text x="250" y="675" fill="#166534" font-family="monospace">0.90</text>
+    <text x="400" y="675" fill="#166534" font-family="monospace">0.89</text>
+    <text x="550" y="675" fill="#166534" font-family="monospace">0.895</text>
+    <text x="700" y="675" fill="#57534e" font-family="monospace">1,512</text>
+    <rect x="850" y="662" width="240" height="16" rx="3" fill="#f0fdf4"/><rect x="850" y="662" width="214" height="16" rx="3" fill="#ef4444" opacity="0.3"/><text x="1100" y="675" fill="#dc2626" font-family="monospace" text-anchor="end">90%</text>
+
+    <text x="80" y="700" fill="#1c1917" font-weight="500">😨 Fear</text>
+    <text x="250" y="700" fill="#b45309" font-family="monospace">0.85</text>
+    <text x="400" y="700" fill="#b45309" font-family="monospace">0.83</text>
+    <text x="550" y="700" fill="#b45309" font-family="monospace">0.840</text>
+    <text x="700" y="700" fill="#57534e" font-family="monospace">1,203</text>
+    <rect x="850" y="687" width="240" height="16" rx="3" fill="#f0fdf4"/><rect x="850" y="687" width="192" height="16" rx="3" fill="#f59e0b" opacity="0.3"/><text x="1100" y="700" fill="#b45309" font-family="monospace" text-anchor="end">85%</text>
+  </g>
+</svg>

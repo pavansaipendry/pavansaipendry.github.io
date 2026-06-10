@@ -1,47 +1,10 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useInView, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { siteConfig } from "@/lib/data";
-import { HeroGrid } from "./HeroGrid";
 import { skills, experiences, projects, publications } from "@/lib/data";
-
-const stats = [
-  { value: 6, suffix: "+", label: "Projects" },
-  { value: 3, suffix: "", label: "Publications" },
-  { value: 9500, suffix: "+", label: "Docs Served" },
-  { value: 82, suffix: "%", label: "BabyJay Approval" },
-];
-
-function StatCounter({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const displayRef = useRef<HTMLSpanElement>(null);
-  const inView = useInView(containerRef, { once: true });
-  const motionVal = useSpring(0, { duration: 2000, bounce: 0 });
-  const formatted = useTransform(motionVal, (v) => {
-    const n = Math.floor(v);
-    return `${n >= 1000 ? n.toLocaleString() : n}${suffix}`;
-  });
-
-  useEffect(() => {
-    if (inView) motionVal.set(value);
-  }, [inView, value, motionVal]);
-
-  useEffect(() => {
-    return formatted.on("change", (v) => {
-      if (displayRef.current) displayRef.current.textContent = v;
-    });
-  }, [formatted]);
-
-  return (
-    <div ref={containerRef} className="flex flex-col items-center gap-1 rounded-lg border border-card-border bg-card-bg px-5 py-4">
-      <span ref={displayRef} className="text-2xl font-bold text-heading sm:text-3xl">
-        0{suffix}
-      </span>
-      <span className="text-xs text-dimmed">{label}</span>
-    </div>
-  );
-}
+import { useLenisCtx } from "./SmoothScroll";
 
 // ─── Interactive Terminal ───────────────────────────────────────────────────
 
@@ -61,7 +24,7 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
     { type: "success", content: "  experience     Work experience" },
     { type: "success", content: "  publications   Research papers" },
     { type: "success", content: "  contact        Get in touch" },
-    { type: "success", content: "  resume         Download resume" },
+    { type: "success", content: "  resume [genai] Download resume (SWE+ML or Gen AI)" },
     { type: "success", content: "  goto <section> Navigate to a section" },
     { type: "success", content: "  clear          Clear terminal" },
     { type: "success", content: "  neofetch       System info" },
@@ -103,7 +66,7 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
       const status = p.ongoing ? " [active]" : "";
       lines.push({
         type: p.ongoing ? "success" : "output",
-        content: `  ${p.number}. ${p.title}${status}  —  ${p.date}`,
+        content: `  ${p.number}. ${p.title}${status}  -  ${p.date}`,
       });
     });
     return lines;
@@ -112,7 +75,7 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
   experience: () => {
     return experiences.map((e) => ({
       type: "output" as const,
-      content: `  ${e.title} @ ${e.org}  —  ${e.date}`,
+      content: `  ${e.title} @ ${e.org}  -  ${e.date}`,
     }));
   },
 
@@ -147,16 +110,24 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
     { type: "success", content: `  Papers:  ${publications.length}` },
   ],
 
-  resume: () => {
+  resume: (args: string[]) => {
+    const variant = args[0]?.toLowerCase();
+    const file =
+      variant === "genai"
+        ? "/resume/Pavan_Pendry_GenAI_Resume.pdf"
+        : "/resume/Pavan_Pendry_Resume.pdf";
     if (typeof window !== "undefined") {
-      window.open("/resume.pdf", "_blank");
+      window.open(file, "_blank");
     }
-    return [{ type: "success", content: "Opening resume..." }];
+    return [
+      { type: "success", content: variant === "genai" ? "Opening Gen AI resume..." : "Opening resume (SWE + ML)..." },
+      { type: "output", content: 'Variants: "resume" (SWE + ML) | "resume genai"' },
+    ];
   },
 
   goto: (args: string[]) => {
     const section = args[0]?.toLowerCase();
-    const valid = ["home", "about", "skills", "experience", "projects", "architecture", "research", "contact"];
+    const valid = ["home", "about", "skills", "experience", "projects", "research", "contact"];
     if (!section || !valid.includes(section)) {
       return [
         { type: "error", content: `Usage: goto <section>` },
@@ -165,7 +136,10 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
     }
     if (typeof window !== "undefined") {
       const target = section === "research" ? "publications" : section;
-      document.querySelector(`#${target}`)?.scrollIntoView({ behavior: "smooth" });
+      // Dispatch custom event for Lenis-powered scroll with userData
+      window.dispatchEvent(new CustomEvent("lenis-scroll-to", {
+        detail: { target: `#${target}`, userData: { source: "terminal", command: `goto ${section}` } },
+      }));
     }
     return [{ type: "success", content: `Navigating to ${section}...` }];
   },
@@ -202,16 +176,106 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
   date: () => [{ type: "output", content: new Date().toString() }],
 };
 
-function InteractiveTerminal() {
+// Natural phrases people type instead of commands
+const PHRASE_ALIASES: Record<string, string> = {
+  "get in touch": "contact",
+  "reach out": "contact",
+  "email": "contact",
+  "socials": "contact",
+  "hire": "sudo hire-me",
+  "hire me": "sudo hire-me",
+  "who are you": "about",
+  "cv": "resume",
+  "exit": "clear",
+};
+
+export function InteractiveTerminal() {
   const [lines, setLines] = useState<TerminalLine[]>([
-    { type: "output", content: 'Welcome to pavan.sh — type "help" for commands' },
+    { type: "output", content: 'Welcome to pavan.sh - type "help" for commands' },
   ]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [expanded, setExpanded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
+  const { lenis } = useLenisCtx();
+
+  // ── Drag-to-resize from the window borders ──
+  // The whole drag lives on window-level listeners installed at pointerdown
+  // and torn down at pointerup/pointercancel - the handle elements only ever
+  // start a drag, so a missed pointerup can never leave a "stuck" drag that
+  // resizes on hover. Sizes are derived from the container's LIVE rect each
+  // frame (not drag-start deltas), so layout reflow can't cause drift or
+  // oscillation: the edge simply converges onto the pointer.
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null);
+  const draggingRef = useRef(false);
+  const movedRef = useRef(false);
+  const lastGrabRef = useRef(0);
+
+  const startResize = useCallback((e: React.PointerEvent, dir: string) => {
+    if (e.button !== 0 || draggingRef.current) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const el = containerRef.current;
+    if (!el) return;
+
+    // Manual double-tap detection (preventDefault suppresses native dblclick):
+    // two clean grabs within 350ms with no drag movement = reset to default
+    const now = performance.now();
+    if (now - lastGrabRef.current < 350 && !movedRef.current) {
+      lastGrabRef.current = 0;
+      setSize(null);
+      return;
+    }
+    lastGrabRef.current = now;
+
+    draggingRef.current = true;
+    movedRef.current = false;
+    document.body.style.userSelect = "none";
+    const downX = e.clientX;
+    const downY = e.clientY;
+
+    const onMove = (ev: PointerEvent) => {
+      // Dead-man switch: if the button is no longer held, end the drag
+      if (ev.buttons === 0) return finish();
+      if (Math.abs(ev.clientX - downX) + Math.abs(ev.clientY - downY) > 3) {
+        movedRef.current = true;
+      }
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      let w = rect.width;
+      let h = rect.height;
+      // Centered container: width follows the pointer symmetrically around cx
+      if (dir.includes("e")) w = (ev.clientX - cx) * 2;
+      if (dir.includes("w")) w = (cx - ev.clientX) * 2;
+      if (dir.includes("s")) h = ev.clientY - rect.top;
+      setSize({
+        w: Math.round(Math.min(Math.max(340, w), window.innerWidth - 32)),
+        h: Math.round(Math.min(Math.max(220, h), window.innerHeight - 120)),
+      });
+    };
+
+    const finish = () => {
+      draggingRef.current = false;
+      document.body.style.userSelect = "";
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", finish);
+      window.removeEventListener("pointercancel", finish);
+      window.removeEventListener("blur", finish);
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", finish);
+    window.addEventListener("pointercancel", finish);
+    window.addEventListener("blur", finish);
+  }, []);
+
+  const handleProps = (dir: string) => ({
+    onPointerDown: (e: React.PointerEvent) => startResize(e, dir),
+  });
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -219,13 +283,30 @@ function InteractiveTerminal() {
     }
   }, [lines]);
 
+  // Expanded mode: freeze page scroll, focus input, Esc collapses
+  useEffect(() => {
+    if (!expanded) return;
+    if (lenis) lenis.stop();
+    inputRef.current?.focus();
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setExpanded(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (lenis) lenis.start();
+    };
+  }, [expanded, lenis]);
+
   const execute = useCallback(
     (raw: string) => {
       const trimmed = raw.trim();
       if (!trimmed) return;
 
       const newLine: TerminalLine = { type: "input", content: trimmed };
-      const parts = trimmed.split(/\s+/);
+      // Map natural phrases ("get in touch") onto real commands first
+      const effective = PHRASE_ALIASES[trimmed.toLowerCase()] ?? trimmed;
+      const parts = effective.split(/\s+/);
       const cmd = parts[0].toLowerCase();
       const args = parts.slice(1);
 
@@ -242,10 +323,17 @@ function InteractiveTerminal() {
         const output = handler(args);
         setLines((prev) => [...prev, newLine, ...output]);
       } else {
+        const names = Object.keys(TERMINAL_COMMANDS);
+        const close =
+          names.find((c) => c.startsWith(cmd.slice(0, 3))) ??
+          names.find((c) => cmd.length > 3 && c.includes(cmd.slice(0, 3)));
         setLines((prev) => [
           ...prev,
           newLine,
-          { type: "error", content: `command not found: ${cmd}. Type "help" for available commands.` },
+          {
+            type: "error",
+            content: `command not found: ${cmd}.${close ? ` Did you mean "${close}"?` : ""} Type "help" for available commands.`,
+          },
         ]);
       }
     },
@@ -287,26 +375,67 @@ function InteractiveTerminal() {
   };
 
   return (
-    <div
-      className="w-full max-w-xl mx-auto rounded-lg border border-card-border bg-code-bg overflow-hidden text-left shadow-2xl shadow-black/20"
-      onClick={() => inputRef.current?.focus()}
-    >
-      {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-card-border bg-card-bg">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
-        </div>
-        <span className="flex-1 text-center text-[11px] text-dimmed font-mono">pavan.sh</span>
-      </div>
+    <>
+      {/* Backdrop when expanded - click to collapse */}
+      {expanded && (
+        <div
+          className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm"
+          onClick={() => setExpanded(false)}
+        />
+      )}
 
-      {/* Terminal body */}
       <div
-        ref={scrollRef}
-        data-lenis-prevent
-        className="h-48 overflow-y-auto px-4 py-3 font-mono text-xs sm:text-sm leading-relaxed cursor-text"
+        ref={containerRef}
+        className={
+          expanded
+            ? "fixed inset-x-4 top-[7vh] bottom-[7vh] z-[81] mx-auto flex w-auto max-w-4xl flex-col rounded-lg border border-card-border bg-code-bg overflow-hidden text-left shadow-2xl shadow-black/50"
+            : "relative mx-auto flex w-full max-w-xl flex-col rounded-lg border border-card-border bg-code-bg overflow-hidden text-left shadow-2xl shadow-black/20"
+        }
+        style={
+          !expanded && size
+            ? { width: size.w, height: size.h, maxWidth: "none" }
+            : undefined
+        }
+        onClick={() => inputRef.current?.focus()}
       >
+        {/* Title bar - the dots are real window controls */}
+        <div className="flex items-center gap-2 px-4 py-2.5 border-b border-card-border bg-card-bg">
+          <div className="group flex items-center gap-1.5">
+            <button
+              aria-label="Clear terminal"
+              title="Clear"
+              onClick={(e) => { e.stopPropagation(); setLines([]); }}
+              className="h-2.5 w-2.5 rounded-full bg-red-500/80 transition-transform duration-200 hover:scale-125"
+            />
+            <button
+              aria-label="Collapse terminal"
+              title="Collapse"
+              onClick={(e) => { e.stopPropagation(); setExpanded(false); }}
+              className="h-2.5 w-2.5 rounded-full bg-yellow-500/80 transition-transform duration-200 hover:scale-125"
+            />
+            <button
+              aria-label="Expand terminal"
+              title="Expand"
+              onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+              className="h-2.5 w-2.5 rounded-full bg-green-500/80 transition-transform duration-200 hover:scale-125"
+            />
+          </div>
+          <span className="flex-1 text-center text-[11px] text-dimmed font-mono">pavan.sh</span>
+          <button
+            aria-label="Toggle terminal size"
+            onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+            className="font-mono text-[10px] text-dimmed transition-colors hover:text-heading"
+          >
+            {expanded ? "esc ⤡" : "⤢"}
+          </button>
+        </div>
+
+        {/* Terminal body */}
+        <div
+          ref={scrollRef}
+          data-lenis-prevent
+          className={`${expanded || size ? "flex-1" : "h-48"} overflow-y-auto px-4 py-3 font-mono text-xs sm:text-sm leading-relaxed cursor-text`}
+        >
         {lines.map((line, i) => (
           <div key={i} className="min-h-[1.25rem]">
             {line.type === "input" ? (
@@ -359,147 +488,44 @@ function InteractiveTerminal() {
             </span>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
+        </div>
 
-const wordVariants = {
-  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
-      delay: 0.3 + i * 0.12,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  }),
-};
-
-export function Hero() {
-  const words = ["Pavan", "Sai", "Reddy", "Pendry"];
-
-  return (
-    <section id="home" className="relative flex min-h-screen items-end justify-center overflow-hidden px-6 pb-24 pt-32">
-      {/* Next.js-style grid background */}
-      <HeroGrid />
-
-      {/* Radial glow */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-[600px] w-[900px] bg-gradient-to-b from-purple-500/[0.08] via-transparent to-transparent blur-3xl" />
-
-      <div className="relative z-10 mx-auto max-w-5xl text-center">
-        {/* Title — reduced sizes */}
-        <h1 className="mb-6">
-          <span className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-            {words.map((word, i) => (
-              <motion.span
-                key={word}
-                custom={i}
-                variants={wordVariants}
-                initial="hidden"
-                animate="visible"
-                className={`text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl ${
-                  word === "Pendry"
-                    ? "bg-gradient-to-r from-purple-400 via-purple-300 to-blue-400 bg-clip-text text-transparent"
-                    : "text-heading"
-                }`}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </span>
-        </h1>
-
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          className="mx-auto mb-8 max-w-2xl text-base text-muted leading-relaxed sm:text-lg"
-        >
-          {siteConfig.description}
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.1 }}
-          className="flex flex-wrap items-center justify-center gap-4"
-        >
-          <a
-            href="#projects"
-            onClick={(e) => {
-              e.preventDefault();
-              document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="group inline-flex items-center gap-2 rounded-full bg-btn-primary-bg px-7 py-3 text-sm font-medium text-btn-primary-text transition-all duration-300 hover:shadow-lg hover:shadow-accent/10 hover:opacity-90"
-          >
-            View Projects
-            <svg
-              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        {/* ── Resize handles - drag the borders like a real window ── */}
+        {!expanded && (
+          <>
+            <div
+              {...handleProps("e")}
+              aria-hidden
+              className="absolute -right-1 top-0 z-10 h-full w-2.5 touch-none"
+              style={{ cursor: "ew-resize" }}
+            />
+            <div
+              {...handleProps("w")}
+              aria-hidden
+              className="absolute -left-1 top-0 z-10 h-full w-2.5 touch-none"
+              style={{ cursor: "ew-resize" }}
+            />
+            <div
+              {...handleProps("s")}
+              aria-hidden
+              className="absolute -bottom-1 left-0 z-10 h-2.5 w-full touch-none"
+              style={{ cursor: "ns-resize" }}
+            />
+            <div
+              {...handleProps("se")}
+              aria-hidden
+              title="Drag to resize · double-click to reset"
+              className="absolute -bottom-0.5 -right-0.5 z-20 flex h-4 w-4 items-end justify-end touch-none"
+              style={{ cursor: "nwse-resize" }}
             >
-              <path d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-          </a>
-          <a
-            href={siteConfig.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-btn-secondary-border bg-btn-secondary-bg px-7 py-3 text-sm font-medium text-btn-secondary-text backdrop-blur-sm transition-all duration-300 hover:border-card-border-hover hover:text-heading"
-          >
-            GitHub
-          </a>
-          <a
-            href={siteConfig.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-btn-secondary-border bg-btn-secondary-bg px-7 py-3 text-sm font-medium text-btn-secondary-text backdrop-blur-sm transition-all duration-300 hover:border-card-border-hover hover:text-heading"
-          >
-            LinkedIn
-          </a>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.3 }}
-          className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4"
-        >
-          {stats.map((stat) => (
-            <StatCounter key={stat.label} {...stat} />
-          ))}
-        </motion.div>
-
-        {/* Interactive Terminal */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.5 }}
-          className="mt-8"
-        >
-          <InteractiveTerminal />
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="mt-12 flex flex-col items-center gap-3"
-        >
-          <span className="text-xs tracking-widest text-dimmed uppercase">Scroll</span>
-          <motion.div
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px h-8 bg-gradient-to-b from-dimmed to-transparent"
-          />
-        </motion.div>
+              <svg width="9" height="9" viewBox="0 0 9 9" className="m-0.5 opacity-40">
+                <path d="M8 1L1 8M8 5L5 8" stroke="currentColor" strokeWidth="1" />
+              </svg>
+            </div>
+          </>
+        )}
       </div>
-    </section>
+    </>
   );
 }
+

@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "next-themes";
 import { siteConfig } from "@/lib/data";
+import { useLenisCtx, useLenisScrollTo } from "./SmoothScroll";
 
 interface Command {
   id: string;
@@ -26,7 +26,7 @@ const paletteVariants = {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.2, ease: [0.19, 1, 0.22, 1] as const },
   },
   exit: {
     opacity: 0,
@@ -48,11 +48,6 @@ const LinkIcon = () => (
     <polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
   </svg>
 );
-const ThemeIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
-  </svg>
-);
 const ArrowUpIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
@@ -70,24 +65,30 @@ export function CommandPalette() {
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const { theme, setTheme } = useTheme();
+  const { lenis } = useLenisCtx();
+  const lenisScrollTo = useLenisScrollTo();
+
+  // Stop Lenis when palette is open, start when closed
+  useEffect(() => {
+    if (!lenis) return;
+    if (open) lenis.stop();
+    else lenis.start();
+  }, [open, lenis]);
 
   const scrollToSection = useCallback((id: string) => {
     setOpen(false);
     setTimeout(() => {
-      document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
+      lenisScrollTo(id, { offset: -64, lock: true });
     }, 100);
-  }, []);
+  }, [lenisScrollTo]);
 
   const commands: Command[] = [
     // Navigation
     { id: "about", label: "About", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#about"), keywords: "about me" },
     { id: "skills", label: "Skills & Tools", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#skills"), keywords: "skills tools tech stack" },
     { id: "experience", label: "Experience", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#experience"), keywords: "experience work job" },
-    { id: "projects", label: "Projects", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#projects"), keywords: "projects portfolio" },
-    { id: "architecture", label: "Architecture", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#architecture"), keywords: "architecture system design infra" },
+    { id: "projects", label: "Projects", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#projects"), keywords: "projects portfolio work" },
     { id: "research", label: "Research & Publications", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#publications"), keywords: "research publications papers" },
-    { id: "tailor", label: "Resume Tailor", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#tailor"), keywords: "resume tailor job match fit recruiter jd" },
     { id: "contact", label: "Contact", section: "Navigate", icon: <NavIcon />, action: () => scrollToSection("#contact"), keywords: "contact email reach" },
     // External
     { id: "github", label: "GitHub", section: "Links", icon: <LinkIcon />, action: () => { setOpen(false); window.open(siteConfig.github, "_blank"); }, keywords: "github code" },
@@ -95,9 +96,9 @@ export function CommandPalette() {
     { id: "email", label: "Email", section: "Links", icon: <LinkIcon />, action: () => { setOpen(false); window.open(`mailto:${siteConfig.email}`, "_blank"); }, keywords: "email mail" },
     { id: "babyjay", label: "BabyJay", section: "Links", icon: <LinkIcon />, action: () => { setOpen(false); window.open("https://babyjay.bot", "_blank"); }, keywords: "babyjay bot assistant" },
     // Actions
-    { id: "theme", label: "Toggle Theme", section: "Actions", icon: <ThemeIcon />, action: () => { setTheme(theme === "dark" ? "light" : "dark"); setOpen(false); }, keywords: "theme dark light mode toggle" },
-    { id: "top", label: "Scroll to Top", section: "Actions", icon: <ArrowUpIcon />, action: () => { setOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }, keywords: "scroll top home" },
-    { id: "resume", label: "Download Resume", section: "Actions", icon: <DownloadIcon />, action: () => { setOpen(false); }, keywords: "resume download cv" },
+    { id: "top", label: "Scroll to Top", section: "Actions", icon: <ArrowUpIcon />, action: () => { setOpen(false); lenisScrollTo("top", { duration: 2, lock: true, easing: (t: number) => 1 - Math.pow(1 - t, 4) }); }, keywords: "scroll top home" },
+    { id: "resume", label: "Download Resume (SWE + ML)", section: "Actions", icon: <DownloadIcon />, action: () => { setOpen(false); window.open("/resume/Pavan_Pendry_Resume.pdf", "_blank"); }, keywords: "resume download cv software ml" },
+    { id: "resume-genai", label: "Download Resume (Gen AI)", section: "Actions", icon: <DownloadIcon />, action: () => { setOpen(false); window.open("/resume/Pavan_Pendry_GenAI_Resume.pdf", "_blank"); }, keywords: "resume download cv genai llm" },
   ];
 
   const filtered = query

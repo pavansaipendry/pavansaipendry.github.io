@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <rect width="1200" height="750" fill="#0c0a1a"/>
+  <!-- Purple-dark theme - System monitoring -->
+  <rect x="0" y="0" width="1200" height="52" fill="#130f28"/>
+  <text x="40" y="34" font-family="monospace" font-size="17" font-weight="700" fill="#a78bfa">📊 System Monitor</text>
+  <circle cx="1080" cy="26" r="5" fill="#34d399"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>
+  <text x="1095" y="32" font-family="monospace" font-size="12" fill="#34d399">All Systems Operational</text>
+
+  <!-- Kafka metrics -->
+  <rect x="40" y="75" width="560" height="200" rx="12" fill="#1a1535" stroke="#2d2557" stroke-width="1"/>
+  <text x="60" y="105" font-family="sans-serif" font-size="14" font-weight="600" fill="#d4d4d8">Kafka Pipeline</text>
+  <rect x="490" y="90" width="90" height="22" rx="11" fill="#34d39915"/>
+  <text x="535" y="106" font-family="monospace" font-size="10" fill="#34d399" text-anchor="middle">● Healthy</text>
+
+  <g font-family="monospace" font-size="12">
+    <text x="60" y="140" fill="#71717a">Messages/sec:</text><text x="200" y="140" fill="#a78bfa" font-size="20" font-weight="700">2,847</text>
+    <text x="60" y="170" fill="#71717a">Partitions:</text><text x="200" y="170" fill="#d4d4d8">12 active</text>
+    <text x="60" y="195" fill="#71717a">Consumer Lag:</text><text x="200" y="195" fill="#34d399">0 messages</text>
+    <text x="60" y="220" fill="#71717a">Topics:</text><text x="200" y="220" fill="#d4d4d8">stock.quotes, stock.ohlcv, stock.moving_avg</text>
+    <text x="60" y="245" fill="#71717a">Retention:</text><text x="200" y="245" fill="#d4d4d8">7 days | 2.4 TB total</text>
+  </g>
+
+  <!-- PostgreSQL -->
+  <rect x="620" y="75" width="540" height="200" rx="12" fill="#1a1535" stroke="#2d2557" stroke-width="1"/>
+  <text x="640" y="105" font-family="sans-serif" font-size="14" font-weight="600" fill="#d4d4d8">PostgreSQL</text>
+  <rect x="1050" y="90" width="90" height="22" rx="11" fill="#34d39915"/>
+  <text x="1095" y="106" font-family="monospace" font-size="10" fill="#34d399" text-anchor="middle">● Healthy</text>
+
+  <g font-family="monospace" font-size="12">
+    <text x="640" y="140" fill="#71717a">Queries/sec:</text><text x="780" y="140" fill="#fbbf24" font-size="20" font-weight="700">1,240</text>
+    <text x="640" y="170" fill="#71717a">Avg Latency:</text><text x="780" y="170" fill="#34d399">8ms</text><text x="850" y="170" fill="#71717a">(was 20ms → 60% faster)</text>
+    <text x="640" y="195" fill="#71717a">Total Rows:</text><text x="780" y="195" fill="#d4d4d8">2.1M</text>
+    <text x="640" y="220" fill="#71717a">Connections:</text><text x="780" y="220" fill="#d4d4d8">24/100 pool</text>
+    <text x="640" y="245" fill="#71717a">Disk Usage:</text><text x="780" y="245" fill="#d4d4d8">14.2 GB / 100 GB</text>
+  </g>
+
+  <!-- Redis -->
+  <rect x="40" y="295" width="560" height="200" rx="12" fill="#1a1535" stroke="#2d2557" stroke-width="1"/>
+  <text x="60" y="325" font-family="sans-serif" font-size="14" font-weight="600" fill="#d4d4d8">Redis Cache</text>
+  <rect x="490" y="310" width="90" height="22" rx="11" fill="#34d39915"/>
+  <text x="535" y="326" font-family="monospace" font-size="10" fill="#34d399" text-anchor="middle">● Healthy</text>
+
+  <g font-family="monospace" font-size="12">
+    <text x="60" y="360" fill="#71717a">Hit Rate:</text><text x="200" y="360" fill="#34d399" font-size="20" font-weight="700">94.2%</text>
+    <text x="60" y="390" fill="#71717a">Keys:</text><text x="200" y="390" fill="#d4d4d8">12,481</text>
+    <text x="60" y="415" fill="#71717a">Memory:</text><text x="200" y="415" fill="#d4d4d8">128 MB / 512 MB</text>
+    <text x="60" y="440" fill="#71717a">Evictions:</text><text x="200" y="440" fill="#34d399">0 (LRU policy active)</text>
+    <text x="60" y="465" fill="#71717a">TTL Default:</text><text x="200" y="465" fill="#d4d4d8">60s for quotes, 300s for OHLCV</text>
+  </g>
+
+  <!-- Docker containers -->
+  <rect x="620" y="295" width="540" height="200" rx="12" fill="#1a1535" stroke="#2d2557" stroke-width="1"/>
+  <text x="640" y="325" font-family="sans-serif" font-size="14" font-weight="600" fill="#d4d4d8">Docker Containers</text>
+
+  <g font-family="monospace" font-size="12">
+    <rect x="640" y="345" width="500" height="28" rx="4" fill="#1e1a38"/>
+    <circle cx="660" cy="359" r="4" fill="#34d399"/><text x="680" y="364" fill="#d4d4d8">market-api</text><text x="870" y="364" fill="#71717a">CPU: 12%</text><text x="1000" y="364" fill="#71717a">MEM: 245MB</text><text x="1120" y="364" fill="#34d399" text-anchor="end">UP</text>
+    <rect x="640" y="380" width="500" height="28" rx="4" fill="#1e1a38"/>
+    <circle cx="660" cy="394" r="4" fill="#34d399"/><text x="680" y="399" fill="#d4d4d8">kafka-broker</text><text x="870" y="399" fill="#71717a">CPU: 34%</text><text x="1000" y="399" fill="#71717a">MEM: 1.2GB</text><text x="1120" y="399" fill="#34d399" text-anchor="end">UP</text>
+    <rect x="640" y="415" width="500" height="28" rx="4" fill="#1e1a38"/>
+    <circle cx="660" cy="429" r="4" fill="#34d399"/><text x="680" y="434" fill="#d4d4d8">redis-cache</text><text x="870" y="434" fill="#71717a">CPU: 3%</text><text x="1000" y="434" fill="#71717a">MEM: 128MB</text><text x="1120" y="434" fill="#34d399" text-anchor="end">UP</text>
+    <rect x="640" y="450" width="500" height="28" rx="4" fill="#1e1a38"/>
+    <circle cx="660" cy="464" r="4" fill="#34d399"/><text x="680" y="469" fill="#d4d4d8">postgres-db</text><text x="870" y="469" fill="#71717a">CPU: 8%</text><text x="1000" y="469" fill="#71717a">MEM: 512MB</text><text x="1120" y="469" fill="#34d399" text-anchor="end">UP</text>
+  </g>
+
+  <!-- Uptime chart -->
+  <rect x="40" y="520" width="1120" height="200" rx="12" fill="#1a1535" stroke="#2d2557" stroke-width="1"/>
+  <text x="60" y="555" font-family="sans-serif" font-size="14" font-weight="600" fill="#d4d4d8">Uptime — Last 90 Days</text>
+  <text x="1130" y="555" font-family="monospace" font-size="14" font-weight="700" fill="#34d399" text-anchor="end">99.99%</text>
+
+  <!-- Uptime bars -->
+  <g>
+    <rect x="60" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="74" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="88" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="102" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="116" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="130" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="144" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="158" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="172" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="186" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="200" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="214" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="228" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="242" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="256" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="270" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="284" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="298" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="312" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="326" y="575" width="11" height="40" rx="2" fill="#fbbf24" opacity="0.8"/>
+    <rect x="340" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="354" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="368" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="382" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="396" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="410" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="424" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="438" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="452" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+    <rect x="466" y="575" width="11" height="40" rx="2" fill="#34d399" opacity="0.8"/>
+  </g>
+  <text x="60" y="635" font-family="monospace" font-size="11" fill="#71717a">Mar</text>
+  <text x="200" y="635" font-family="monospace" font-size="11" fill="#71717a">Apr</text>
+  <text x="340" y="635" font-family="monospace" font-size="11" fill="#71717a">May</text>
+  <text x="466" y="635" font-family="monospace" font-size="11" fill="#71717a">Jun</text>
+
+  <text x="60" y="690" font-family="sans-serif" font-size="12" fill="#71717a">Total downtime: 4m 18s | Incidents: 1 (Finnhub rate limit, auto-recovered)</text>
+  <text x="1130" y="690" font-family="monospace" font-size="11" fill="#a78bfa" text-anchor="end">docker-compose up -d</text>
+</svg>

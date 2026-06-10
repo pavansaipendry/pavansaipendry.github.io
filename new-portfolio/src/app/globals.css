@@ -26,12 +26,14 @@
 
 :root {
   --background: #0a0a0f;
-  --foreground: #e8e8ed;
-  --heading: #ffffff;
+  --background-alt: #0e0e15;
+  --background-elevated: #121218;
+  --foreground: #e2e2e8;
+  --heading: #fafafa;
   --muted: #8888a0;
   --dimmed: #55556a;
   --accent: #7c5cfc;
-  --accent-soft: rgba(124, 92, 252, 0.12);
+  --accent-soft: rgba(124, 92, 252, 0.10);
   --card-bg: rgba(255, 255, 255, 0.02);
   --card-border: rgba(255, 255, 255, 0.06);
   --card-border-hover: rgba(255, 255, 255, 0.12);
@@ -46,35 +48,26 @@
   --btn-secondary-border: rgba(255, 255, 255, 0.1);
   --input-bg: rgba(255, 255, 255, 0.03);
   --input-border: rgba(255, 255, 255, 0.06);
+
+  /* Premium easing curves */
+  --ease-out-expo: cubic-bezier(.19, 1, .22, 1);
+  --ease-out-quart: cubic-bezier(.25, .46, .45, .94);
+  --ease-in-out-cubic: cubic-bezier(.65, 0, .35, 1);
+
+  /* Section spacing */
+  --section-py: clamp(80px, 12vh, 160px);
+  --section-px: clamp(20px, 5vw, 80px);
+
+  /* Lenis scroll data - set via JS, readable from any CSS */
+  --lenis-scroll: 0;
+  --lenis-progress: 0;
+  --lenis-velocity: 0;
+  --lenis-direction: 1;
 }
 
-.light {
-  --background: #fafafa;
-  --foreground: #374151;
-  --heading: #111111;
-  --muted: #6b7280;
-  --dimmed: #9ca3af;
-  --accent: #7c5cfc;
-  --accent-soft: rgba(124, 92, 252, 0.08);
-  --card-bg: rgba(0, 0, 0, 0.02);
-  --card-border: rgba(0, 0, 0, 0.08);
-  --card-border-hover: rgba(0, 0, 0, 0.15);
-  --nav-bg: rgba(255, 255, 255, 0.7);
-  --pill-bg: rgba(0, 0, 0, 0.03);
-  --pill-border: rgba(0, 0, 0, 0.08);
-  --code-bg: #f3f4f6;
-  --btn-primary-bg: #111111;
-  --btn-primary-text: #ffffff;
-  --btn-secondary-bg: rgba(0, 0, 0, 0.03);
-  --btn-secondary-text: #374151;
-  --btn-secondary-border: rgba(0, 0, 0, 0.1);
-  --input-bg: #ffffff;
-  --input-border: rgba(0, 0, 0, 0.1);
-}
-
-/* Smooth scroll behavior */
+/* ─── Lenis handles scroll - kill browser smooth scroll ─── */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -85,13 +78,13 @@ body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-/* Selection */
+/* ─── Selection ─── */
 ::selection {
   background: rgba(124, 92, 252, 0.3);
   color: #fff;
 }
 
-/* Scrollbar */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -106,7 +99,86 @@ body {
   background: var(--card-border-hover);
 }
 
-/* Marquee animation */
+/* ═══════════════════════════════════════════════════════════════════════════
+   VELOCITY-DRIVEN CSS EFFECTS
+   These classes are toggled by SmoothScroll.tsx based on Lenis velocity.
+   Any element can opt in by adding the appropriate class name.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Cards get subtle motion blur during fast scroll */
+html.scroll-fast .spotlight-card {
+  filter: blur(0.5px);
+  transition: filter 0.05s linear;
+}
+html:not(.is-scrolling) .spotlight-card {
+  filter: blur(0);
+  transition: filter 0.5s ease-out;
+}
+
+/* Section header titles tighten letter-spacing during fast scroll */
+html.scroll-fast .section-header-title {
+  letter-spacing: -0.03em;
+  transition: letter-spacing 0.1s ease;
+}
+html:not(.is-scrolling) .section-header-title {
+  letter-spacing: -0.025em;
+  transition: letter-spacing 0.5s ease-out;
+}
+
+/* Velocity-reactive skew on decorated elements */
+html.scroll-fast .velocity-skew {
+  transform: skewY(1deg);
+  transition: transform 0.08s linear;
+}
+html:not(.is-scrolling) .velocity-skew {
+  transform: skewY(0);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+/* ─── Scroll reveal - universal entrance animation ─── */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 60px, 0);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+  will-change: transform, opacity;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Stagger children */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.08s; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 0.16s; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 0.24s; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 0.32s; }
+.reveal-stagger > .reveal:nth-child(6) { transition-delay: 0.40s; }
+
+/* ─── Section alternating backgrounds ─── */
+.section-alt {
+  background: var(--background-alt);
+}
+.section-elevated {
+  background: var(--background-elevated);
+}
+
+/* Parallax - driven by --parallax-y custom property set via JS */
+[data-parallax],
+.parallax-layer {
+  --parallax-y: 0px;
+  will-change: transform;
+  transform: translate3d(0, var(--parallax-y), 0);
+}
+
+/* Glow parallax - needs centering AND vertical shift */
+.parallax-glow {
+  --parallax-y: 0px;
+  will-change: transform;
+  transform: translate3d(-50%, var(--parallax-y), 0);
+}
+
+/* ─── Marquee animation ─── */
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -120,34 +192,7 @@ body {
   animation: marquee 30s linear infinite;
 }
 
-/* Theme transition — circular reveal via View Transitions API */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root) {
-  z-index: 9999;
-  animation: theme-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes theme-reveal {
-  from {
-    clip-path: circle(0% at var(--theme-x, 50%) var(--theme-y, 50%));
-  }
-  to {
-    clip-path: circle(
-      calc(var(--theme-r, 100vmax)) at var(--theme-x, 50%) var(--theme-y, 50%)
-    );
-  }
-}
-
-/* ─── Skills section: animated beams (nextjs.org style) ─── */
+/* ─── Skills section: animated beams ─── */
 @keyframes beam-travel {
   0% {
     stroke-dashoffset: var(--path-length);
@@ -169,7 +214,165 @@ body {
   will-change: stroke-dashoffset;
 }
 
-/* ─── Chip shine sweep (nextjs.org style) ─── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERSCROLL RUBBER-BAND FEEDBACK
+   Triggered via virtual-scroll event when user tries to scroll past bounds.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Rubber-band targets <main>, NOT <body>: a transform on body makes it the
+   containing block for every position:fixed element (navbar, cursor, grain,
+   progress bar, footer curtain), silently breaking them all. */
+html.overscroll-top main {
+  transform: translateY(4px);
+  transition: transform 0.15s ease-out;
+}
+
+html.overscroll-bottom main {
+  transform: translateY(-4px);
+  transition: transform 0.15s ease-out;
+}
+
+html:not(.overscroll-top):not(.overscroll-bottom) main {
+  transform: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SNAP FEEDBACK
+   Brief visual cue when sections snap into place.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+html.is-snapping .section-header-title {
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+html:not(.is-snapping) .section-header-title {
+  transition: color 0.6s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HORIZONTAL SLIDES - ported from lenis.darkroom.engineering
+   Source: components/card/card.module.css + horizontal-slides/horizontal-slides.module.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Wrapper - tall enough for all cards to scroll through */
+.horizontal-slides-wrapper {
+  position: relative;
+}
+
+/* Sticky container - pinned, vertically centered, overflow hidden */
+.horizontal-slides-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 clamp(24px, 3vw, 40px);
+}
+
+.horizontal-slides-sticky > * {
+  position: relative;
+  width: 100%;
+}
+
+/* Track - flex row, no wrap, children don't shrink */
+.horizontal-slides-track {
+  display: flex;
+  gap: clamp(16px, 1.5vw, 24px);
+  will-change: transform;
+}
+
+.horizontal-slides-track > * {
+  flex-shrink: 0;
+}
+
+/* Card - 1:1 aspect ratio (from Lenis: aspect-ratio: 1/1)
+   Width: columns(4) ≈ 30vw on desktop
+   Padding: ~1.5vw (their device-vw(24) at 1440 base)
+   Border: 1px solid secondary-20
+   Background: site background with backdrop blur */
+.horizontal-slides-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 1 / 1;
+  width: clamp(340px, 30vw, 480px);
+  padding: clamp(20px, 1.7vw, 28px);
+  border: 1px solid var(--card-border);
+  border-radius: clamp(6px, 0.5vw, 10px);
+  background-color: var(--background);
+  backdrop-filter: blur(5px);
+  color: var(--foreground);
+  transition: border-color 0.4s ease;
+}
+
+.horizontal-slides-card:hover {
+  border-color: var(--card-border-hover);
+}
+
+/* Number - large, accent color (Lenis uses --theme-contrast = pink)
+   Their size: device-vw(96) at 1440 base ≈ 6.67vw */
+.horizontal-slides-number {
+  font-size: clamp(48px, 6.5vw, 96px);
+  font-weight: 900;
+  line-height: 90%;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+/* Title - bold, uppercase (Lenis: font-panchang, weight 700, uppercase)
+   Their size: device-vw(28) at 1440 base ≈ 1.94vw */
+.horizontal-slides-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 110%;
+  font-size: clamp(16px, 1.6vw, 24px);
+  color: var(--heading);
+  letter-spacing: 0.02em;
+}
+
+/* Description text */
+.horizontal-slides-desc {
+  font-size: clamp(12px, 0.9vw, 14px);
+  line-height: 1.6;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tag pills */
+.horizontal-slides-tag {
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  padding: 2px 8px;
+  font-size: clamp(9px, 0.7vw, 11px);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dimmed);
+  border-radius: 4px;
+}
+
+/* Links */
+.horizontal-slides-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: clamp(10px, 0.75vw, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dimmed);
+  transition: color 0.3s ease;
+}
+
+.horizontal-slides-link:hover {
+  color: var(--heading);
+}
+
+/* ─── Chip shine sweep ─── */
 @keyframes shine {
   0% {
     background-position: 0%;
@@ -184,4 +387,357 @@ body {
   }
 }
 
-/* Grain overlay — disabled for performance on lower-end GPUs */
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOM CURSOR
+   Activated by CustomCursor.tsx on fine pointers (adds .has-custom-cursor).
+   Label inside ring uses absolute centering - flex centering breaks on
+   fixed containers in this setup.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor [role="button"] {
+  cursor: none;
+}
+html.has-custom-cursor input,
+html.has-custom-cursor textarea {
+  cursor: text;
+}
+
+.cc-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--heading);
+  z-index: 10001;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cc-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--heading) 35%, transparent);
+  background: transparent;
+  z-index: 10000;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0;
+  transition:
+    width 0.35s var(--ease-out-expo),
+    height 0.35s var(--ease-out-expo),
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    opacity 0.3s ease;
+}
+
+.cc-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  white-space: nowrap;
+}
+
+html.cc-visible .cc-dot,
+html.cc-visible .cc-ring {
+  opacity: 1;
+}
+
+/* Hover over links/buttons - ring grows, dot shrinks */
+html.cc-hover .cc-ring {
+  width: 56px;
+  height: 56px;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+html.cc-hover .cc-dot {
+  opacity: 0.4;
+}
+
+/* "View" mode over project cards - ring becomes a filled badge */
+html.cc-view .cc-ring {
+  width: 84px;
+  height: 84px;
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent) 85%, #000);
+}
+html.cc-view .cc-label {
+  opacity: 1;
+}
+html.cc-view .cc-dot {
+  opacity: 0;
+}
+
+/* Pressed */
+html.cc-press .cc-ring {
+  width: 28px;
+  height: 28px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FILM GRAIN OVERLAY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.grain {
+  position: fixed;
+  inset: -100%;
+  z-index: 9990;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  animation: grain-jitter 7s steps(10) infinite;
+}
+
+@keyframes grain-jitter {
+  0%   { transform: translate3d(0, 0, 0); }
+  10%  { transform: translate3d(-5%, -10%, 0); }
+  20%  { transform: translate3d(-15%, 5%, 0); }
+  30%  { transform: translate3d(7%, -25%, 0); }
+  40%  { transform: translate3d(-5%, 25%, 0); }
+  50%  { transform: translate3d(-15%, 10%, 0); }
+  60%  { transform: translate3d(15%, 0%, 0); }
+  70%  { transform: translate3d(0%, 15%, 0); }
+  80%  { transform: translate3d(3%, 35%, 0); }
+  90%  { transform: translate3d(-10%, 10%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOVER MICRO-INTERACTIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Underline draws in from the left, exits to the right */
+.link-draw {
+  position: relative;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.link-draw:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Rolling letter-swap - needs two copies of the label inside .roll__inner.
+   The duplicate sits absolutely below the box, so .roll stays one line tall. */
+.roll {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.roll__inner {
+  display: block;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.roll__inner > span {
+  display: block;
+}
+.roll__inner > span:last-child {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+a:hover .roll__inner,
+button:hover .roll__inner,
+.roll:hover .roll__inner {
+  transform: translateY(-100%);
+}
+
+/* Magnetic elements - JS drives transform, this handles the spring-back */
+[data-magnetic] {
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EDITORIAL TYPE SYSTEM
+   Display type is the design: edge-to-edge, uppercase, tight leading.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.display {
+  font-family: var(--font-display), var(--font-inter), sans-serif;
+  font-weight: 800;
+  font-stretch: 115%;
+  text-transform: uppercase;
+  line-height: 0.84;
+  letter-spacing: -0.015em;
+  color: var(--heading);
+}
+
+/* Hollow / stroked variant - reads as texture, not content */
+.display-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--heading) 75%, transparent);
+}
+
+/* Serif italic accent inside display lockups */
+.serif-accent {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Small editorial meta label: 10-11px mono uppercase */
+.meta-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--dimmed);
+}
+
+/* Full-bleed scene shell */
+.scene {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Ambient gradient blobs - slow drift, GPU-only */
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  will-change: transform;
+}
+.hero-blob--a {
+  width: 55vw;
+  height: 55vw;
+  top: -20vw;
+  right: -15vw;
+  background: radial-gradient(circle, rgba(124, 92, 252, 0.14), transparent 65%);
+  animation: blob-drift-a 18s ease-in-out infinite alternate;
+}
+.hero-blob--b {
+  width: 45vw;
+  height: 45vw;
+  bottom: -18vw;
+  left: -12vw;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.10), transparent 65%);
+  animation: blob-drift-b 22s ease-in-out infinite alternate;
+}
+@keyframes blob-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-6vw, 8vh, 0) scale(1.15); }
+}
+@keyframes blob-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.1); }
+  to   { transform: translate3d(7vw, -6vh, 0) scale(0.95); }
+}
+
+/* Giant chapter index numeral, sits behind content */
+.chapter-index {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-stretch: 115%;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--heading) 18%, transparent);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Editorial list row (experience / publications) */
+.ed-row {
+  display: grid;
+  grid-template-columns: minmax(80px, 140px) 1fr auto;
+  gap: clamp(16px, 3vw, 48px);
+  align-items: baseline;
+  padding: clamp(24px, 3.5vh, 44px) 0;
+  border-top: 1px solid var(--card-border);
+  position: relative;
+  transition: padding-left 0.5s var(--ease-out-expo);
+}
+.ed-row:hover {
+  padding-left: clamp(8px, 1.5vw, 24px);
+}
+.ed-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: color-mix(in srgb, var(--heading) 4%, transparent);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.5s var(--ease-out-expo);
+  pointer-events: none;
+}
+.ed-row:hover::before {
+  transform: scaleY(1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BORDER BEAM - a short dash that travels the perimeter of a box.
+   Used on the live chat. pathLength=100 normalizes the rect's perimeter, so
+   the dash ("3" ≈ an inch on a chat-sized box) and the travel distance are
+   resolution-independent. strokeLinecap stays "butt" → squared, sharp ends.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.border-beam {
+  stroke-dasharray: 8 92;
+  animation: border-beam-travel 8s linear infinite;
+  will-change: stroke-dashoffset;
+}
+
+@keyframes border-beam-travel {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION - everything collapses to simple state changes
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .grain,
+  .cc-dot,
+  .cc-ring {
+    display: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

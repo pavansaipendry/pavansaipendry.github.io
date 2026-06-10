@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pavan Sai Reddy Pendry - Resume</title>
+<style>
+  @page { size: letter; margin: 0.45in 0.5in; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.4px;
+    line-height: 1.38;
+    color: #111;
+  }
+  a { color: #1a4fd6; text-decoration: none; }
+  h1 { font-size: 19px; text-align: center; font-weight: 700; letter-spacing: 0.2px; }
+  .subtitle { text-align: center; font-style: italic; font-size: 10px; margin-top: 1px; }
+  .contact { text-align: center; font-size: 9px; margin-top: 2px; }
+  h2 {
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+    border-bottom: 1.2px solid #111; margin: 9px 0 4px; padding-bottom: 1px;
+  }
+  .row { display: flex; justify-content: space-between; align-items: baseline; }
+  .org { font-weight: 700; font-size: 9.8px; }
+  .role { font-style: italic; font-size: 9.4px; }
+  .date { font-weight: 700; font-size: 9.2px; white-space: nowrap; }
+  ul { margin: 1.5px 0 5px; padding-left: 13px; }
+  li { margin-bottom: 1.5px; }
+  b { font-weight: 700; }
+  .skills p { margin-bottom: 1.5px; }
+  .proj-head { margin-top: 3.5px; }
+  .proj-head .org { font-size: 9.6px; }
+  .stack { font-style: italic; color: #333; }
+</style>
+</head>
+<body>
+
+<h1>Pavan Sai Reddy Pendry</h1>
+<div class="subtitle">Software Engineer · Machine Learning</div>
+<div class="contact">
+  pavansaipendry2002@gmail.com | (785) 813-7825 | Irving, TX<br>
+  <a href="https://pavansaipendry.dev">pavansaipendry.dev</a> | <a href="https://github.com/pavansaipendry">github.com/pavansaipendry</a> | <a href="https://linkedin.com/in/pavansaireddypendry">linkedin.com/in/pavansaireddypendry</a>
+</div>
+
+<h2>Profile</h2>
+<p>
+Software engineer with production experience across full-stack systems and LLM/GPU infrastructure. Reimplemented DeepSeek's Native Sparse
+Attention from scratch in Triton/CUDA (22x faster window kernel at 64K context, A100-validated), built a from-scratch LLM inference engine
+(PagedAttention + continuous batching), and shipped <b>BabyJay</b> (82.4% user approval, 7,300+ courses) and <b>Note</b>, a developer-intelligence
+platform with 25+ REST APIs, WebSocket pub/sub, and a 24-command CLI. Strong across Python, TypeScript, PyTorch, React, FastAPI,
+PostgreSQL, Redis, Docker, and AWS. Published researcher (Springer, IEEE). M.S. in Computer Science, University of Kansas, May 2026.
+</p>
+
+<h2>Technical Skills</h2>
+<div class="skills">
+<p><b>Languages:</b> Python, Java, C++, TypeScript, JavaScript (ES6+), SQL, Bash</p>
+<p><b>Machine Learning &amp; AI:</b> PyTorch, TensorFlow, scikit-learn, Hugging Face Transformers, LLM architecture &amp; pretraining, attention mechanisms (FlashAttention, PagedAttention, GQA, RoPE, SwiGLU), Triton/CUDA GPU kernels, mixed precision (bf16), RAG, LangChain, LangGraph, multi-agent systems, fine-tuning, RLHF/GRPO, BPE tokenization, reinforcement learning (PPO), model evaluation</p>
+<p><b>Backend &amp; APIs:</b> FastAPI, Node.js, Express, Next.js API Routes, REST, WebSocket, Server-Sent Events, JWT, OAuth, bcrypt, rate limiting</p>
+<p><b>Frontend:</b> React 19, Next.js 16, SvelteKit, Tailwind CSS, Framer Motion, responsive design, accessibility</p>
+<p><b>Data &amp; Infra:</b> PostgreSQL (tsvector, pg_trgm, indexing), Redis, vector DBs (Qdrant, ChromaDB, pgvector), Supabase, Docker, Kubernetes, AWS (EC2, Lambda, S3), RunPod / A100 GPUs, CI/CD (GitHub Actions), Pytest, Jest, kernel profiling &amp; benchmarking</p>
+<p><b>Practices:</b> distributed systems, system design, code reviews, testing, numerical debugging, performance optimization, Agile, Git</p>
+</div>
+
+<h2>Experience</h2>
+
+<div class="row"><span class="org">University of Kansas | Lawrence, KS</span><span class="date">Jan 2025 - May 2026</span></div>
+<div class="role">Research Software Engineer</div>
+<ul>
+  <li>Built <b>BabyJay</b> (babyjay.bot), a production AI campus assistant serving <b>7,300+ courses</b> and <b>2,207 faculty</b> through Claude, achieving <b>82.4% user approval</b> via a real-time feedback loop that drove model and prompt optimization.</li>
+  <li>Engineered a multi-stage <b>RAG</b> pipeline (preprocessor, classifier, router, 8 specialized retrievers) over ChromaDB and pgvector, cutting average retrieval latency from 500-1000ms to 5-50ms, a <b>35x improvement</b> over pure vector search.</li>
+  <li>Designed a <b>FastAPI</b> backend with 14+ authenticated endpoints, Supabase PostgreSQL persistence, JWT auth with per-user isolation, and a 3-tier rate limiter capped at a daily inference cost budget.</li>
+  <li>Built 9 production <b>Python</b> data pipelines (BeautifulSoup4) with retry logic, deduplication, and schema validation, plus automated <b>Pytest</b> evaluation suites with CI regression checks; mentored <b>100+ students</b> as a graduate teaching assistant.</li>
+</ul>
+
+<div class="row"><span class="org">Note | USA (Remote)</span><span class="date">May 2025 - Aug 2025</span></div>
+<div class="role">Software Engineer Intern</div>
+<ul>
+  <li>Built <b>Note</b>, a developer-intelligence platform capturing and analyzing Claude Code (LLM coding-agent) sessions, designing <b>25+ REST API endpoints</b> in Next.js 16 App Router covering auth, prompts, projects, search, analytics, and cross-session intelligence.</li>
+  <li>Designed a normalized <b>15-table PostgreSQL</b> schema (prompts, sessions, projects, knowledge graph, audit log) using tsvector with pg_trgm trigram similarity for fuzzy search, composite indexes, and auto-updating search vectors via triggers.</li>
+  <li>Built a <b>WebSocket</b> server with Redis pub/sub for real-time CLI-to-web session pairing using hashed 6-digit codes, plus JWT dual-token auth (7d access, 30d refresh) with bcrypt, token revocation, and rate limiting.</li>
+  <li>Built a <b>Node.js CLI with 24 commands</b> (save, search, standup, report, capture, knowledge, share) and a 14-view <b>React 19</b> dashboard for browsing sessions, prompts, and analytics.</li>
+</ul>
+
+<div class="row"><span class="org">Amrita Vishwa Vidyapeetham | Kerala, India</span><span class="date">Jun 2023 - May 2024</span></div>
+<div class="role">Research Assistant</div>
+<ul>
+  <li>Co-authored <b>2 peer-reviewed papers</b> (Springer LNNS ICT4SD 2024, IEEE i-PACT 2023) and shipped 2 production apps in Python, React, and PostgreSQL serving <b>500+ users</b> with REST APIs, JWT auth, and AWS in a 6-person Agile team; built a Bidirectional LSTM (491K parameters, TensorFlow) for next-word prediction and nutrient analysis.</li>
+</ul>
+
+<h2>Projects</h2>
+
+<div class="proj-head"><span class="org">NSA-mini: Native Sparse Attention from Scratch</span> | <span class="stack">PyTorch, Triton, CUDA, A100</span></div>
+<ul>
+  <li>Reimplemented DeepSeek's <b>Native Sparse Attention</b> (ACL 2025 best paper) from scratch in PyTorch and Triton: a three-branch mechanism (compression, top-n block selection, sliding window) with GQA-shared block selection and learned per-head gates.</li>
+  <li>Wrote custom <b>Triton GPU kernels</b> (FlashAttention-2-style online softmax, group-centric sparse gather) reaching <b>22x faster forward</b> vs FlashAttention-2 on the window kernel at 64K context (A100 80GB); verified quality parity on enwik8 (2.164 vs 2.163 bpc) with a 38-test correctness harness.</li>
+</ul>
+
+<div class="proj-head"><span class="org">mini-vLLM: From-Scratch LLM Inference &amp; Serving Engine</span> | <span class="stack">Python, PyTorch, Triton, Hugging Face, Qwen2.5</span></div>
+<ul>
+  <li>Built an LLM inference engine from scratch implementing <b>PagedAttention</b> (block-pooled KV cache) and <b>continuous batching</b>, reproducing the core of vLLM; reimplemented the Qwen2.5 transformer (RMSNorm, RoPE, GQA, SwiGLU), matching Hugging Face logits to under 5e-4.</li>
+  <li>Designed a paged KV-cache allocator with per-step block recycling and an admit/decode/evict scheduler delivering <b>1.77x throughput</b> over sequential decoding (token-for-token verified); scaffolded a fused Triton paged-attention kernel validated to 7e-4 vs dense ground truth.</li>
+</ul>
+
+<div class="proj-head"><span class="org">Reasoning SLM: End-to-End LLM Training Pipeline</span> | <span class="stack">PyTorch, RunPod, A100, NumPy</span></div>
+<ul>
+  <li>Engineered an end-to-end LLM training pipeline (data → tokenizer → pretraining) for a math/code reasoning model: curated a <b>189M-token corpus</b> with from-scratch MinHash + LSH near-duplicate detection and Gopher-style quality filters.</li>
+  <li>Trained a <b>118M-parameter</b> decoder transformer from scratch with a custom gated-attention block at ~33% MFU and ~146K tokens/sec on a single A100 (bf16); trained a 32K-vocab byte-level BPE tokenizer and automated A100 provisioning via the RunPod REST API.</li>
+</ul>
+
+<div class="proj-head"><span class="org">PiqJob</span> | <span class="stack">React, Next.js 16, TypeScript, Node.js, Chrome MV3, Supabase, OpenAI</span></div>
+<ul>
+  <li>Architected a full-stack job discovery platform end-to-end as a solo product: a Vite React SPA, a Next.js 16 SSR rebuild, a Node.js/Express REST API, a Chrome Manifest V3 extension, and a shared Supabase PostgreSQL database enforcing RLS across 7 tables.</li>
+  <li>Built a <b>5-strategy ATS extraction pipeline</b> covering Schema.org JSON-LD, Greenhouse, Lever, Workday, and generic DOM fallback across 10+ ATS platforms, with a backend LLM proxy converting raw career-page text into normalized JSON job records.</li>
+</ul>
+
+<div class="proj-head"><span class="org">AttentionFM</span> | <span class="stack">SvelteKit, FastAPI, async Python, WebSocket, Claude Sonnet 4, Docker, RunPod</span></div>
+<ul>
+  <li>Built a 24/7 AI podcast platform with a fully async <b>FastAPI</b> backend handling concurrent room management and <b>WebSocket</b> multiplexing; containerized with Docker Compose (backend, PostgreSQL, Redis, Qdrant) with a RunPod serverless handler for GPU workloads.</li>
+</ul>
+
+<div class="proj-head"><span class="org">AI City</span> | <span class="stack">Python, FastAPI, TypeScript, PixiJS v8, PostgreSQL, Redis, Qdrant, Multi-LLM</span></div>
+<ul>
+  <li>Built an autonomous AI civilization simulator where <b>10+ LLM agents</b> live, work, commit crimes, stand trial, and die without human input - 10-migration PostgreSQL schema, Redis messaging, Qdrant vector memory, and an isometric PixiJS v8 frontend.</li>
+</ul>
+
+<h2>Hackathons</h2>
+<div class="row"><span class="org">HackKU 2025 | University of Kansas ACM, 36-Hour Hackathon</span><span class="date">Apr 2025</span></div>
+<ul>
+  <li>Shipped a cloud-based AI application in 36 hours using Claude API, Python, and TypeScript, earning recognition for the <b>most innovative use of AI</b> among 60+ competing teams.</li>
+</ul>
+<div class="row"><span class="org">Hack K-State 2025 | Kansas State University, 36-Hour Hackathon</span><span class="date">Oct 2025</span></div>
+<ul>
+  <li>Shipped a real-time collaborative dashboard (Python, WebSocket streaming, React) automating cross-functional task routing with AI classification.</li>
+</ul>
+
+<h2>Education</h2>
+<div class="row"><span class="org">University of Kansas | Lawrence, KS</span><span class="date">Aug 2024 - May 2026</span></div>
+<div class="role">M.S. Computer Science - Machine Learning, Algorithms, Distributed Systems, Database Systems, Computer Architecture, Software Engineering</div>
+<div class="row" style="margin-top:3px"><span class="org">Amrita Vishwa Vidyapeetham | India</span><span class="date">Oct 2020 - May 2024</span></div>
+<div class="role">B.Tech. Computer Science &amp; Engineering - Deep Learning, Data Structures, Algorithms, Operating Systems, Computer Networks, OOP, Cloud Computing</div>
+
+</body>
+</html>

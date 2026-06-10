@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#1a1d2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg2)"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="56" fill="#161822" opacity="0.9"/>
+  <text x="40" y="36" font-family="monospace" font-size="18" font-weight="700" fill="#FBB833">📈 Market Data Service</text>
+  <rect x="900" y="16" width="80" height="24" rx="12" fill="#34d39920"/>
+  <text x="940" y="33" font-family="sans-serif" font-size="11" fill="#34d399" text-anchor="middle">LIVE</text>
+  <circle cx="910" cy="28" r="4" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="1080" y="36" font-family="monospace" font-size="12" fill="#666">99.99% uptime</text>
+
+  <!-- Top stats row -->
+  <rect x="40" y="80" width="270" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="108" font-family="sans-serif" font-size="11" fill="#888">AAPL</text>
+  <text x="60" y="138" font-family="monospace" font-size="28" font-weight="700" fill="#fff">$189.42</text>
+  <text x="60" y="158" font-family="monospace" font-size="12" fill="#34d399">+2.34 (+1.25%)</text>
+  <text x="280" y="108" font-family="monospace" font-size="11" fill="#34d399" text-anchor="end">▲</text>
+
+  <rect x="330" y="80" width="270" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="350" y="108" font-family="sans-serif" font-size="11" fill="#888">GOOGL</text>
+  <text x="350" y="138" font-family="monospace" font-size="28" font-weight="700" fill="#fff">$142.87</text>
+  <text x="350" y="158" font-family="monospace" font-size="12" fill="#fa4D43">-1.12 (-0.78%)</text>
+  <text x="570" y="108" font-family="monospace" font-size="11" fill="#fa4D43" text-anchor="end">▼</text>
+
+  <rect x="620" y="80" width="270" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="640" y="108" font-family="sans-serif" font-size="11" fill="#888">MSFT</text>
+  <text x="640" y="138" font-family="monospace" font-size="28" font-weight="700" fill="#fff">$415.20</text>
+  <text x="640" y="158" font-family="monospace" font-size="12" fill="#34d399">+5.67 (+1.38%)</text>
+  <text x="860" y="108" font-family="monospace" font-size="11" fill="#34d399" text-anchor="end">▲</text>
+
+  <rect x="910" y="80" width="250" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="930" y="108" font-family="sans-serif" font-size="11" fill="#888">NVDA</text>
+  <text x="930" y="138" font-family="monospace" font-size="28" font-weight="700" fill="#fff">$878.35</text>
+  <text x="930" y="158" font-family="monospace" font-size="12" fill="#34d399">+12.40 (+1.43%)</text>
+
+  <!-- Main chart area -->
+  <rect x="40" y="195" width="760" height="360" rx="12" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="225" font-family="sans-serif" font-size="14" font-weight="600" fill="#ccc">AAPL — Price Chart (1D)</text>
+  <text x="770" y="225" font-family="monospace" font-size="11" fill="#666" text-anchor="end">1H  4H  1D  1W  1M</text>
+
+  <!-- Grid lines -->
+  <g stroke="#2a2d42" stroke-width="0.5" opacity="0.5">
+    <line x1="60" y1="260" x2="780" y2="260"/>
+    <line x1="60" y1="310" x2="780" y2="310"/>
+    <line x1="60" y1="360" x2="780" y2="360"/>
+    <line x1="60" y1="410" x2="780" y2="410"/>
+    <line x1="60" y1="460" x2="780" y2="460"/>
+  </g>
+  <text x="55" y="264" font-family="monospace" font-size="9" fill="#555" text-anchor="end">192</text>
+  <text x="55" y="314" font-family="monospace" font-size="9" fill="#555" text-anchor="end">190</text>
+  <text x="55" y="364" font-family="monospace" font-size="9" fill="#555" text-anchor="end">188</text>
+  <text x="55" y="414" font-family="monospace" font-size="9" fill="#555" text-anchor="end">186</text>
+  <text x="55" y="464" font-family="monospace" font-size="9" fill="#555" text-anchor="end">184</text>
+
+  <!-- Candlesticks -->
+  <g>
+    <!-- Green candles -->
+    <line x1="100" y1="420" x2="100" y2="370" stroke="#34d399" stroke-width="1"/>
+    <rect x="95" y="390" width="10" height="20" fill="#34d399" rx="1"/>
+
+    <line x1="140" y1="410" x2="140" y2="350" stroke="#34d399" stroke-width="1"/>
+    <rect x="135" y="360" width="10" height="35" fill="#34d399" rx="1"/>
+
+    <line x1="180" y1="380" x2="180" y2="320" stroke="#fa4D43" stroke-width="1"/>
+    <rect x="175" y="330" width="10" height="30" fill="#fa4D43" rx="1"/>
+
+    <line x1="220" y1="370" x2="220" y2="310" stroke="#34d399" stroke-width="1"/>
+    <rect x="215" y="320" width="10" height="30" fill="#34d399" rx="1"/>
+
+    <line x1="260" y1="350" x2="260" y2="290" stroke="#34d399" stroke-width="1"/>
+    <rect x="255" y="300" width="10" height="35" fill="#34d399" rx="1"/>
+
+    <line x1="300" y1="340" x2="300" y2="280" stroke="#fa4D43" stroke-width="1"/>
+    <rect x="295" y="290" width="10" height="25" fill="#fa4D43" rx="1"/>
+
+    <line x1="340" y1="360" x2="340" y2="300" stroke="#fa4D43" stroke-width="1"/>
+    <rect x="335" y="310" width="10" height="30" fill="#fa4D43" rx="1"/>
+
+    <line x1="380" y1="380" x2="380" y2="320" stroke="#34d399" stroke-width="1"/>
+    <rect x="375" y="340" width="10" height="25" fill="#34d399" rx="1"/>
+
+    <line x1="420" y1="360" x2="420" y2="290" stroke="#34d399" stroke-width="1"/>
+    <rect x="415" y="300" width="10" height="40" fill="#34d399" rx="1"/>
+
+    <line x1="460" y1="330" x2="460" y2="270" stroke="#34d399" stroke-width="1"/>
+    <rect x="455" y="280" width="10" height="30" fill="#34d399" rx="1"/>
+
+    <line x1="500" y1="310" x2="500" y2="260" stroke="#fa4D43" stroke-width="1"/>
+    <rect x="495" y="270" width="10" height="20" fill="#fa4D43" rx="1"/>
+
+    <line x1="540" y1="320" x2="540" y2="265" stroke="#34d399" stroke-width="1"/>
+    <rect x="535" y="275" width="10" height="30" fill="#34d399" rx="1"/>
+
+    <line x1="580" y1="300" x2="580" y2="250" stroke="#34d399" stroke-width="1"/>
+    <rect x="575" y="260" width="10" height="25" fill="#34d399" rx="1"/>
+
+    <line x1="620" y1="310" x2="620" y2="255" stroke="#fa4D43" stroke-width="1"/>
+    <rect x="615" y="265" width="10" height="25" fill="#fa4D43" rx="1"/>
+
+    <line x1="660" y1="290" x2="660" y2="240" stroke="#34d399" stroke-width="1"/>
+    <rect x="655" y="250" width="10" height="25" fill="#34d399" rx="1"/>
+
+    <line x1="700" y1="280" x2="700" y2="235" stroke="#34d399" stroke-width="1"/>
+    <rect x="695" y="245" width="10" height="20" fill="#34d399" rx="1"/>
+
+    <line x1="740" y1="270" x2="740" y2="240" stroke="#FBB833" stroke-width="1"/>
+    <rect x="735" y="245" width="10" height="15" fill="#FBB833" rx="1"/>
+  </g>
+
+  <!-- Moving average line -->
+  <polyline points="100,400 140,375 180,355 220,340 260,320 300,315 340,325 380,340 420,320 460,300 500,290 540,285 580,270 620,275 660,260 700,255 740,252" fill="none" stroke="#FBB833" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Volume bars at bottom -->
+  <g opacity="0.3">
+    <rect x="95" y="505" width="10" height="30" fill="#34d399"/>
+    <rect x="135" y="495" width="10" height="40" fill="#34d399"/>
+    <rect x="175" y="510" width="10" height="25" fill="#fa4D43"/>
+    <rect x="215" y="500" width="10" height="35" fill="#34d399"/>
+    <rect x="255" y="490" width="10" height="45" fill="#34d399"/>
+    <rect x="295" y="505" width="10" height="30" fill="#fa4D43"/>
+    <rect x="335" y="510" width="10" height="25" fill="#fa4D43"/>
+    <rect x="375" y="500" width="10" height="35" fill="#34d399"/>
+    <rect x="415" y="485" width="10" height="50" fill="#34d399"/>
+    <rect x="455" y="495" width="10" height="40" fill="#34d399"/>
+    <rect x="495" y="510" width="10" height="25" fill="#fa4D43"/>
+    <rect x="535" y="500" width="10" height="35" fill="#34d399"/>
+    <rect x="575" y="490" width="10" height="45" fill="#34d399"/>
+    <rect x="615" y="505" width="10" height="30" fill="#fa4D43"/>
+    <rect x="655" y="495" width="10" height="40" fill="#34d399"/>
+    <rect x="695" y="490" width="10" height="45" fill="#34d399"/>
+    <rect x="735" y="500" width="10" height="35" fill="#FBB833"/>
+  </g>
+
+  <!-- Right panel: Kafka stream -->
+  <rect x="820" y="195" width="340" height="360" rx="12" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="840" y="225" font-family="sans-serif" font-size="14" font-weight="600" fill="#ccc">Kafka Stream</text>
+  <circle cx="1130" cy="220" r="4" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <text x="1140" y="225" font-family="monospace" font-size="10" fill="#34d399">LIVE</text>
+
+  <g font-family="monospace" font-size="11">
+    <text x="840" y="255" fill="#34d399">▶ AAPL  189.42  +1.25%</text>
+    <text x="840" y="278" fill="#fa4D43">▶ GOOGL 142.87  -0.78%</text>
+    <text x="840" y="301" fill="#34d399">▶ MSFT  415.20  +1.38%</text>
+    <text x="840" y="324" fill="#34d399">▶ NVDA  878.35  +1.43%</text>
+    <text x="840" y="347" fill="#fa4D43">▶ TSLA  248.90  -0.42%</text>
+    <text x="840" y="370" fill="#34d399">▶ AMZN  185.62  +0.89%</text>
+    <text x="840" y="393" fill="#34d399">▶ META  512.30  +2.10%</text>
+    <text x="840" y="416" fill="#fa4D43">▶ AMD   162.45  -1.20%</text>
+    <text x="840" y="439" fill="#34d399">▶ NFLX  628.90  +0.54%</text>
+    <text x="840" y="462" fill="#34d399">▶ CRM   298.15  +0.92%</text>
+    <text x="840" y="485" fill="#666">───────────────────</text>
+    <text x="840" y="508" fill="#888">Events/s: 2,847</text>
+    <text x="840" y="531" fill="#888">Latency: 12ms avg</text>
+  </g>
+
+  <!-- Bottom stats -->
+  <rect x="40" y="580" width="350" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="610" font-family="sans-serif" font-size="11" fill="#888">REDIS CACHE</text>
+  <text x="60" y="638" font-family="monospace" font-size="22" font-weight="700" fill="#FBB833">Hit Rate: 94.2%</text>
+  <text x="60" y="658" font-family="monospace" font-size="11" fill="#666">12.4K keys | 128MB used</text>
+
+  <rect x="410" y="580" width="350" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="430" y="610" font-family="sans-serif" font-size="11" fill="#888">POSTGRESQL</text>
+  <text x="430" y="638" font-family="monospace" font-size="22" font-weight="700" fill="#34d399">60% Faster</text>
+  <text x="430" y="658" font-family="monospace" font-size="11" fill="#666">Avg query: 8ms | 2.1M rows</text>
+
+  <rect x="780" y="580" width="380" height="90" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="800" y="610" font-family="sans-serif" font-size="11" fill="#888">SYSTEM STATUS</text>
+  <text x="800" y="638" font-family="monospace" font-size="22" font-weight="700" fill="#34d399">99.99% Available</text>
+  <text x="800" y="658" font-family="monospace" font-size="11" fill="#666">Uptime: 47d 12h | 0 incidents</text>
+</svg>

@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="acbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#1f1418"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#acbg)"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="56" fill="#161822" opacity="0.9"/>
+  <text x="40" y="36" font-family="monospace" font-size="18" font-weight="700" fill="#fa4d43">🏙 AI City - Autonomous Simulation</text>
+  <rect x="880" y="16" width="110" height="24" rx="12" fill="#34d39920"/>
+  <circle cx="894" cy="28" r="4" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="948" y="33" font-family="sans-serif" font-size="11" fill="#34d399" text-anchor="middle">DAY 47</text>
+  <text x="1060" y="36" font-family="monospace" font-size="12" fill="#666">12 agents alive</text>
+
+  <!-- City map -->
+  <rect x="40" y="80" width="700" height="560" rx="10" fill="#13151f" stroke="#2a2d42" stroke-width="1"/>
+  <text x="60" y="110" font-family="sans-serif" font-size="11" fill="#888">DISTRICT MAP</text>
+
+  <!-- Streets -->
+  <g stroke="#232636" stroke-width="3">
+    <line x1="60" y1="240" x2="720" y2="240"/>
+    <line x1="60" y1="400" x2="720" y2="400"/>
+    <line x1="60" y1="540" x2="720" y2="540"/>
+    <line x1="240" y1="130" x2="240" y2="620"/>
+    <line x1="430" y1="130" x2="430" y2="620"/>
+    <line x1="600" y1="130" x2="600" y2="620"/>
+  </g>
+
+  <!-- Buildings -->
+  <g>
+    <rect x="80"  y="150" width="120" height="70" rx="4" fill="#1e2030"/>
+    <rect x="270" y="140" width="130" height="80" rx="4" fill="#241f33"/>
+    <rect x="460" y="155" width="110" height="65" rx="4" fill="#1e2030"/>
+    <rect x="630" y="145" width="70"  height="75" rx="4" fill="#27202c"/>
+    <rect x="80"  y="270" width="130" height="110" rx="4" fill="#241f33"/>
+    <rect x="270" y="280" width="120" height="95"  rx="4" fill="#1e2030"/>
+    <rect x="460" y="265" width="115" height="115" rx="4" fill="#2c1c22"/>
+    <rect x="630" y="285" width="70"  height="90"  rx="4" fill="#1e2030"/>
+    <rect x="80"  y="430" width="120" height="90"  rx="4" fill="#1e2030"/>
+    <rect x="270" y="425" width="130" height="95"  rx="4" fill="#27202c"/>
+    <rect x="460" y="440" width="110" height="80"  rx="4" fill="#241f33"/>
+    <rect x="630" y="430" width="70"  height="90"  rx="4" fill="#1e2030"/>
+    <rect x="80"  y="560" width="250" height="50"  rx="4" fill="#1b1d2b"/>
+    <rect x="460" y="560" width="240" height="50"  rx="4" fill="#1b1d2b"/>
+  </g>
+
+  <!-- Building labels -->
+  <g font-family="monospace" font-size="10" fill="#555">
+    <text x="95" y="190">COURTHOUSE</text>
+    <text x="285" y="185">FOUNDRY</text>
+    <text x="475" y="192">MARKET</text>
+    <text x="95" y="330">POLICE HQ</text>
+    <text x="475" y="325" fill="#fa4d43">JAIL</text>
+    <text x="285" y="475">TAVERN</text>
+    <text x="95" y="590">APARTMENTS</text>
+  </g>
+
+  <!-- Agents (moving dots) -->
+  <circle r="6" fill="#fa4d43">
+    <animateMotion dur="9s" repeatCount="indefinite" path="M 140 240 L 430 240 L 430 400 L 600 400 L 600 240 L 140 240"/>
+  </circle>
+  <circle r="6" fill="#38bdf8">
+    <animateMotion dur="12s" repeatCount="indefinite" path="M 600 540 L 240 540 L 240 400 L 430 400 L 430 540 L 600 540"/>
+  </circle>
+  <circle r="6" fill="#a3e635">
+    <animateMotion dur="7s" repeatCount="indefinite" path="M 240 150 L 240 400 L 60 400 L 60 240 L 240 240 L 240 150"/>
+  </circle>
+  <circle r="6" fill="#facc15">
+    <animateMotion dur="11s" repeatCount="indefinite" path="M 700 400 L 430 400 L 430 240 L 700 240 L 700 400"/>
+  </circle>
+  <circle r="6" fill="#e879f9">
+    <animateMotion dur="13s" repeatCount="indefinite" path="M 60 540 L 600 540 L 600 400 L 60 400 L 60 540"/>
+  </circle>
+
+  <!-- Event feed -->
+  <rect x="770" y="80" width="390" height="560" rx="10" fill="#1e2030" stroke="#2a2d42" stroke-width="1"/>
+  <text x="790" y="110" font-family="sans-serif" font-size="11" fill="#888">EVENT FEED</text>
+
+  <g font-family="monospace" font-size="12">
+    <text x="790" y="145" fill="#555">06:12</text>
+    <text x="845" y="145" fill="#ccc">Agent #7 convicted of theft</text>
+    <text x="845" y="162" fill="#fa4d43">→ sentenced: 3 days in jail</text>
+
+    <text x="790" y="195" fill="#555">06:09</text>
+    <text x="845" y="195" fill="#ccc">Agent #3 bribed Officer #11</text>
+    <text x="845" y="212" fill="#888">corruption spreading, district 2</text>
+
+    <text x="790" y="245" fill="#555">06:04</text>
+    <text x="845" y="245" fill="#ccc">Agent #12 hired at the foundry</text>
+    <text x="845" y="262" fill="#34d399">+40 tokens/day wage</text>
+
+    <text x="790" y="295" fill="#555">05:58</text>
+    <text x="845" y="295" fill="#ccc">Blackmail network uncovered</text>
+    <text x="845" y="312" fill="#888">agents #3, #9, #11 implicated</text>
+
+    <text x="790" y="345" fill="#555">05:51</text>
+    <text x="845" y="345" fill="#ccc">Agent #5 proposed alliance</text>
+    <text x="845" y="362" fill="#34d399">accepted by agent #2</text>
+
+    <text x="790" y="395" fill="#555">05:47</text>
+    <text x="845" y="395" fill="#ccc">Trial of Agent #9 begins</text>
+    <text x="845" y="412" fill="#888">jury: agents #1, #4, #8</text>
+
+    <text x="790" y="445" fill="#555">05:40</text>
+    <text x="845" y="445" fill="#ccc">Agent #6 opened a tavern</text>
+    <text x="845" y="462" fill="#34d399">-200 tokens capital</text>
+  </g>
+
+  <rect x="790" y="490" width="350" height="1" fill="#2a2d42"/>
+  <g font-family="monospace" font-size="12">
+    <text x="790" y="525" fill="#888">economy</text>
+    <text x="1140" y="525" fill="#fff" text-anchor="end">3,412 tokens</text>
+    <text x="790" y="550" fill="#888">crimes today</text>
+    <text x="1140" y="550" fill="#fa4d43" text-anchor="end">4</text>
+    <text x="790" y="575" fill="#888">trials held</text>
+    <text x="1140" y="575" fill="#fff" text-anchor="end">2</text>
+    <text x="790" y="600" fill="#888">alliances</text>
+    <text x="1140" y="600" fill="#34d399" text-anchor="end">6 active</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="40" y="690" font-family="monospace" font-size="12" fill="#555">claude agents · fastapi · postgres · redis · qdrant memory · pixijs frontend</text>
+  <text x="1160" y="690" font-family="monospace" font-size="12" fill="#fa4d43" text-anchor="end">nobody scripts them</text>
+</svg>

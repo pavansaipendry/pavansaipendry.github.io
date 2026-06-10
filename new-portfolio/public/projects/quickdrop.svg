@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="qdbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#12201a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#qdbg)"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="56" fill="#161822" opacity="0.9"/>
+  <text x="40" y="36" font-family="monospace" font-size="18" font-weight="700" fill="#34d399">⚡ QuickDrop</text>
+  <rect x="880" y="16" width="130" height="24" rx="12" fill="#34d39920"/>
+  <circle cx="894" cy="28" r="4" fill="#34d399">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <text x="952" y="33" font-family="sans-serif" font-size="11" fill="#34d399" text-anchor="middle">SAME WI-FI</text>
+  <text x="1160" y="36" font-family="monospace" font-size="12" fill="#666" text-anchor="end">no cloud · no accounts</text>
+
+  <!-- Mac -->
+  <rect x="60" y="140" width="380" height="280" rx="14" fill="#1e2030" stroke="#2a2d42"/>
+  <rect x="60" y="140" width="380" height="34" rx="14" fill="#262938"/>
+  <circle cx="84" cy="157" r="5" fill="#ff5f57"/>
+  <circle cx="102" cy="157" r="5" fill="#febc2e"/>
+  <circle cx="120" cy="157" r="5" fill="#28c840"/>
+  <text x="250" y="162" font-family="monospace" font-size="11" fill="#888" text-anchor="middle">MacBook - quickdrop.local</text>
+  <text x="90" y="220" font-family="sans-serif" font-size="13" fill="#ccc">📦 film-backup.mov</text>
+  <text x="90" y="244" font-family="monospace" font-size="11" fill="#666">3.2 GB · chunked upload</text>
+  <rect x="90" y="270" width="320" height="10" rx="5" fill="#13151f"/>
+  <rect x="90" y="270" width="208" height="10" rx="5" fill="#34d399">
+    <animate attributeName="width" values="40;320;40" dur="6s" repeatCount="indefinite"/>
+  </rect>
+  <text x="90" y="308" font-family="monospace" font-size="12" fill="#34d399">32 MB/s
+    <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+  </text>
+  <text x="90" y="380" font-family="monospace" font-size="11" fill="#555">flask server · adb fallback</text>
+
+  <!-- Transfer beam -->
+  <line x1="440" y1="285" x2="760" y2="285" stroke="#1e2030" stroke-width="4"/>
+  <circle r="8" fill="#34d399">
+    <animateMotion dur="1.8s" repeatCount="indefinite" path="M 450 285 L 750 285"/>
+    <animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="5" fill="#34d399" opacity="0.5">
+    <animateMotion dur="1.8s" begin="0.4s" repeatCount="indefinite" path="M 450 285 L 750 285"/>
+  </circle>
+  <text x="600" y="262" font-family="monospace" font-size="11" fill="#555" text-anchor="middle">local network only</text>
+
+  <!-- Android -->
+  <rect x="760" y="110" width="200" height="360" rx="22" fill="#1e2030" stroke="#2a2d42"/>
+  <rect x="830" y="124" width="60" height="8" rx="4" fill="#262938"/>
+  <text x="860" y="200" font-family="sans-serif" font-size="13" fill="#ccc" text-anchor="middle">Pixel 8</text>
+  <text x="860" y="226" font-family="monospace" font-size="11" fill="#666" text-anchor="middle">receiving...</text>
+  <rect x="790" y="250" width="140" height="10" rx="5" fill="#13151f"/>
+  <rect x="790" y="250" width="91" height="10" rx="5" fill="#34d399">
+    <animate attributeName="width" values="18;140;18" dur="6s" repeatCount="indefinite"/>
+  </rect>
+  <text x="860" y="290" font-family="monospace" font-size="12" fill="#34d399" text-anchor="middle">65%</text>
+  <rect x="800" y="330" width="120" height="36" rx="18" fill="#34d39925"/>
+  <text x="860" y="353" font-family="sans-serif" font-size="12" fill="#34d399" text-anchor="middle">⚡ 3GB+ files OK</text>
+
+  <!-- QR card -->
+  <rect x="1000" y="140" width="160" height="280" rx="14" fill="#1e2030" stroke="#2a2d42"/>
+  <text x="1080" y="172" font-family="sans-serif" font-size="11" fill="#888" text-anchor="middle">PAIR BY QR</text>
+  <g fill="#e2e2e8">
+    <rect x="1030" y="190" width="100" height="100" rx="6" fill="#13151f"/>
+    <rect x="1040" y="200" width="22" height="22"/>
+    <rect x="1098" y="200" width="22" height="22"/>
+    <rect x="1040" y="258" width="22" height="22"/>
+    <rect x="1046" y="206" width="10" height="10" fill="#13151f"/>
+    <rect x="1104" y="206" width="10" height="10" fill="#13151f"/>
+    <rect x="1046" y="264" width="10" height="10" fill="#13151f"/>
+    <rect x="1072" y="200" width="8" height="8"/>
+    <rect x="1084" y="212" width="8" height="8"/>
+    <rect x="1072" y="224" width="8" height="8"/>
+    <rect x="1096" y="236" width="8" height="8"/>
+    <rect x="1072" y="248" width="8" height="8"/>
+    <rect x="1084" y="260" width="8" height="8"/>
+    <rect x="1108" y="252" width="8" height="8"/>
+  </g>
+  <text x="1080" y="320" font-family="monospace" font-size="10" fill="#666" text-anchor="middle">scan → connected</text>
+  <text x="1080" y="345" font-family="monospace" font-size="10" fill="#34d399" text-anchor="middle">192.168.4.72:5000</text>
+
+  <!-- History -->
+  <rect x="60" y="480" width="1100" height="170" rx="10" fill="#13151f" stroke="#2a2d42"/>
+  <text x="80" y="510" font-family="sans-serif" font-size="11" fill="#888">RECENT TRANSFERS</text>
+  <g font-family="monospace" font-size="12">
+    <text x="80" y="545" fill="#ccc">photos-2026.zip</text>
+    <text x="600" y="545" fill="#666">1.1 GB</text>
+    <text x="800" y="545" fill="#666">34s</text>
+    <text x="1140" y="545" fill="#34d399" text-anchor="end">✓ done</text>
+    <text x="80" y="575" fill="#ccc">lecture-recordings/</text>
+    <text x="600" y="575" fill="#666">740 MB</text>
+    <text x="800" y="575" fill="#666">22s</text>
+    <text x="1140" y="575" fill="#34d399" text-anchor="end">✓ done</text>
+    <text x="80" y="605" fill="#ccc">dataset-shard-03.tar</text>
+    <text x="600" y="605" fill="#666">2.8 GB</text>
+    <text x="800" y="605" fill="#666">87s</text>
+    <text x="1140" y="605" fill="#34d399" text-anchor="end">✓ done</text>
+  </g>
+
+  <text x="60" y="700" font-family="monospace" font-size="12" fill="#555">python · flask · vanilla js · adb</text>
+  <text x="1160" y="700" font-family="monospace" font-size="12" fill="#34d399" text-anchor="end">your files never leave the room</text>
+</svg>
