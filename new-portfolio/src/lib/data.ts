@@ -21,7 +21,7 @@ export const education = [
   {
     school: "University of Kansas",
     degree: "M.S. Computer Science",
-    date: "Aug 2024 - Present",
+    date: "Aug 2024 - May 2026",
   },
   {
     school: "Amrita Vishwa Vidyapeetham",
