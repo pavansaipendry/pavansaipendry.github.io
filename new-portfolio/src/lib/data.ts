@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Pavan Sai Reddy Pendry",
-  title: "Pavan Sai Reddy Pendry | Software Engineer & AI/ML",
+  title: "Pavan Sai Reddy Pendry | Software Engineer · Machine Learning",
   description:
     "Software engineer building AI systems that retrieve, reason, and ship - from paper to production.",
   url: "https://pavansaipendry.dev",

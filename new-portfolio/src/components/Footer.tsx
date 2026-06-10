@@ -71,7 +71,7 @@ export function Footer() {
                 pavan<span className="text-accent">.</span>
               </a>
               <p className="mt-3 text-sm text-dimmed leading-relaxed">
-                Software Engineer & AI/ML - building AI systems from paper to production.
+                Software Engineer · Machine Learning - building AI systems from paper to production.
               </p>
             </div>
 

@@ -344,6 +344,7 @@ export function Contact() {
           </svg>
 
           <div
+            id="live-chat"
             ref={chatRef}
             className="relative overflow-hidden rounded-xl border border-card-border bg-code-bg"
           >

@@ -34,7 +34,7 @@ const TERMINAL_COMMANDS: Record<string, (args: string[]) => TerminalLine[]> = {
 
   about: () => [
     { type: "output", content: `${siteConfig.name}` },
-    { type: "output", content: "Software Engineer & AI/ML Engineer" },
+    { type: "output", content: "Software Engineer · Machine Learning" },
     { type: "output", content: "" },
     { type: "output", content: siteConfig.description },
     { type: "output", content: "" },

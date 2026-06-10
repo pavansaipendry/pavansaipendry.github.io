@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Mono, Playfair_Display, Archivo } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
@@ -26,12 +27,12 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Pavan Sai Reddy Pendry | Software Engineer & AI/ML",
+  title: "Pavan Sai Reddy Pendry | Software Engineer · Machine Learning",
   description:
     "Software engineer building AI systems that retrieve, reason, and ship - from paper to production.",
   metadataBase: new URL("https://pavansaipendry.dev"),
   openGraph: {
-    title: "Pavan Sai Reddy Pendry | Software Engineer & AI/ML",
+    title: "Pavan Sai Reddy Pendry | Software Engineer · Machine Learning",
     description:
       "Software engineer building AI systems that retrieve, reason, and ship - from paper to production.",
     type: "website",
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pavan Sai Reddy Pendry | Software Engineer & AI/ML",
+    title: "Pavan Sai Reddy Pendry | Software Engineer · Machine Learning",
     description:
       "Software engineer building AI systems that retrieve, reason, and ship - from paper to production.",
     images: ["/og.png"],
@@ -58,7 +59,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceMono.variable} ${playfair.variable} ${archivo.variable} font-sans antialiased`}>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <ThemeProvider>{children}</ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

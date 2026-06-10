@@ -6,6 +6,7 @@ import { HeroScene } from "@/components/HeroScene";
 import { SmoothScrollProvider } from "@/components/SmoothScroll";
 import { PageLoader } from "@/components/PageLoader";
 import { CustomCursor } from "@/components/CustomCursor";
+import { ChatPill } from "@/components/ChatPill";
 
 /* ── Lazy-loaded scenes (below the fold) ───────────────────────────────── */
 const Manifesto = dynamic(() => import("@/components/Manifesto").then((m) => ({ default: m.Manifesto })));
@@ -26,8 +27,9 @@ export default function Home() {
       <div className="grain" aria-hidden />
       <SmoothScrollProvider>
         <CommandPalette />
+        <ChatPill />
         <Navbar />
-        <main className="relative z-10">
+        <main id="main" className="relative z-10">
           <HeroScene />
           <Manifesto />
           <WorkChapters />
