@@ -103,6 +103,54 @@ export function Contact() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
+  const beamLineRef = useRef<SVGRectElement>(null);
+  const beamGlowRef = useRef<HTMLDivElement>(null);
+
+  // Drive the beam dash and the background light from one clock so the
+  // light sits exactly where the dash is as it travels the border.
+  useEffect(() => {
+    const line = beamLineRef.current;
+    const glow = beamGlowRef.current;
+    if (!line || !glow) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      line.style.strokeDashoffset = "0";
+      return;
+    }
+
+    const DUR = 8000;
+    let raf = 0;
+    let running = true;
+
+    function frame(now: number) {
+      if (!running) return;
+      const p = (now % DUR) / DUR;
+      line!.setAttribute("stroke-dashoffset", `${-100 * p}`);
+      const L = line!.getTotalLength();
+      // Center of the 8%-long dash
+      const pt = line!.getPointAtLength(((p + 0.04) % 1) * L);
+      glow!.style.transform = `translate3d(${pt.x - 190}px, ${pt.y - 190}px, 0)`;
+      glow!.style.opacity = "1";
+      raf = requestAnimationFrame(frame);
+    }
+
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !running) {
+        running = true;
+        raf = requestAnimationFrame(frame);
+      } else if (!e.isIntersecting && running) {
+        running = false;
+        cancelAnimationFrame(raf);
+      }
+    });
+    io.observe(line);
+    raf = requestAnimationFrame(frame);
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      io.disconnect();
+    };
+  }, []);
 
   // Auto-scroll
   useEffect(() => {
@@ -111,21 +159,6 @@ export function Contact() {
     }
   }, [messages, loading]);
 
-  // Chat border glow when active
-  useEffect(() => {
-    if (!chatRef.current) return;
-    chatRef.current.style.transition = "border-color 0.6s ease, box-shadow 0.6s ease";
-    if (loading) {
-      chatRef.current.style.borderColor = "rgba(124, 92, 252, 0.25)";
-      chatRef.current.style.boxShadow = "0 0 40px -10px rgba(124, 92, 252, 0.15)";
-    } else if (messages.length > 0) {
-      chatRef.current.style.borderColor = "rgba(124, 92, 252, 0.1)";
-      chatRef.current.style.boxShadow = "0 0 30px -10px rgba(124, 92, 252, 0.08)";
-    } else {
-      chatRef.current.style.borderColor = "";
-      chatRef.current.style.boxShadow = "";
-    }
-  }, [loading, messages.length]);
 
   const send = useCallback(
     async (text: string) => {
@@ -322,13 +355,15 @@ export function Contact() {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
           className="relative"
         >
-          {/* Traveling border beam - sharp corners, squared dash ends */}
+          {/* Traveling border beam + light glowing under the glass panel */}
           <svg
             className="pointer-events-none absolute -inset-px z-20 h-[calc(100%+2px)] w-[calc(100%+2px)]"
             fill="none"
             aria-hidden
+            style={{ overflow: "visible" }}
           >
             <rect
+              ref={beamLineRef}
               x="1.5"
               y="1.5"
               width="calc(100% - 3px)"
@@ -339,7 +374,7 @@ export function Contact() {
               strokeOpacity="0.8"
               strokeLinecap="butt"
               pathLength={100}
-              className="border-beam"
+              strokeDasharray="8 92"
             />
           </svg>
 
@@ -348,8 +383,21 @@ export function Contact() {
             ref={chatRef}
             className="relative overflow-hidden rounded-xl border border-card-border bg-code-bg"
           >
+            {/* Light under the glass - clipped by the panel, drifts with the beam */}
+            <div
+              ref={beamGlowRef}
+              aria-hidden
+              className="pointer-events-none absolute left-0 top-0 z-0 h-[380px] w-[380px] rounded-full"
+              style={{
+                background: "radial-gradient(circle, rgba(124,92,252,0.13), transparent 60%)",
+                filter: "blur(32px)",
+                willChange: "transform",
+                opacity: 0,
+              }}
+            />
+
             {/* Terminal title bar */}
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-card-border">
+            <div className="relative z-[1] flex items-center gap-2 px-4 py-2.5 border-b border-card-border">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
                 <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
@@ -367,7 +415,7 @@ export function Contact() {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} data-lenis-prevent className="h-80 sm:h-96 overflow-y-auto px-5 py-5 font-mono text-[13px] leading-relaxed">
+            <div ref={scrollRef} data-lenis-prevent className="relative z-[1] h-80 sm:h-96 overflow-y-auto px-5 py-5 font-mono text-[13px] leading-relaxed">
               {/* Empty state */}
               <AnimatePresence>
                 {messages.length === 0 && !loading && (
@@ -461,7 +509,7 @@ export function Contact() {
             {/* Input bar */}
             <form
               onSubmit={(e) => { e.preventDefault(); send(input); }}
-              className="flex items-center gap-3 border-t border-card-border px-5 py-3.5"
+              className="relative z-[1] flex items-center gap-3 border-t border-card-border px-5 py-3.5"
             >
               <span className="text-accent/60 font-mono text-sm shrink-0">&gt;</span>
               <input

@@ -87,6 +87,12 @@ body {
   border-radius: 2px;
 }
 
+/* Text fields show focus via the caret - the heavy ring reads as box glow */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+
 .skip-link {
   position: fixed;
   top: -100px;
@@ -595,6 +601,19 @@ a:hover .roll__inner,
 button:hover .roll__inner,
 .roll:hover .roll__inner {
   transform: translateY(-100%);
+}
+
+/* Typing-indicator dots (chat pill) */
+@keyframes chat-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+.chat-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--accent);
+  animation: chat-dot 1.3s ease-in-out infinite;
 }
 
 /* Magnetic elements - JS drives transform, this handles the spring-back */

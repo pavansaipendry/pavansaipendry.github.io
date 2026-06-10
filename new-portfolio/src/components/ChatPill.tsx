@@ -46,9 +46,10 @@ export function ChatPill() {
         transitionTimingFunction: "var(--ease-out-expo)",
       }}
     >
-      <span className="relative flex h-1.5 w-1.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
+      <span className="flex items-center gap-[3px]" aria-hidden>
+        <span className="chat-dot" />
+        <span className="chat-dot" style={{ animationDelay: "0.18s" }} />
+        <span className="chat-dot" style={{ animationDelay: "0.36s" }} />
       </span>
       Chat with me
     </button>
